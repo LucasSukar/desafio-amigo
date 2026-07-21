@@ -1,5 +1,10 @@
 import express from "express";
 
+import publiRoute from "./routes/publiRoute";
+import userRoute from "./routes/userRoute";
+
+import "./database";
+
 class App {
   constructor() {
     this.server = express();
@@ -12,9 +17,7 @@ class App {
   }
 
   routes() {
-    this.server.get("/teste", (req, res) => {
-      return res.json({ ok: true });
-    });
+    this.server.use(publiRoute, userRoute);
   }
 }
 
