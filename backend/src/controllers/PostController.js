@@ -1,19 +1,46 @@
 import Post from "../models/Post";
+import PostLike from "../models/PostLike";
 import User from "../models/User";
+import { Op } from "sequelize";
 
 class PostController {
   async index(req, res) {
+    const page = req.query.page || 1;
+    const limit = 10;
+    let offset = (page - 1) * limit;
+
     const posts = await Post.findAll({
-      attributes: ["id", "content", "created_at"],
+      attributes: ["id", "content", "created_at", "user_id", "data_publicacao"],
       include: [
         {
           model: User,
           as: "user",
           attributes: ["id", "name"],
         },
+        {
+          model: PostLike,
+          as: "likes",
+          where: { is_deleted: false },
+          required: false,
+        },
       ],
+      limit,
+      offset,
+      order: [["data_publicacao", "DESC"]],
+      where: { data_publicacao: { [Op.lte]: new Date() } },
     });
-    return res.json(posts);
+
+    const todosPosts = posts.map((post) => {
+      const postJSON = post.toJSON();
+      return {
+        ...postJSON,
+        total_likes: postJSON.likes.length,
+        allowEdit: postJSON.user_id == req.userId,
+        allowRemove: postJSON.user_id == req.userId,
+        likes: undefined,
+      };
+    });
+    return res.json(todosPosts);
   }
 
   async store(req, res) {
@@ -39,7 +66,7 @@ class PostController {
     if (!post) {
       return res.status(404).json({ error: "Post não encontrado" });
     }
-    if (req.userId !== post.user_id) {
+    if (req.userId != post.user_id) {
       return res.status(401).json({ error: "voce nao tem permissao para editar esse post" });
     }
 
