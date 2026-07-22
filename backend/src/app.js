@@ -1,6 +1,6 @@
 import express from "express";
 
-import publiRoute from "./routes/publiRoute";
+import publiRoute from "./routes/postRoute";
 import userRoute from "./routes/userRoute";
 
 import "./database";

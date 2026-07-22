@@ -11,6 +11,18 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      resume: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      data_publicacao: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       user_id: {
         type: Sequelize.INTEGER,
         references: { model: "users", key: "id" },
