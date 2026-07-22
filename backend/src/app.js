@@ -17,7 +17,8 @@ class App {
   }
 
   routes() {
-    this.server.use(publiRoute, userRoute);
+    this.server.use(userRoute);
+    this.server.use(publiRoute);
   }
 }
 
