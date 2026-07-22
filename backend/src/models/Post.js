@@ -5,6 +5,9 @@ class Post extends Model {
     super.init(
       {
         content: Sequelize.STRING,
+        title: Sequelize.STRING,
+        resume: Sequelize.STRING,
+        data_publicacao: Sequelize.DATE,
       },
       {
         sequelize,
