@@ -4,10 +4,11 @@ import PostController from "../controllers/PostController";
 import LikeController from "../controllers/LikeController";
 
 import auth from "../middlewares/auth";
+import authOptional from "../middlewares/authOptional";
 
 const postRoute = new Router();
 
-postRoute.get("/post", PostController.index);
+postRoute.get("/post", authOptional, PostController.index);
 
 postRoute.use(auth);
 postRoute.post("/post", PostController.store);

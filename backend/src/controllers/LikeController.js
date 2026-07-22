@@ -1,8 +1,12 @@
 import PostLike from "../models/PostLike";
-
-
+import Post from "../models/Post";
 class LikeController {
   async toggle(req, res) {
+    const postExiste = await Post.findByPk(post_id);
+    if (!postExiste) {
+      return res.status(404).json({ error: "Post não encontrado" });
+    }
+
     const post_id = req.params.id;
     const user_id = req.userId;
     const like = await PostLike.findOne({ where: { post_id, user_id } });
