@@ -1,6 +1,8 @@
 import Sequelize from "sequelize";
 import databaseConfig from "../config/database";
 import User from "../models/User";
+import Post from "../models/Post";
+
 const models = [User, Post];
 
 class Database {
