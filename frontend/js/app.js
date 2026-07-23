@@ -1,0 +1,1 @@
+angular.module("amigoApp", ["ui.bootstrap", "ngRoute"])
