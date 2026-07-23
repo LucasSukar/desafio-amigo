@@ -2,6 +2,7 @@ import Post from "../models/Post";
 import PostLike from "../models/PostLike";
 import User from "../models/User";
 import { Op } from "sequelize";
+import * as Yup from "yup";
 
 class PostController {
   async index(req, res) {
@@ -44,6 +45,16 @@ class PostController {
   }
 
   async store(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string().required(),
+      content: Yup.string().required(),
+      resume: Yup.string().required(),
+      data_publicacao: Yup.date().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "falha na validacao" });
+    }
     const { title, content, resume, data_publicacao } = req.body;
 
     const post = await Post.create({
@@ -58,6 +69,16 @@ class PostController {
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string(),
+      content: Yup.string(),
+      resume: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "falha na validacao" });
+    }
+
     const { id } = req.params;
     const { content, title, resume } = req.body;
 
