@@ -1,16 +1,27 @@
-<div class="container">
-  <h2>Feed de Publicações</h2>
+<div style="max-width: 700px; margin: 0 auto;" class="doca-page">
+  <h2 class="doca-page__title doca-text-center">Feed de Publicações</h2>
 
-  <div class="well" ng-repeat="post in posts">
-    <h3>{{ post.title }}</h3>
-    <p><strong>Resumo:</strong> {{ post.resume }}</p>
-    <p>{{ post.content }}</p>
 
-    <p><small class="text-muted">Publicado em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm' }}</small></p>
-    
-    <hr>
-    <button class="btn btn-primary btn-sm" ng-click="curtirPost(post.id)">
-      👍 Curtir ({{ post.total_likes }})
-    </button>
+  <div class="doca-page__box doca-mb-3" ng-repeat="post in posts">
+    <div class="doca-flex doca-mb-3" style="align-items: center; gap: 12px;">
+      <span class="doca-badge doca-badge--info" style="font-size: 16px;">
+        {{ post.user.name.charAt(0) | uppercase }}
+      </span>
+      <h3 style="margin: 0;">{{ post.title }}</h3>
+    </div>
+
+    <div class="doca-mb-3">
+      <p><strong>Resumo:</strong> {{ post.resume }}</p>
+      <p class="doca-text--normal doca-text--base">{{ post.content }}</p>
+      <small style="color: gray;">Publicado em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm' }}</small>
+    </div>
+
+    <div>
+      <button class="doca-button doca-button--primary" ng-click="curtirPost(post.id)">
+        Curtir
+        <span class="doca-badge doca-badge--info" style="margin-left: 8px;">{{ post.total_likes }}</span>
+      </button>
+    </div>
+
   </div>
 </div>

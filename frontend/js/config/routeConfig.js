@@ -6,4 +6,9 @@ angular.module("amigoApp").config(function($routeProvider){
     .otherwise({
         redirectTo: "/"
     })
+
+    $routeProvider.when("/perfil", {
+      templateUrl: "view/perfil.html",
+      controller: "PerfilController"
+    });
 })
