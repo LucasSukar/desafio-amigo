@@ -9,4 +9,4 @@ angular.module("amigoApp").factory("FeedService", function($http, config){
     getPosts: _getPosts,
     getPost: _getPost,
   }
-})
+})  

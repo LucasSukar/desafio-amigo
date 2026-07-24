@@ -1,6 +1,4 @@
 angular.module("amigoApp").controller("FeedController", function($scope, FeedService){
-  $scope.mensagem = "ta indo papai";
-
   $scope.listaPosts = function () {
     FeedService.getPosts().then(function (response) {
       $scope.posts = response.data;
