@@ -9,6 +9,7 @@ import authOptional from "../middlewares/authOptional";
 const postRoute = new Router();
 
 postRoute.get("/post", authOptional, PostController.index);
+postRoute.get("/post/me", auth, PostController.me);
 
 postRoute.use(auth);
 postRoute.post("/post", PostController.store);

@@ -5,6 +5,51 @@ import { Op } from "sequelize";
 import * as Yup from "yup";
 
 class PostController {
+  async me(req, res) {
+    const posts = await Post.findAll({
+      attributes: [
+        "id",
+        "title",
+        "resume",
+        "content",
+        "created_at",
+        "user_id",
+        "data_publicacao",
+      ],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "name"],
+        },
+        {
+          model: PostLike,
+          as: "likes",
+          where: { is_deleted: false },
+          required: false,
+        },
+      ],
+      order: [["data_publicacao", "DESC"]],
+      where: {
+        user_id: req.userId,
+        data_publicacao: { [Op.lte]: new Date() },
+      },
+    });
+
+    const meusPosts = posts.map((post) => {
+      const postJSON = post.toJSON();
+      return {
+        ...postJSON,
+        total_likes: postJSON.likes.length,
+        allowEdit: true,
+        allowRemove: true,
+        likes: undefined,
+      };
+    });
+
+    return res.json(meusPosts);
+  }
+
   async index(req, res) {
     const page = req.query.page || 1;
     const limit = 10;
@@ -96,7 +141,9 @@ class PostController {
       return res.status(404).json({ error: "Post não encontrado" });
     }
     if (req.userId != post.user_id) {
-      return res.status(401).json({ error: "voce nao tem permissao para editar esse post" });
+      return res
+        .status(401)
+        .json({ error: "voce nao tem permissao para editar esse post" });
     }
 
     await post.update({ content, title, resume });
@@ -112,7 +159,9 @@ class PostController {
     }
 
     if (req.userId != post.user_id) {
-      return res.status(401).json({ error: "voce nao tem permissao para deletar esse post" });
+      return res
+        .status(401)
+        .json({ error: "voce nao tem permissao para deletar esse post" });
     }
 
     await post.destroy();
