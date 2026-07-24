@@ -11,7 +11,15 @@ class PostController {
     let offset = (page - 1) * limit;
 
     const posts = await Post.findAll({
-      attributes: ["id", "content", "created_at", "user_id", "data_publicacao"],
+      attributes: [
+        "id",
+        "title",
+        "resume",
+        "content",
+        "created_at",
+        "user_id",
+        "data_publicacao",
+      ],
       include: [
         {
           model: User,
