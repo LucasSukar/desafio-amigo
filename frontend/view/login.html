@@ -1,0 +1,25 @@
+<div class="doca-page" style="max-width: 400px; margin: 50px auto;">
+  <h1 class="doca-page__title doca-text-center">Acessar Conta</h1>
+
+  <div class="doca-page__box">
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">E-mail</label>
+      <input class="doca-form-control" type="email" ng-model="credenciais.email" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Senha</label>
+      <input class="doca-form-control" type="password" ng-model="credenciais.password" />
+    </div>
+
+    <div class="doca-page__actions" style="justify-content: center;">
+      <button class="doca-button doca-button--primary" ng-click="fazerLogin()">
+        Entrar
+      </button>
+    </div>
+  </div>
+</div>
