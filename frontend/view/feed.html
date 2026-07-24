@@ -1,4 +1,16 @@
 <div class="container">
   <h2>Feed de Publicações</h2>
-  <p>{{ mensagem }}</p>
+
+  <div class="well" ng-repeat="post in posts">
+    <h3>{{ post.title }}</h3>
+    <p><strong>Resumo:</strong> {{ post.resume }}</p>
+    <p>{{ post.content }}</p>
+
+    <p><small class="text-muted">Publicado em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm' }}</small></p>
+    
+    <hr>
+    <button class="btn btn-primary btn-sm" ng-click="curtirPost(post.id)">
+      👍 Curtir ({{ post.total_likes }})
+    </button>
+  </div>
 </div>
