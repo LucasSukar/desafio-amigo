@@ -23,3 +23,14 @@
 .feed-page__likes {
   margin-left: 8px;
 }
+
+.feed-page__top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.feed-page__main-title {
+  margin: 0;
+}

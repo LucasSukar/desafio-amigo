@@ -1,6 +1,15 @@
-angular.module("amigoApp").controller("FeedController", function ($scope, FeedService) {
+angular.module("amigoApp").controller("FeedController", function ($scope, FeedService, LoginService, $location) {
   $scope.publicacoes = [];
   $scope.postEditando = {};
+
+  $scope.irParaPerfil = function() {
+    var token = LoginService.obterToken();
+    if (token) {
+      $location.path("/perfil");
+    } else {
+      $location.path("/login");
+    }
+  };
 
   $scope.listaPosts = function () {
     FeedService.getPosts()
@@ -13,7 +22,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
         console.log(error);
       });
   };
-
+  
   $scope.deletePost = function(id) {
     if (confirm("Deseja apagar?")) {
       FeedService.deletePost(id).then(function() {
@@ -47,8 +56,18 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     post.mostrarOpcoes = !post.mostrarOpcoes;
   };
 
-  $scope.curtirPost = function (idDoPost){
-    FeedService.postLike(idDoPost).then(function (response) {
+  $scope.irParaLogin = function() {
+    $location.path("/login");
+  };
+
+  $scope.curtirPost = function (post){
+    var token = LoginService.obterToken();
+    if (!token) {
+      post.tentouCurtirDeslogado = true;
+      return;
+    }
+
+    FeedService.postLike(post.id).then(function (response) {
       $scope.listaPosts();
     }).catch( function (error) {
       console.log("Erro ao dar like:", error);

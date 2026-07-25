@@ -11,9 +11,14 @@ angular.module("amigoApp").factory("LoginService", function($http, config, $wind
     return $window.localStorage.getItem("token");
   };
 
+  var _deslogar = function() {
+    $window.localStorage.removeItem("token");
+  };
+
   return {
     logar: _logar,
     salvarToken: _salvarToken,
-    obterToken: _obterToken
+    obterToken: _obterToken,
+    deslogar: _deslogar
   };
 });
