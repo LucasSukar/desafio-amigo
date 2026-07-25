@@ -1,0 +1,109 @@
+.perfil-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.perfil-page__item {
+  position: relative;
+}
+
+.perfil-page__header {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.perfil-page__title {
+  margin: 0;
+}
+
+.perfil-page__menu {
+  position: relative;
+}
+
+.perfil-page__menu-trigger {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.perfil-page__menu-panel {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  min-width: 100px;
+}
+
+.perfil-page__menu-action {
+  width: 100%;
+  text-align: left;
+}
+
+.perfil-page__menu-action--danger {
+  color: red;
+}
+
+.perfil-page__empty {
+  color: gray;
+}
+
+.perfil-page__modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.perfil-page__modal {
+  margin: 10% auto;
+  background: white;
+  max-width: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.perfil-page__modal-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-page__modal-title {
+  margin: 0;
+}
+
+.perfil-page__modal-close {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.perfil-page__modal-content {
+  padding: 16px;
+}
+
+.perfil-page__modal-footer {
+  padding: 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.perfil-page__input,
+.perfil-page__textarea {
+  width: 100%;
+}
+
+.perfil-page__textarea {
+  resize: vertical;
+}

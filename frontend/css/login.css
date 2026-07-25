@@ -1,0 +1,8 @@
+.login-page {
+  max-width: 400px;
+  margin: 50px auto;
+}
+
+.login-page__actions {
+  justify-content: center;
+}
