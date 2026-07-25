@@ -1,6 +1,6 @@
 angular
   .module("amigoApp")
-  .controller("PerfilController", function ($scope, PerfilService) {
+  .controller("PerfilController", function ($scope, PerfilService, LoginService, $location) {
     $scope.publicacoes = [];
     $scope.postEditando = {};
     $scope.usuario = {};
@@ -53,6 +53,11 @@ angular
     };
 
     $scope.listaPosts();
+
+    $scope.deslogar = function() {
+      LoginService.deslogar();
+      $location.path("/");
+    };
 
     $scope.criaUser = function () {
       PerfilService.postUser($scope.usuario)

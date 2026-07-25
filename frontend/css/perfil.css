@@ -107,3 +107,18 @@
 .perfil-page__textarea {
   resize: vertical;
 }
+
+.perfil-page__top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-page__main-title {
+  margin: 0;
+}
+
+.perfil-page__logout-btn {
+  background-color: #e53e3e;
+  color: white;
+}
