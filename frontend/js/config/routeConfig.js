@@ -12,6 +12,11 @@ angular.module("amigoApp").config(function($routeProvider){
       controller: "PerfilController"
     });
 
+    $routeProvider.when("/cadastro", {
+      templateUrl: "view/cadastro",
+      controller: "PerfilController"
+    });
+
     $routeProvider.when("/login", {
       templateUrl: "view/login.html",
       controller: "LoginController"

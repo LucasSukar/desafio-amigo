@@ -4,11 +4,11 @@ angular.module("amigoApp").factory("LoginService", function($http, config, $wind
   };
 
   var _salvarToken = function(token) {
-    $window.localStorage.setItem("amigo_token", token);
+    $window.localStorage.setItem("token", token);
   };
 
   var _obterToken = function() {
-    return $window.localStorage.getItem("amigo_token");
+    return $window.localStorage.getItem("token");
   };
 
   return {

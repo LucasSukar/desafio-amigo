@@ -1,0 +1,34 @@
+<div class="doca-page cadastro-page">
+  <h1 class="doca-page__title">Criar Usuário</h1>
+
+  <div class="doca-page__box">
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Nome Completo</label>
+      <input class="doca-form-control" type="text" ng-model="usuario.name" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">E-mail</label>
+      <input class="doca-form-control" type="email" ng-model="usuario.email" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Senha</label>
+      <input
+        class="doca-form-control"
+        type="password"
+        ng-model="usuario.password"
+      />
+    </div>
+
+    <div class="doca-page__actions">
+      <button class="doca-button doca-button--secondary">Cancelar</button>
+      <button
+        class="doca-button doca-button--primary"
+        ng-click="criaUser(usuario)"
+      >
+        Salvar
+      </button>
+    </div>
+  </div>
+</div>

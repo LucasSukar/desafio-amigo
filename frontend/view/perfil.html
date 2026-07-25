@@ -1,25 +1,99 @@
-<div class="doca-page" style="max-width: 600px; margin: 0 auto;">
-  <h1 class="doca-page__title">Criar Usuário</h1>
+<div class="doca-page perfil-page">
+  <h1 class="doca-page__title">Meu Perfil</h1>
 
-  <div class="doca-page__box">
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Nome Completo</label>
-      <input class="doca-form-control" type="text" ng-model="usuario.name" />
+  <hr class="doca-mb-3" />
+  <h2 class="doca-page__subtitle">Minhas Publicações</h2>
+
+  <div
+    class="doca-page__box doca-mb-3 perfil-page__item"
+    ng-repeat="pub in publicacoes"
+  >
+    <div class="doca-flex perfil-page__header">
+      <h3 class="perfil-page__title">{{ pub.title }}</h3>
+
+      <div class="perfil-page__menu">
+        <button
+          class="doca-button doca-button--tertiary"
+          ng-click="toggleOpcoes(pub)"
+        >
+          <span class="perfil-page__menu-trigger">⋮</span>
+        </button>
+
+        <div ng-show="pub.mostrarOpcoes" class="perfil-page__menu-panel">
+          <button
+            class="doca-button doca-button--tertiary doca-mb-2 perfil-page__menu-action"
+            ng-click="prepararEdicao(pub)"
+          >
+            Editar
+          </button>
+          <button
+            class="doca-button doca-button--tertiary perfil-page__menu-action perfil-page__menu-action--danger"
+            ng-click="deletar(pub.id)"
+          >
+            Apagar
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">E-mail</label>
-      <input class="doca-form-control" type="email" ng-model="usuario.email" />
-    </div>
+    <p class="doca-text--normal doca-text--base doca-mt-2">{{ pub.content }}</p>
+  </div>
 
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Senha</label>
-      <input class="doca-form-control" type="password" ng-model="usuario.password" />
-    </div>
+  <div
+    ng-if="publicacoes.length === 0"
+    class="doca-text-center doca-text--base perfil-page__empty"
+  >
+    Você ainda não tem publicações.
+  </div>
 
-    <div class="doca-page__actions">
-      <button class="doca-button doca-button--secondary">Cancelar</button>
-      <button class="doca-button doca-button--primary" ng-click="criaUser(usuario)">Salvar</button>
+  <div
+    id="modalEdicao"
+    class="doca-modal__backdrop perfil-page__modal-backdrop"
+  >
+    <div class="doca-modal perfil-page__modal">
+      <div class="doca-modal__header perfil-page__modal-header">
+        <h2 class="perfil-page__modal-title">Editar Publicação</h2>
+        <button
+          class="doca-button doca-button--tertiary perfil-page__modal-close"
+          ng-click="fecharModal()"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="doca-modal__content perfil-page__modal-content">
+        <div class="doca-form__field doca-mb-3">
+          <label class="doca-form__label">Título</label>
+          <input
+            class="doca-form-control perfil-page__input"
+            type="text"
+            ng-model="postEditando.title"
+          />
+        </div>
+        <div class="doca-form__field">
+          <label class="doca-form__label">Conteúdo</label>
+          <textarea
+            class="doca-form-control perfil-page__textarea"
+            rows="5"
+            ng-model="postEditando.content"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="doca-modal__footer perfil-page__modal-footer">
+        <button
+          class="doca-button doca-button--secondary"
+          ng-click="fecharModal()"
+        >
+          Cancelar
+        </button>
+        <button
+          class="doca-button doca-button--primary"
+          ng-click="salvarEdicao()"
+        >
+          Salvar
+        </button>
+      </div>
     </div>
   </div>
 </div>

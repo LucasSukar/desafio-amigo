@@ -1,27 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html ng-app="amigoApp">
-<head>
-  <meta charset="UTF-8">
-  <title>App amigo</title>
-  <link rel="stylesheet" href="https://cdn.amigotech.com.br/amigo-apps/doca-ui/min.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>App amigo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.amigotech.com.br/amigo-apps/doca-ui/min.css"
+    />
+    <link rel="stylesheet" href="./css/feed.css" />
+    <link rel="stylesheet" href="./css/perfil.css" />
+    <link rel="stylesheet" href="./css/login.css" />
+    <link rel="stylesheet" href="./css/cadastro.css" />
+  </head>
+  <body>
+    <main ng-view></main>
 
-  <main ng-view></main>
+    <script src="./lib/angular.js"></script>
+    <script src="./lib/angular-route.js"></script>
+    <script src="./lib/ui-bootstrap-tpls-0.12.1.min.js"></script>
 
-  <script src="./lib/angular.js"></script>
-  <script src="./lib/angular-route.js"></script>
-  <script src="./lib/ui-bootstrap-tpls-0.12.1.min.js"></script>
-
-  <script src="./js/app.js"></script>
-  <script src="./js/config/routeConfig.js"></script>
-  <script src="./js/value/configValue.js"></script>
-  <script src="./js/controllers/FeedController.js"></script>
-  <script src="./js/services/FeedService.js"></script>
-  <script src="./js/controllers/PerfilController.js"></script>
-  <script src="./js/services/PerfilService.js"></script>
-  <script src="./js/services/LoginService.js"></script>
-  <script src="./js/controllers/LoginController.js"></script>
-
-</body>
+    <script src="./js/app.js"></script>
+    <script src="./js/config/routeConfig.js"></script>
+    <script src="./js/value/configValue.js"></script>
+    <script src="./js/controllers/FeedController.js"></script>
+    <script src="./js/services/FeedService.js"></script>
+    <script src="./js/controllers/PerfilController.js"></script>
+    <script src="./js/services/PerfilService.js"></script>
+    <script src="./js/services/LoginService.js"></script>
+    <script src="./js/controllers/LoginController.js"></script>
+  </body>
 </html>

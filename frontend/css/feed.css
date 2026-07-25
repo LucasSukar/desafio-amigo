@@ -1,0 +1,25 @@
+.feed-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.feed-page__header {
+  align-items: center;
+  gap: 12px;
+}
+
+.feed-page__badge {
+  font-size: 16px;
+}
+
+.feed-page__title {
+  margin: 0;
+}
+
+.feed-page__date {
+  color: gray;
+}
+
+.feed-page__likes {
+  margin-left: 8px;
+}
