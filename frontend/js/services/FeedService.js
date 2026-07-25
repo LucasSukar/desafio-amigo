@@ -29,7 +29,12 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     return $http.delete(config.baseUrl + "/post/" + id, _getHeaders());
   };
 
+  var _postLike = function (idDoPost) {
+    return $http.post(config.baseUrl + "/post/" + idDoPost + "/like", {},  _getHeaders());
+  };
+
   return {
+    postLike: _postLike,
     getPosts: _getPosts,
     getPost: _getPost,
     getUserPost: _getUserPost,

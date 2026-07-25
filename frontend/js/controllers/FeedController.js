@@ -23,7 +23,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
       });
     }
   };
-  
+
   $scope.prepararEdicao = function(post) {
     $scope.postEditando = angular.copy(post);
     post.mostrarOpcoes = false;
@@ -46,6 +46,14 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
   $scope.toggleOpcoes = function(post) {
     post.mostrarOpcoes = !post.mostrarOpcoes;
   };
+
+  $scope.curtirPost = function (idDoPost){
+    FeedService.postLike(idDoPost).then(function (response) {
+      $scope.listaPosts();
+    }).catch( function (error) {
+      console.log("Erro ao dar like:", error);
+    })
+  }
 
   $scope.listaPosts();
 });
