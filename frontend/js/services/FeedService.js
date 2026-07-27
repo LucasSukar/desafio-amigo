@@ -6,7 +6,7 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
   };
 
   var _getPosts = function () {
-    return $http.get(config.baseUrl + "/post");
+    return $http.get(config.baseUrl + "/post", _getHeaders());
   };
 
   var _getPost = function (id) {
