@@ -13,6 +13,28 @@
         {{ post.user.name.charAt(0) | uppercase }}
       </span>
       <h3 class="feed-page__title">{{ post.title }}</h3>
+
+      <div class="feed-page__menu" ng-if="post.allowEdit || post.allowRemove">
+        <button class="doca-button doca-button--tertiary" ng-click="toggleOpcoes(post)">
+          <span class="feed-page__menu-trigger">⋮</span>
+        </button>
+        <div ng-show="post.mostrarOpcoes" class="feed-page__menu-panel">
+          <button
+            class="doca-button doca-button--tertiary doca-mb-2 feed-page__menu-action"
+            ng-if="post.allowEdit"
+            ng-click="prepararEdicao(post)"
+          >
+            Editar
+          </button>
+          <button
+            class="doca-button doca-button--tertiary feed-page__menu-action feed-page__menu-action--danger"
+            ng-if="post.allowRemove"
+            ng-click="deletePost(post.id)"
+          >
+            Apagar
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="doca-mb-3">
@@ -41,6 +63,62 @@
       >
         Fazer Login
       </button>
+    </div>
+  </div>
+
+  <div id="modalEdicao" class="doca-modal__backdrop feed-page__modal-backdrop">
+    <div class="doca-modal feed-page__modal">
+      <div class="doca-modal__header feed-page__modal-header">
+        <h2 class="feed-page__modal-title">Editar Publicação</h2>
+        <button
+          class="doca-button doca-button--tertiary feed-page__modal-close"
+          ng-click="fecharModal()"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="doca-modal__content feed-page__modal-content">
+        <div class="doca-form__field doca-mb-3">
+          <label class="doca-form__label">Título</label>
+          <input
+            class="doca-form-control"
+            type="text"
+            ng-model="postEditando.title"
+          />
+        </div>
+        <div class="doca-form__field doca-mb-3">
+          <label class="doca-form__label">Resumo</label>
+          <input
+            class="doca-form-control"
+            type="text"
+            ng-model="postEditando.resume"
+          />
+        </div>
+        <div class="doca-form__field">
+          <label class="doca-form__label">Conteúdo</label>
+          <textarea
+            class="doca-form-control feed-page__modal-textarea"
+            rows="5"
+            ng-model="postEditando.content"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="doca-modal__footer feed-page__modal-footer">
+        <button
+          class="doca-button doca-button--secondary"
+          ng-click="fecharModal()"
+        >
+          Cancelar
+        </button>
+        <button
+          class="doca-button doca-button--primary"
+          ng-click="salvarEdicao()"
+        >
+          Salvar
+        </button>
+      </div>
     </div>
   </div>
 </div>
