@@ -1,7 +1,7 @@
 angular.module("amigoApp").controller("CriarPublicacaoController", function ($scope, FeedService, LoginService, $location) {
   var token = LoginService.obterToken();
   if (!token) {
-    $location.path("/login");
+    $location.path("/");
     return;
   }
 

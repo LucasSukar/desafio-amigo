@@ -1,0 +1,39 @@
+<div class="doca-modal modal-edicao">
+  <div class="doca-modal__header modal-edicao__header">
+    <h2 class="modal-edicao__title">Editar Publicação</h2>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()">✕</button>
+  </div>
+
+  <div class="doca-modal__content modal-edicao__content">
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Título</label>
+      <input class="doca-form-control" type="text" ng-model="post.title" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Resumo</label>
+      <input class="doca-form-control" type="text" ng-model="post.resume" />
+    </div>
+
+    <div class="doca-form__field">
+      <label class="doca-form__label">Conteúdo</label>
+      <textarea
+        class="doca-form-control modal-edicao__textarea"
+        rows="5"
+        ng-model="post.content"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="doca-modal__footer modal-edicao__footer">
+    <button class="doca-button doca-button--secondary" ng-click="cancelar()">Cancelar</button>
+    <button class="doca-button doca-button--primary" ng-click="salvar()" ng-disabled="salvando">
+      <span ng-if="!salvando">Salvar</span>
+      <span ng-if="salvando">Salvando...</span>
+    </button>
+  </div>
+</div>

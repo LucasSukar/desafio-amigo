@@ -128,3 +128,48 @@
   width: 100%;
   resize: vertical;
 }
+
+.feed-page__status {
+  padding: 20px 0;
+}
+
+.feed-page__status-text {
+  color: #888;
+}
+
+.modal-login,
+.modal-cadastro,
+.modal-edicao {
+  padding: 0;
+}
+
+.modal-login .doca-modal__header,
+.modal-cadastro .doca-modal__header,
+.modal-edicao .doca-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-login .doca-modal__content,
+.modal-cadastro .doca-modal__content,
+.modal-edicao .doca-modal__content {
+  padding: 16px;
+}
+
+.modal-login .doca-modal__footer,
+.modal-cadastro .doca-modal__footer,
+.modal-edicao .doca-modal__footer {
+  padding: 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-edicao__textarea {
+  width: 100%;
+  resize: vertical;
+}

@@ -1,0 +1,27 @@
+<div class="doca-modal modal-login">
+  <div class="doca-modal__header modal-login__header">
+    <h2 class="modal-login__title">Acessar Conta</h2>
+    <button class="doca-button doca-button--tertiary modal-login__close" ng-click="cancelar()">✕</button>
+  </div>
+
+  <div class="doca-modal__content modal-login__content">
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">E-mail</label>
+      <input class="doca-form-control" type="email" ng-model="credenciais.email" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Senha</label>
+      <input class="doca-form-control" type="password" ng-model="credenciais.password" />
+    </div>
+  </div>
+
+  <div class="doca-modal__footer modal-login__footer">
+    <button class="doca-button doca-button--secondary" ng-click="cancelar()">Cancelar</button>
+    <button class="doca-button doca-button--primary" ng-click="fazerLogin()">Entrar</button>
+  </div>
+</div>

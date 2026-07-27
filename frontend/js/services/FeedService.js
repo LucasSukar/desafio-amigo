@@ -1,12 +1,14 @@
 angular.module("amigoApp").factory("FeedService", function ($http, config, LoginService) {
   var _getHeaders = function () {
+    var token = LoginService.obterToken();
+    if (!token) return {};
     return {
-      headers: { Authorization: "Bearer " + LoginService.obterToken() },
+      headers: { Authorization: "Bearer " + token },
     };
   };
 
-  var _getPosts = function () {
-    return $http.get(config.baseUrl + "/post", _getHeaders());
+  var _getPosts = function (page) {
+    return $http.get(config.baseUrl + "/post?page=" + (page || 1), _getHeaders());
   };
 
   var _getPost = function (id) {
