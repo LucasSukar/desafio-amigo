@@ -1,8 +1,5 @@
-angular
-  .module("amigoApp")
-  .controller("PerfilController", function ($scope, PerfilService, LoginService, $location) {
+angular.module("amigoApp").controller("PerfilController", function ($scope, PerfilService, LoginService, $location, $modal) {
     $scope.publicacoes = [];
-    $scope.postEditando = {};
     $scope.usuario = {};
 
     $scope.listaPosts = function () {
@@ -20,24 +17,24 @@ angular
     };
 
     $scope.prepararEdicao = function (pub) {
-      $scope.postEditando = angular.copy(pub);
       pub.mostrarOpcoes = false;
-      document.getElementById("modalEdicao").style.display = "block";
-    };
 
-    $scope.fecharModal = function () {
-      document.getElementById("modalEdicao").style.display = "none";
-    };
+      var modalInstance = $modal.open({
+        templateUrl: "view/modal-edicao.html",
+        controller: "ModalEdicaoController",
+        resolve: {
+          post: function () { return pub; },
+          salvar: function () {
+            return function (id, data) {
+              return PerfilService.putPost(id, data);
+            };
+          },
+        },
+      });
 
-    $scope.salvarEdicao = function () {
-      PerfilService.putPost($scope.postEditando.id, $scope.postEditando)
-        .then(function () {
-          $scope.fecharModal();
-          $scope.listaPosts();
-        })
-        .catch(function (error) {
-          console.log("erro ao editar publicação:", error);
-        });
+      modalInstance.result.then(function () {
+        $scope.listaPosts();
+      });
     };
 
     $scope.deletar = function (id) {
@@ -52,9 +49,7 @@ angular
       }
     };
 
-    $scope.listaPosts();
-
-    $scope.deslogar = function() {
+    $scope.deslogar = function () {
       LoginService.deslogar();
       $location.path("/");
     };
@@ -69,4 +64,6 @@ angular
           console.log("erro ao criar usuário:", error);
         });
     };
+
+    $scope.listaPosts();
   });

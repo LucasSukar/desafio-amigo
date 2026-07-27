@@ -17,11 +17,6 @@ angular.module("amigoApp").config(function($routeProvider){
       controller: "PerfilController"
     });
 
-    $routeProvider.when("/login", {
-      templateUrl: "view/login.html",
-      controller: "LoginController"
-    });
-
     $routeProvider.when("/criar-publicacao", {
       templateUrl: "view/criar-publicacao.html",
       controller: "CriarPublicacaoController"

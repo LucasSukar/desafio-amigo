@@ -1,0 +1,32 @@
+<div class="doca-modal modal-cadastro">
+  <div class="doca-modal__header modal-cadastro__header">
+    <h2 class="modal-cadastro__title">Criar Conta</h2>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()">✕</button>
+  </div>
+
+  <div class="doca-modal__content modal-cadastro__content">
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Nome Completo</label>
+      <input class="doca-form-control" type="text" ng-model="usuario.name" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">E-mail</label>
+      <input class="doca-form-control" type="email" ng-model="usuario.email" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Senha</label>
+      <input class="doca-form-control" type="password" ng-model="usuario.password" />
+    </div>
+  </div>
+
+  <div class="doca-modal__footer modal-cadastro__footer">
+    <button class="doca-button doca-button--secondary" ng-click="cancelar()">Cancelar</button>
+    <button class="doca-button doca-button--primary" ng-click="criaUser()">Criar Conta</button>
+  </div>
+</div>

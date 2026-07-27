@@ -1,12 +1,16 @@
 <div class="doca-page feed-page">
   <div class="feed-page__top-bar">
     <h2 class="doca-page__title feed-page__main-title">Feed de Publicações</h2>
-    <div class="feed-page__top-actions">
+    <div class="feed-page__top-actions" ng-if="estaLogado">
       <button class="doca-button doca-button--primary" ng-click="irParaCriarPublicacao()">+ Criar Publicação</button>
       <button class="doca-button doca-button--secondary" ng-click="irParaPerfil()">Meu Perfil</button>
+      <button class="doca-button doca-button--tertiary" ng-click="deslogar()">Sair</button>
+    </div>
+    <div class="feed-page__top-actions" ng-if="!estaLogado">
+      <button class="doca-button doca-button--primary" ng-click="abrirModalLogin()">Entrar</button>
+      <button class="doca-button doca-button--secondary" ng-click="abrirModalCadastro()">Cadastrar</button>
     </div>
   </div>
-
   <div class="doca-page__box doca-mb-3" ng-repeat="post in posts">
     <div class="doca-flex doca-mb-3 feed-page__header">
       <span class="doca-badge doca-badge--info feed-page__badge">
@@ -41,84 +45,28 @@
       <p><strong>Resumo:</strong> {{ post.resume }}</p>
       <p class="doca-text--normal doca-text--base">{{ post.content }}</p>
       <small class="feed-page__date"
-        >Publicado em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm'
-        }}</small
+        >Publicado em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm' }}</small
       >
     </div>
 
-    <div style="display: flex; gap: 10px; align-items: center;">
-      <button
-        class="doca-button doca-button--primary"
-        ng-click="curtirPost(post)"
-      >
+    <div class="feed-page__post-actions">
+      <button class="doca-button doca-button--primary" ng-click="curtirPost(post)">
         Curtir
-        <span class="doca-badge doca-badge--info feed-page__likes"
-          >{{ post.total_likes }}</span
-        >
-      </button>
-      <button
-        class="doca-button doca-button--primary"
-        ng-if="post.tentouCurtirDeslogado"
-        ng-click="irParaLogin()"
-      >
-        Fazer Login
+        <span class="doca-badge doca-badge--info feed-page__likes">{{ post.total_likes }}</span>
       </button>
     </div>
   </div>
 
-  <div id="modalEdicao" class="doca-modal__backdrop feed-page__modal-backdrop">
-    <div class="doca-modal feed-page__modal">
-      <div class="doca-modal__header feed-page__modal-header">
-        <h2 class="feed-page__modal-title">Editar Publicação</h2>
-        <button
-          class="doca-button doca-button--tertiary feed-page__modal-close"
-          ng-click="fecharModal()"
-        >
-          ✕
-        </button>
-      </div>
-
-      <div class="doca-modal__content feed-page__modal-content">
-        <div class="doca-form__field doca-mb-3">
-          <label class="doca-form__label">Título</label>
-          <input
-            class="doca-form-control"
-            type="text"
-            ng-model="postEditando.title"
-          />
-        </div>
-        <div class="doca-form__field doca-mb-3">
-          <label class="doca-form__label">Resumo</label>
-          <input
-            class="doca-form-control"
-            type="text"
-            ng-model="postEditando.resume"
-          />
-        </div>
-        <div class="doca-form__field">
-          <label class="doca-form__label">Conteúdo</label>
-          <textarea
-            class="doca-form-control feed-page__modal-textarea"
-            rows="5"
-            ng-model="postEditando.content"
-          ></textarea>
-        </div>
-      </div>
-
-      <div class="doca-modal__footer feed-page__modal-footer">
-        <button
-          class="doca-button doca-button--secondary"
-          ng-click="fecharModal()"
-        >
-          Cancelar
-        </button>
-        <button
-          class="doca-button doca-button--primary"
-          ng-click="salvarEdicao()"
-        >
-          Salvar
-        </button>
-      </div>
-    </div>
+  <div class="feed-page__status doca-text-center" ng-if="carregando">
+    <small class="feed-page__status-text">Carregando mais publicações...</small>
   </div>
+
+  <div class="feed-page__status doca-text-center" ng-if="semMaisPosts && posts.length > 0">
+    <small class="feed-page__status-text">Você chegou ao fim do feed.</small>
+  </div>
+
+  <div class="feed-page__status doca-text-center" ng-if="!carregando && posts.length === 0">
+    <p class="feed-page__status-text">Nenhuma publicação encontrada.</p>
+  </div>
+
 </div>
