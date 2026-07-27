@@ -1,0 +1,36 @@
+.criar-pub-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.criar-pub-page__top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.criar-pub-page__title {
+  margin: 0;
+}
+
+.criar-pub-page__box {
+  padding: 24px;
+}
+
+.criar-pub-page__textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 140px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.criar-pub-page__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}

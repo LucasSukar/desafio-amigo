@@ -11,6 +11,15 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     }
   };
 
+  $scope.irParaCriarPublicacao = function() {
+    var token = LoginService.obterToken();
+    if (token) {
+      $location.path("/criar-publicacao");
+    } else {
+      $location.path("/login");
+    }
+  };
+
   $scope.listaPosts = function () {
     FeedService.getPosts()
       .then(function (response) {
