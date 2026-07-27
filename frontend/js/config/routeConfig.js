@@ -13,12 +13,17 @@ angular.module("amigoApp").config(function($routeProvider){
     });
 
     $routeProvider.when("/cadastro", {
-      templateUrl: "view/cadastro",
+      templateUrl: "view/cadastro.html",
       controller: "PerfilController"
     });
 
     $routeProvider.when("/login", {
       templateUrl: "view/login.html",
       controller: "LoginController"
+    });
+
+    $routeProvider.when("/criar-publicacao", {
+      templateUrl: "view/criar-publicacao.html",
+      controller: "CriarPublicacaoController"
     });
 })

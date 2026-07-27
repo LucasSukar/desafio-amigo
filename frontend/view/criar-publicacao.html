@@ -1,0 +1,53 @@
+<div class="doca-page criar-pub-page">
+  <div class="criar-pub-page__top-bar">
+    <h1 class="doca-page__title criar-pub-page__title">Nova Publicação</h1>
+    <button class="doca-button doca-button--secondary" ng-click="voltarParaFeed()">← Voltar ao Feed</button>
+  </div>
+
+  <div class="doca-page__box criar-pub-page__box">
+    <div class="doca-alert doca-alert--success doca-mb-3" ng-if="sucesso">
+      <span class="doca-alert__text">{{ sucesso }}</span>
+    </div>
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Título</label>
+      <input
+        class="doca-form-control"
+        type="text"
+        ng-model="novaPublicacao.title"
+        placeholder="Digite o título da publicação"
+      />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Resumo</label>
+      <input
+        class="doca-form-control"
+        type="text"
+        ng-model="novaPublicacao.resume"
+        placeholder="Um breve resumo do conteúdo"
+      />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Conteúdo</label>
+      <textarea
+        class="doca-form-control criar-pub-page__textarea"
+        ng-model="novaPublicacao.content"
+        placeholder="Escreva o conteúdo completo aqui..."
+        rows="6"
+      ></textarea>
+    </div>
+
+    <div class="doca-page__actions criar-pub-page__actions">
+      <button class="doca-button doca-button--secondary" ng-click="voltarParaFeed()">Cancelar</button>
+      <button class="doca-button doca-button--primary" ng-click="publicar()" ng-disabled="publicando">
+        <span ng-if="!publicando">Publicar</span>
+        <span ng-if="publicando">Publicando...</span>
+      </button>
+    </div>
+  </div>
+</div>

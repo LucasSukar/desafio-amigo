@@ -1,7 +1,10 @@
 <div class="doca-page feed-page">
   <div class="feed-page__top-bar">
     <h2 class="doca-page__title feed-page__main-title">Feed de Publicações</h2>
-    <button class="doca-button doca-button--secondary" ng-click="irParaPerfil()">Meu Perfil</button>
+    <div class="feed-page__top-actions">
+      <button class="doca-button doca-button--primary" ng-click="irParaCriarPublicacao()">+ Criar Publicação</button>
+      <button class="doca-button doca-button--secondary" ng-click="irParaPerfil()">Meu Perfil</button>
+    </div>
   </div>
 
   <div class="doca-page__box doca-mb-3" ng-repeat="post in posts">

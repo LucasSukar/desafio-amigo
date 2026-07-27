@@ -6,3 +6,17 @@
 .login-page__actions {
   justify-content: center;
 }
+
+.login-page__register-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-page__register-anchor {
+  margin-left: 6px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
