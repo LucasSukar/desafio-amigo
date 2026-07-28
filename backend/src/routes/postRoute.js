@@ -9,10 +9,10 @@ import authOptional from "../middlewares/authOptional";
 const postRoute = new Router();
 
 postRoute.get("/post", authOptional, PostController.index);
+postRoute.get("/post/me", auth, PostController.me);
 postRoute.get("/post/:id", authOptional, PostController.show);
 
 postRoute.use(auth);
-postRoute.get("/post/me", PostController.me);
 postRoute.post("/post", PostController.store);
 postRoute.put("/post/:id", PostController.update);
 postRoute.delete("/post/:id", PostController.delete);
