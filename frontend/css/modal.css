@@ -1,0 +1,70 @@
+/* ============================================================
+   MODAL — Estilos base para o ui-bootstrap $modal (0.12.1)
+   O ui-bootstrap depende das classes .modal, .modal-dialog e
+   .modal-backdrop do Bootstrap. Como não importamos o Bootstrap
+   completo, esses estilos são necessários para posicionar o modal
+   corretamente no topo da tela.
+   ============================================================ */
+
+/* Backdrop escuro atrás do modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.modal-backdrop.fade { opacity: 0; transition: opacity 0.2s ease; }
+.modal-backdrop.in   { opacity: 1; }
+
+/* Container do modal (overlay clicável) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  display: none;
+}
+
+.modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.25s ease;
+}
+
+.modal.in .modal-dialog {
+  transform: translateY(0);
+}
+
+/* Caixa centralizada horizontalmente, com margem no topo */
+.modal-dialog {
+  position: relative;
+  width: auto;
+  max-width: 520px;
+  margin: 40px auto;
+}
+
+/* Card branco do conteúdo */
+.modal-content {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+  outline: 0;
+  overflow: hidden;
+  border: none;
+}
+
+/* Responsivo em telas pequenas */
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 16px;
+  }
+}

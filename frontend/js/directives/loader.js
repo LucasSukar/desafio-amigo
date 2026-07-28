@@ -1,0 +1,18 @@
+angular.module("amigoApp").directive("amigoLoader", function () {
+  return {
+    restrict: "E",
+    scope: {
+      mensagem: "@",
+    },
+    template: [
+      '<div class="feed-status">',
+      '  <div class="feed-spinner">',
+      '    <span class="feed-spinner__dot"></span>',
+      '    <span class="feed-spinner__dot"></span>',
+      '    <span class="feed-spinner__dot"></span>',
+      "  </div>",
+      '  <small class="feed-status__text">{{ mensagem || "Carregando..." }}</small>',
+      "</div>",
+    ].join(""),
+  };
+});

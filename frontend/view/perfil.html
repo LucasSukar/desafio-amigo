@@ -1,52 +1,54 @@
 <div class="doca-page perfil-page">
   <div class="perfil-page__top-bar">
-    <h1 class="doca-page__title perfil-page__main-title">Meu Perfil</h1>
-    <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()">Sair</button>
+    <h1 class="perfil-page__main-title">Meu Perfil</h1>
+    <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()" id="btn-sair-perfil">Sair</button>
   </div>
 
-  <hr class="doca-mb-3" />
   <h2 class="doca-page__subtitle">Minhas Publicações</h2>
 
   <div
-    class="doca-page__box doca-mb-3 perfil-page__item"
+    class="perfil-page__item"
     ng-repeat="pub in publicacoes"
   >
-    <div class="doca-flex perfil-page__header">
+    <div class="perfil-page__header">
       <h3 class="perfil-page__title">{{ pub.title }}</h3>
 
       <div class="perfil-page__menu">
         <button
           class="doca-button doca-button--tertiary"
           ng-click="toggleOpcoes(pub)"
+          id="btn-opcoes-perfil-{{ pub.id }}"
         >
           <span class="perfil-page__menu-trigger">⋮</span>
         </button>
 
         <div ng-show="pub.mostrarOpcoes" class="perfil-page__menu-panel">
           <button
-            class="doca-button doca-button--tertiary doca-mb-2 perfil-page__menu-action"
+            class="perfil-page__menu-action"
             ng-click="prepararEdicao(pub)"
+            id="btn-editar-perfil-{{ pub.id }}"
           >
-            Editar
+            ✏️ Editar
           </button>
           <button
-            class="doca-button doca-button--tertiary perfil-page__menu-action perfil-page__menu-action--danger"
+            class="perfil-page__menu-action perfil-page__menu-action--danger"
             ng-click="deletar(pub.id)"
+            id="btn-apagar-perfil-{{ pub.id }}"
           >
-            Apagar
+            🗑️ Apagar
           </button>
         </div>
       </div>
     </div>
 
-    <p class="doca-text--normal doca-text--base doca-mt-2">{{ pub.content }}</p>
+    <p class="doca-text--normal doca-text--base doca-mt-2">{{ pub.resume || pub.content }}</p>
   </div>
 
   <div
     ng-if="publicacoes.length === 0"
-    class="doca-text-center doca-text--base perfil-page__empty"
+    class="perfil-page__empty"
   >
-    Você ainda não tem publicações.
+    📭 Você ainda não tem publicações.
   </div>
 
 </div>

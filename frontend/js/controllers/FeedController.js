@@ -1,4 +1,4 @@
-angular.module("amigoApp").controller("FeedController", function ($scope, FeedService, LoginService, $location, $modal) {
+angular.module("amigoApp").controller("FeedController", function ($scope, FeedService, LoginService, $location, $modal, $timeout) {
   $scope.posts = [];
   $scope.pagina = 1;
   $scope.carregando = false;
@@ -20,6 +20,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
   $scope.deslogar = function () {
     LoginService.deslogar();
+    localStorage.removeItem("liked_posts");
     $scope.estaLogado = false;
     $scope.posts = [];
     $scope.pagina = 1;
@@ -118,6 +119,16 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
           $scope.posts = $scope.posts.concat(novosPosts);
         }
         $scope.carregando = false;
+
+        $timeout(function () {
+          var scrollHeight = document.documentElement.scrollHeight;
+          var clientHeight = document.documentElement.clientHeight;
+          if (!$scope.semMaisPosts && scrollHeight <= clientHeight + 50) {
+            $scope.pagina++;
+            $scope.listaPosts($scope.pagina);
+          }
+        }, 100);
+
       })
       .catch(function (error) {
         console.log(error);
@@ -151,24 +162,32 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     });
   };
 
+  var scrollTimeout = null;
 
   var handleScroll = function () {
-    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    var scrollHeight = document.documentElement.scrollHeight;
-    var clientHeight = document.documentElement.clientHeight;
+    if (scrollTimeout) return;
 
-    if (!$scope.carregando && !$scope.semMaisPosts && scrollTop + clientHeight >= scrollHeight - 200) {
-      $scope.$apply(function () {
-        $scope.pagina++;
-        $scope.listaPosts($scope.pagina);
-      });
-    }
+    scrollTimeout = setTimeout(function () {
+      scrollTimeout = null;
+
+      var scrollTop    = document.documentElement.scrollTop || document.body.scrollTop;
+      var scrollHeight = document.documentElement.scrollHeight;
+      var clientHeight = document.documentElement.clientHeight;
+
+      if (!$scope.carregando && !$scope.semMaisPosts && scrollTop + clientHeight >= scrollHeight - 400) {
+        $scope.$apply(function () {
+          $scope.pagina++;
+          $scope.listaPosts($scope.pagina);
+        });
+      }
+    }, 100);
   };
 
   window.addEventListener("scroll", handleScroll);
 
   $scope.$on("$destroy", function () {
     window.removeEventListener("scroll", handleScroll);
+    if (scrollTimeout) clearTimeout(scrollTimeout);
   });
 
   $scope.listaPosts(1);
