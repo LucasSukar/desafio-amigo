@@ -4,6 +4,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
   $scope.carregando = false;
   $scope.semMaisPosts = false;
   $scope.estaLogado = !!LoginService.obterToken();
+  $scope.modalAberta = false;
 
   $scope.irParaPerfil = function () {
     $location.path("/perfil");
@@ -27,6 +28,9 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
   };
 
   $scope.abrirModalLogin = function () {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
+
     var modalInstance = $modal.open({
       templateUrl: "view/modal-login.html",
       controller: "ModalLoginController",
@@ -40,10 +44,15 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
         $scope.semMaisPosts = false;
         $scope.listaPosts(1);
       }
+    }).finally(function() {
+      $scope.modalAberta = false;
     });
   };
 
   $scope.abrirModalCadastro = function () {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
+
     var modalInstance = $modal.open({
       templateUrl: "view/modal-cadastro.html",
       controller: "ModalCadastroController",
@@ -53,10 +62,14 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
       if (resultado === "created") {
         $scope.abrirModalLogin();
       }
+    }).finally(function() {
+      $scope.modalAberta = false;
     });
   };
 
   $scope.prepararEdicao = function (post) {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
     post.mostrarOpcoes = false;
 
     var modalInstance = $modal.open({
@@ -81,6 +94,8 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
           break;
         }
       }
+    }).finally(function() {
+      $scope.modalAberta = false;
     });
   };
 
@@ -131,26 +146,9 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
       $scope.abrirModalLogin();
       return;
     }
-
-    FeedService.postLike(post.id)
-      .then(function () {
-        var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
-        if (post.jaCurtiu) {
-          if (post.total_likes > 0) {
-            post.total_likes = post.total_likes - 1;
-          }
-          post.jaCurtiu = false;
-          delete likedPosts[post.id];
-        } else {
-          post.total_likes = post.total_likes + 1;
-          post.jaCurtiu = true;
-          likedPosts[post.id] = true;
-        }
-        localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
-      })
-      .catch(function (error) {
-        console.log("Erro ao curtir/descurtir:", error);
-      });
+    FeedService.toggleLike(post).catch(function (error) {
+      console.log("Erro ao curtir/descurtir:", error);
+    });
   };
 
 
