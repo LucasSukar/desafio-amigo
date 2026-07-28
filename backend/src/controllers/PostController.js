@@ -97,6 +97,42 @@ class PostController {
     return res.json(todosPosts);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const post = await Post.findOne({
+      where: { id },
+      attributes: ["id", "title", "resume", "content", "user_id", "data_publicacao"],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "name"],
+        },
+        {
+          model: PostLike,
+          as: "likes",
+          where: { is_deleted: false },
+          required: false,
+        },
+      ],
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post não encontrado" });
+    }
+
+    const postJSON = post.toJSON();
+    return res.json({
+      ...postJSON,
+      total_likes: postJSON.likes.length,
+      allowEdit: postJSON.user_id == req.userId,
+      allowRemove: postJSON.user_id == req.userId,
+      jaCurtiu: postJSON.likes.some((l) => l.user_id == req.userId),
+      likes: undefined,
+    });
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
