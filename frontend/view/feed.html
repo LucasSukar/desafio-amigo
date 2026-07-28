@@ -1,74 +1,46 @@
-<div class="doca-page feed-page">
-  <div class="feed-page__top-bar">
-    <h2 class="doca-page__title feed-page__main-title">Feed de Publicações</h2>
-    <div class="feed-page__top-actions" ng-if="estaLogado">
-      <button class="doca-button doca-button--primary" ng-click="irParaCriarPublicacao()">+ Criar Publicação</button>
-      <button class="doca-button doca-button--secondary" ng-click="irParaPerfil()">Meu Perfil</button>
-      <button class="doca-button doca-button--tertiary" ng-click="deslogar()">Sair</button>
-    </div>
-    <div class="feed-page__top-actions" ng-if="!estaLogado">
-      <button class="doca-button doca-button--primary" ng-click="abrirModalLogin()">Entrar</button>
-      <button class="doca-button doca-button--secondary" ng-click="abrirModalCadastro()">Cadastrar</button>
-    </div>
-  </div>
-  <div class="doca-page__box doca-mb-3 feed-card" ng-repeat="post in posts">
-    <div class="doca-flex doca-mb-3 feed-page__header">
-      <div class="feed-card__meta">
-        <span class="feed-card__author">{{ post.user.name }}</span>
-        <span class="feed-card__date">· {{ post.data_publicacao | date:'dd MMM, yyyy' }}</span>
-      </div>
+<div class="feed-page">
 
-      <div class="feed-page__menu" ng-if="post.allowEdit || post.allowRemove">
-        <button class="doca-button doca-button--tertiary" ng-click="toggleOpcoes(post)">
-          <span class="feed-page__menu-trigger">⋮</span>
-        </button>
-        <div ng-show="post.mostrarOpcoes" class="feed-page__menu-panel">
-          <button
-            class="doca-button doca-button--tertiary doca-mb-2 feed-page__menu-action"
-            ng-if="post.allowEdit"
-            ng-click="prepararEdicao(post)"
-          >
-            Editar
-          </button>
-          <button
-            class="doca-button doca-button--tertiary feed-page__menu-action feed-page__menu-action--danger"
-            ng-if="post.allowRemove"
-            ng-click="deletePost(post.id)"
-          >
-            Apagar
-          </button>
-        </div>
-      </div>
+  <header class="app-header">
+    <div class="app-header__brand">
+      <span class="app-header__name">Amigo App</span>
     </div>
 
-    <div class="feed-card__link" ng-click="irParaPost(post.id)">
-      <h3 class="feed-card__title">{{ post.title }}</h3>
-      <p class="feed-card__resume">{{ post.resume }}</p>
+    <div class="app-header__actions" ng-if="estaLogado">
+      <button class="doca-button doca-button--primary" ng-click="irParaCriarPublicacao()" id="btn-criar-publicacao">+ Criar</button>
+      <button class="doca-button doca-button--secondary" ng-click="irParaPerfil()" id="btn-meu-perfil">Perfil</button>
+      <button class="doca-button doca-button--tertiary" ng-click="deslogar()" id="btn-sair">Sair</button>
+    </div>
+    <div class="app-header__actions" ng-if="!estaLogado">
+      <button class="doca-button doca-button--secondary" ng-click="abrirModalCadastro()" id="btn-cadastrar">Cadastrar</button>
+      <button class="doca-button doca-button--primary" ng-click="abrirModalLogin()" id="btn-entrar">Entrar</button>
+    </div>
+  </header>
+
+
+  <main class="feed-content">
+    <h1 class="feed-content__title">Publicações</h1>
+
+    <amigo-feed-card
+      ng-repeat="post in posts"
+      post="post"
+      on-like="curtirPost(post)"
+      on-edit="prepararEdicao(post)"
+      on-delete="deletePost(id)"
+      on-click="irParaPost(id)"
+    ></amigo-feed-card>
+
+   
+    <amigo-loader ng-if="carregando" mensagem="Carregando publicações..."></amigo-loader>
+
+    <div class="feed-status" ng-if="semMaisPosts && posts.length > 0">
+      <div class="feed-status__divider"></div>
+      <small class="feed-status__text">Você chegou ao fim do feed.</small>
     </div>
 
-    <div class="feed-page__post-actions">
-      <button
-        class="feed-card__like-button"
-        ng-class="{'liked': post.jaCurtiu}"
-        ng-click="curtirPost(post)"
-      >
-        <span ng-show="!post.jaCurtiu">♡</span>
-        <span ng-show="post.jaCurtiu">♥</span>
-        <span>{{ post.total_likes }}</span>
-      </button>
+    <div class="feed-status feed-status--empty" ng-if="!carregando && posts.length === 0 && semMaisPosts">
+      <p class="feed-status__icon">📭</p>
+      <p class="feed-status__text">Nenhuma publicação ainda.<br>Seja o primeiro a publicar!</p>
     </div>
-  </div>
 
-  <div class="feed-page__status doca-text-center" ng-if="carregando">
-    <small class="feed-page__status-text">Carregando mais publicações...</small>
-  </div>
-
-  <div class="feed-page__status doca-text-center" ng-if="semMaisPosts && posts.length > 0">
-    <small class="feed-page__status-text">Você chegou ao fim do feed.</small>
-  </div>
-
-  <div class="feed-page__status doca-text-center" ng-if="!carregando && posts.length === 0">
-    <p class="feed-page__status-text">Nenhuma publicação encontrada.</p>
-  </div>
-
+  </main>
 </div>
