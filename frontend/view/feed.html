@@ -47,8 +47,13 @@
     </div>
 
     <div class="feed-page__post-actions">
-      <button class="doca-button doca-button--primary" ng-click="curtirPost(post)">
-        Curtir
+      <button
+        class="doca-button"
+        ng-class="post.jaCurtiu ? 'doca-button--secondary' : 'doca-button--primary'"
+        ng-click="curtirPost(post)"
+      >
+        <span ng-show="!post.jaCurtiu">♡ Curtir</span>
+        <span ng-show="post.jaCurtiu">♥ Curtido</span>
         <span class="doca-badge doca-badge--info feed-page__likes">{{ post.total_likes }}</span>
       </button>
     </div>

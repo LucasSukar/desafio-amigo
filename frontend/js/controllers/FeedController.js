@@ -124,10 +124,11 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
     FeedService.postLike(post.id)
       .then(function () {
-        post.total_likes = (post.total_likes || 0) + 1;
+        post.total_likes += post.jaCurtiu ? -1 : 1;
+        post.jaCurtiu = !post.jaCurtiu;
       })
       .catch(function (error) {
-        console.log("Erro ao dar like:", error);
+        console.log("Erro ao curtir/descurtir:", error);
       });
   };
 

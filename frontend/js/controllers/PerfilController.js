@@ -1,4 +1,9 @@
 angular.module("amigoApp").controller("PerfilController", function ($scope, PerfilService, LoginService, $location, $modal) {
+    if (!LoginService.obterToken()) {
+      $location.path("/");
+      return;
+    }
+
     $scope.publicacoes = [];
     $scope.usuario = {};
 
