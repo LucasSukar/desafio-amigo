@@ -1,6 +1,74 @@
 .feed-page {
-  max-width: 700px;
+  max-width: 680px;
   margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.feed-card {
+  padding: 24px 0;
+  border-bottom: 1px solid #f2f2f2;
+  background: transparent !important; /* override doca-page__box if needed */
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+.feed-card__meta {
+  font-size: 14px;
+  color: #292929;
+}
+
+.feed-card__author {
+  font-weight: 500;
+}
+
+.feed-card__date {
+  color: #757575;
+}
+
+.feed-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+.feed-card__title {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #292929;
+  margin: 0 0 8px 0;
+}
+
+.feed-card__resume {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #757575;
+  font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.feed-card__like-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #757575;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.feed-card__like-button.liked {
+  color: #000;
 }
 
 .feed-page__header {
@@ -8,23 +76,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.feed-page__badge {
-  font-size: 16px;
-}
-
-.feed-page__title {
-  margin: 0;
-  flex: 1;
-}
-
-.feed-page__date {
-  color: gray;
-}
-
-.feed-page__likes {
-  margin-left: 8px;
 }
 
 .feed-page__top-bar {

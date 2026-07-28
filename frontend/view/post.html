@@ -1,0 +1,38 @@
+<div class="doca-page post-page">
+  <div class="post-page__header">
+    <button class="post-page__back" ng-click="voltarFeed()">← Voltar</button>
+  </div>
+  
+  <div class="post-page__status doca-text-center" ng-if="carregando">
+    <small class="post-page__status-text">Carregando...</small>
+  </div>
+  
+  <div class="post-page__status doca-text-center" ng-if="erro">
+    <p class="post-page__status-text">{{ erro }}</p>
+  </div>
+
+  <article class="post-page__content" ng-if="post && !carregando">
+    <h1 class="post-page__title">{{ post.title }}</h1>
+    
+    <div class="post-page__meta">
+      <div class="post-page__author-info">
+        <span class="post-page__author">{{ post.user.name }}</span>
+        <span class="post-page__date">{{ post.data_publicacao | date:'dd MMM, yyyy' }}</span>
+      </div>
+      
+      <div class="post-page__actions">
+        <button
+          class="post-page__like-button"
+          ng-class="{'liked': post.jaCurtiu}"
+          ng-click="curtirPost()"
+        >
+          <span class="like-icon" ng-show="!post.jaCurtiu">♡</span>
+          <span class="like-icon" ng-show="post.jaCurtiu">♥</span>
+          <span class="like-count">{{ post.total_likes }}</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="post-page__body">{{ post.content }}</div>
+  </article>
+</div>

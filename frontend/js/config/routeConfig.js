@@ -21,4 +21,9 @@ angular.module("amigoApp").config(function($routeProvider){
       templateUrl: "view/criar-publicacao.html",
       controller: "CriarPublicacaoController"
     });
+
+    $routeProvider.when("/post/:id", {
+      templateUrl: "view/post.html",
+      controller: "PostController"
+    });
 })
