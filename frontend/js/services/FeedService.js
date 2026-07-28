@@ -35,7 +35,24 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     return $http.post(config.baseUrl + "/post/" + idDoPost + "/like", {},  _getHeaders());
   };
 
+  var _toggleLike = function (post) {
+    return _postLike(post.id).then(function () {
+      var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
+      if (post.jaCurtiu) {
+        if (post.total_likes > 0) post.total_likes = post.total_likes - 1;
+        post.jaCurtiu = false;
+        delete likedPosts[post.id];
+      } else {
+        post.total_likes = post.total_likes + 1;
+        post.jaCurtiu = true;
+        likedPosts[post.id] = true;
+      }
+      localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+    });
+  };
+
   return {
+    toggleLike: _toggleLike,
     postLike: _postLike,
     getPosts: _getPosts,
     getPost: _getPost,

@@ -1,8 +1,9 @@
-angular.module("amigoApp").controller("PostController", function($scope, $routeParams, $location, FeedService, LoginService, $rootScope) {
+angular.module("amigoApp").controller("PostController", function($scope, $routeParams, $location, FeedService, LoginService, $modal) {
   var postId = $routeParams.id;
   $scope.carregando = true;
   $scope.post = null;
   $scope.erro = null;
+  $scope.modalAberta = false;
 
   $scope.estaLogado = !!LoginService.obterToken();
 
@@ -18,15 +19,30 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
     });
   };
 
+  $scope.abrirModalLogin = function() {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
+
+    var modalInstance = $modal.open({
+      templateUrl: "view/modal-login.html",
+      controller: "ModalLoginController",
+    });
+
+    modalInstance.result.then(function(resultado) {
+      if (resultado === "loggedIn") {
+        $scope.estaLogado = true;
+      }
+    }).finally(function() {
+      $scope.modalAberta = false;
+    });
+  };
+
   $scope.curtirPost = function() {
     if (!$scope.estaLogado) {
-      $rootScope.$broadcast("ABRIR_MODAL_LOGIN");
+      $scope.abrirModalLogin();
       return;
     }
-    FeedService.postLike($scope.post.id).then(function(response) {
-      $scope.post.total_likes = response.data.total_likes;
-      $scope.post.jaCurtiu = response.data.jaCurtiu;
-    }).catch(function(error) {
+    FeedService.toggleLike($scope.post).catch(function(error) {
       console.error("Erro ao curtir:", error);
     });
   };

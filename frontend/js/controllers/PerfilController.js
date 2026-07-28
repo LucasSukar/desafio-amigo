@@ -6,6 +6,7 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
 
     $scope.publicacoes = [];
     $scope.usuario = {};
+    $scope.modalAberta = false;
 
     $scope.listaPosts = function () {
       PerfilService.getUserPosts()
@@ -22,6 +23,8 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
     };
 
     $scope.prepararEdicao = function (pub) {
+      if ($scope.modalAberta) return;
+      $scope.modalAberta = true;
       pub.mostrarOpcoes = false;
 
       var modalInstance = $modal.open({
@@ -39,6 +42,8 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
 
       modalInstance.result.then(function () {
         $scope.listaPosts();
+      }).finally(function() {
+        $scope.modalAberta = false;
       });
     };
 
