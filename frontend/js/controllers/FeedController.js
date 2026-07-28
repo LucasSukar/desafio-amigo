@@ -86,7 +86,13 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
     FeedService.getPosts(pagina || 1)
       .then(function (response) {
+        var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
         var novosPosts = response.data;
+
+        for (var i = 0; i < novosPosts.length; i++) {
+          novosPosts[i].jaCurtiu = !!likedPosts[novosPosts[i].id];
+        }
+
         if (novosPosts.length === 0) {
           $scope.semMaisPosts = true;
         } else {
@@ -124,8 +130,19 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
     FeedService.postLike(post.id)
       .then(function () {
-        post.total_likes += post.jaCurtiu ? -1 : 1;
-        post.jaCurtiu = !post.jaCurtiu;
+        var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
+        if (post.jaCurtiu) {
+          if (post.total_likes > 0) {
+            post.total_likes = post.total_likes - 1;
+          }
+          post.jaCurtiu = false;
+          delete likedPosts[post.id];
+        } else {
+          post.total_likes = post.total_likes + 1;
+          post.jaCurtiu = true;
+          likedPosts[post.id] = true;
+        }
+        localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
       })
       .catch(function (error) {
         console.log("Erro ao curtir/descurtir:", error);
