@@ -13,6 +13,10 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     $location.path("/criar-publicacao");
   };
 
+  $scope.irParaPost = function (id) {
+    $location.path("/post/" + id);
+  };
+
   $scope.deslogar = function () {
     LoginService.deslogar();
     $scope.estaLogado = false;

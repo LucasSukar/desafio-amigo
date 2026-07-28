@@ -11,9 +11,12 @@
       <button class="doca-button doca-button--secondary" ng-click="abrirModalCadastro()">Cadastrar</button>
     </div>
   </div>
-  <div class="doca-page__box doca-mb-3" ng-repeat="post in posts">
+  <div class="doca-page__box doca-mb-3 feed-card" ng-repeat="post in posts">
     <div class="doca-flex doca-mb-3 feed-page__header">
-      <h3 class="feed-page__title">{{ post.title }}</h3>
+      <div class="feed-card__meta">
+        <span class="feed-card__author">{{ post.user.name }}</span>
+        <span class="feed-card__date">· {{ post.data_publicacao | date:'dd MMM, yyyy' }}</span>
+      </div>
 
       <div class="feed-page__menu" ng-if="post.allowEdit || post.allowRemove">
         <button class="doca-button doca-button--tertiary" ng-click="toggleOpcoes(post)">
@@ -38,23 +41,20 @@
       </div>
     </div>
 
-    <div class="doca-mb-3">
-      <p><strong>Resumo:</strong> {{ post.resume }}</p>
-      <p class="doca-text--normal doca-text--base">{{ post.content }}</p>
-      <small class="feed-page__date"
-        >Publicado por {{ post.user.name }} em: {{ post.data_publicacao | date:'dd/MM/yyyy HH:mm' }}</small
-      >
+    <div class="feed-card__link" ng-click="irParaPost(post.id)">
+      <h3 class="feed-card__title">{{ post.title }}</h3>
+      <p class="feed-card__resume">{{ post.resume }}</p>
     </div>
 
     <div class="feed-page__post-actions">
       <button
-        class="doca-button"
-        ng-class="post.jaCurtiu ? 'doca-button--secondary' : 'doca-button--primary'"
+        class="feed-card__like-button"
+        ng-class="{'liked': post.jaCurtiu}"
         ng-click="curtirPost(post)"
       >
-        <span ng-show="!post.jaCurtiu">♡ Curtir</span>
-        <span ng-show="post.jaCurtiu">♥ Curtido</span>
-        <span class="doca-badge doca-badge--info feed-page__likes">{{ post.total_likes }}</span>
+        <span ng-show="!post.jaCurtiu">♡</span>
+        <span ng-show="post.jaCurtiu">♥</span>
+        <span>{{ post.total_likes }}</span>
       </button>
     </div>
   </div>
