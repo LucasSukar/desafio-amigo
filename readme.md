@@ -10,36 +10,27 @@ Guia simples e direto para configurar e rodar a aplicação.
 * **PostgreSQL** em execução na máquina (porta `5432`)
 
 ---
+## 1. Rodar o Backend com Docker
 
-##  1. Rodar o Backend
+Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os passos abaixo na raiz do projeto:
 
-1. **Acesse a pasta do backend:**
+1. **Configure as variaveis de ambiente:**
    ```bash
-   cd backend
+   cp backend/.env.example backend/.env
+   ```
+   *Nao e necessario alterar a senha no arquivo .env se estiver usando apenas o Docker, pois o docker-compose ja configura o banco.*
+
+2. **Inicie os servicos (Banco de Dados e API):**
+   ```bash
+   docker-compose up -d
    ```
 
-2. **Instale as dependências:**
+3. **Rode as migrations do banco de dados:**
    ```bash
-   npm install
+   docker-compose exec api npx sequelize-cli db:migrate
    ```
 
-3. **Crie o arquivo `.env`:**
-   ```bash
-   cp .env.example .env
-   ```
-   *Abra o arquivo `.env` e coloque a sua senha do PostgreSQL em `DB_PASS`.*
-
-4. **Crie o banco de dados e rode as migrations:**
-   ```bash
-   # Crie o banco "db_test_api" no seu PostgreSQL e depois rode:
-   npx sequelize-cli db:migrate
-   ```
-
-5. **Inicie o servidor backend:**
-   ```bash
-   npm run dev
-   ```
-   *(O servidor rodará em `http://localhost:3333`)*
+*(A API estara rodando em `http://localhost:3333` e com hot-reload ativo para desenvolvimento)*
 
 ---
 
@@ -81,3 +72,35 @@ Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os pass
    ```
 
 *(A API estara rodando em `http://localhost:3333` e com hot-reload ativo para desenvolvimento)*
+
+---
+##  3. Rodar o Backend sem Docker
+
+1. **Acesse a pasta do backend:**
+   ```bash
+   cd backend
+   ```
+
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+3. **Crie o arquivo `.env`:**
+   ```bash
+   cp .env.example .env
+   ```
+   *Abra o arquivo `.env` e coloque a sua senha do PostgreSQL em `DB_PASS`.*
+
+4. **Crie o banco de dados e rode as migrations:**
+   ```bash
+   # Crie o banco "db_test_api" no seu PostgreSQL e depois rode:
+   npx sequelize-cli db:migrate
+   ```
+
+5. **Inicie o servidor backend:**
+   ```bash
+   npm run dev
+   ```
+   *(O servidor rodará em `http://localhost:3333`)*
+
