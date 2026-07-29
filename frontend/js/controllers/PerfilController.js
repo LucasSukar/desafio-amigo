@@ -64,6 +64,25 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       $location.path("/");
     };
 
+    $scope.abrirModalEditarPerfil = function () {
+      if ($scope.modalAberta) return;
+      $scope.modalAberta = true;
+
+      var modalInstance = $modal.open({
+        templateUrl: "view/modal-editar-perfil.html",
+        controller: "ModalEditarPerfilController",
+      });
+
+      modalInstance.result.then(function (usuarioAtualizado) {
+        if (usuarioAtualizado && usuarioAtualizado.name) {
+          $scope.usuario.name = usuarioAtualizado.name;
+        }
+      }).finally(function () {
+        $scope.modalAberta = false;
+      });
+    };
+
+
     $scope.criaUser = function () {
       PerfilService.postUser($scope.usuario)
         .then(function (response) {
