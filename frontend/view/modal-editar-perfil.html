@@ -1,0 +1,45 @@
+<div class="doca-modal modal-editar-perfil">
+  <div class="doca-modal__header modal-editar-perfil__header">
+    <h2 class="doca-modal__title">Editar Perfil</h2>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()" id="btn-fechar-modal-editar-perfil">✕</button>
+  </div>
+
+  <div class="doca-modal__content modal-editar-perfil__content">
+    <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
+      <span class="doca-alert__text">{{ erro }}</span>
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Nome Completo</label>
+      <input class="doca-form-control" type="text" ng-model="usuario.name" placeholder="Digite o novo nome" id="input-nome-perfil" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">E-mail</label>
+      <input class="doca-form-control" type="email" ng-model="usuario.email" placeholder="Digite o novo e-mail" id="input-email-perfil" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Senha Antiga</label>
+      <input class="doca-form-control" type="password" ng-model="usuario.oldPassword" placeholder="Sua senha atual" id="input-senha-antiga-perfil" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Nova Senha</label>
+      <input class="doca-form-control" type="password" ng-model="usuario.password" placeholder="Sua nova senha (mín. 6 caracteres)" id="input-nova-senha-perfil" />
+    </div>
+
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Confirmar Nova Senha</label>
+      <input class="doca-form-control" type="password" ng-model="usuario.confirmPassword" placeholder="Confirme a nova senha" id="input-confirmar-senha-perfil" />
+    </div>
+  </div>
+
+  <div class="doca-modal__footer modal-editar-perfil__footer">
+    <button class="doca-button doca-button--secondary" ng-click="cancelar()" id="btn-cancelar-editar-perfil">Cancelar</button>
+    <button class="doca-button doca-button--primary" ng-click="salvarPerfil()" ng-disabled="salvando" id="btn-salvar-editar-perfil">
+      <span ng-if="!salvando">Salvar Alterações</span>
+      <span ng-if="salvando">Salvando...</span>
+    </button>
+  </div>
+</div>

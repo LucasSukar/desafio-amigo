@@ -1,8 +1,12 @@
 <div class="doca-page perfil-page">
   <div class="perfil-page__top-bar">
     <h1 class="perfil-page__main-title">Meu Perfil</h1>
-    <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()" id="btn-sair-perfil">Sair</button>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()" id="btn-editar-dados-perfil">✏️ Editar Perfil</button>
+      <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()" id="btn-sair-perfil">Sair</button>
+    </div>
   </div>
+
 
   <h2 class="doca-page__subtitle">Minhas Publicações</h2>
 

@@ -23,10 +23,16 @@ angular
       return $http.delete(config.baseUrl + "/post/" + id, _getHeaders());
     };
 
+    var _putUser = function (usuario) {
+      return $http.put(config.baseUrl + "/users", usuario, _getHeaders());
+    };
+
     return {
       postUser: _postUser,
+      putUser: _putUser,
       getUserPosts: _getUserPosts,
       putPost: _putPost,
       deletePost: _deletePost,
     };
   });
+
