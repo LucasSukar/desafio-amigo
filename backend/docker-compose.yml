@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: desafio_amigo_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASS:-postgres}
+      POSTGRES_DB: ${DB_NAME:-db_test_api}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-db_test_api}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  api:
+    container_name: desafio_amigo_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development          
+    restart: unless-stopped
+    env_file:
+      - ./.env            
+    environment:
+      DB_HOST: postgres          
+    ports:
+      - "${PORT:-3333}:3333"
+    volumes:
+      - .:/app            
+      - /app/node_modules          
+    depends_on:
+      postgres:
+        condition: service_healthy 
+    command: yarn dev
+
+volumes:
+  postgres_data:
+    driver: local
