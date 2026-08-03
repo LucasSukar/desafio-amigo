@@ -20,7 +20,7 @@ class PostController {
         {
           model: User,
           as: "user",
-          attributes: ["id", "name"],
+          attributes: ["id", "name", "avatar_url"],
         },
         {
           model: PostLike,
@@ -69,7 +69,7 @@ class PostController {
         {
           model: User,
           as: "user",
-          attributes: ["id", "name"],
+          attributes: ["id", "name", "avatar_url"],
         },
         {
           model: PostLike,
