@@ -1,5 +1,7 @@
 angular.module("amigoApp").controller("ModalEditarPerfilController", function ($scope, $modalInstance, PerfilService) {
-  $scope.usuario = {};
+  $scope.usuario.oldPassword = undefined;
+  $scope.usuario.password = undefined;
+  $scope.usuario.confirmPassword = undefined;
   $scope.erro = null;
   $scope.salvando = false;
 
@@ -19,6 +21,12 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
     if ($scope.usuario.oldPassword) dadosParaEnviar.oldPassword = $scope.usuario.oldPassword;
     if ($scope.usuario.password) dadosParaEnviar.password = $scope.usuario.password;
     if ($scope.usuario.confirmPassword) dadosParaEnviar.confirmPassword = $scope.usuario.confirmPassword;
+
+    if (Object.keys(dadosParaEnviar).length === 0) {
+      $scope.salvando = false;
+      $modalInstance.close();
+      return;
+    }
 
     PerfilService.putUser(dadosParaEnviar)
       .then(function (response) {
