@@ -33,10 +33,10 @@ class UserController {
       oldPassword: Yup.string().min(6),
       password: Yup.string()
         .min(6)
-        .when("oldPassword", (oldPassword, field) =>
+        .when("oldPassword", ([oldPassword], field) =>
           oldPassword ? field.required() : field
         ),
-      confirmPassword: Yup.string().when("password", (password, field) =>
+      confirmPassword: Yup.string().when("password", ([password], field) =>
         password ? field.required().oneOf([Yup.ref("password")]) : field
       ),
     });
@@ -63,6 +63,21 @@ class UserController {
     const { id, name, email: userEmail } = await user.update(req.body);
 
     return res.json({ id, name, email: userEmail });
+  }
+
+  async me(req, res) {
+    const user = await User.findByPk(req.userId, {
+      attributes: ["id", "name", "email", "avatar_url"]
+    });
+    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+    return res.json(user);
+  }
+
+  async avatar(req, res) {
+    const avatar_url = req.file.filename;
+    const user = await User.findByPk(req.userId);
+    await user.update({ avatar_url });
+    return res.json({ id: user.id, name: user.name, email: user.email, avatar_url: user.avatar_url });
   }
 }
 
