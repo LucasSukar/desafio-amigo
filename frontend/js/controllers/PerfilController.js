@@ -8,6 +8,16 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
     $scope.usuario = {};
     $scope.modalAberta = false;
 
+    $scope.carregarUsuario = function () {
+      PerfilService.getMe()
+        .then(function (response) {
+          $scope.usuario = response.data;
+        })
+        .catch(function (error) {
+          console.log("erro ao carregar usuário:", error);
+        });
+    };
+
     $scope.listaPosts = function () {
       PerfilService.getUserPosts()
         .then(function (response) {
@@ -71,12 +81,11 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       var modalInstance = $modal.open({
         templateUrl: "view/modal-editar-perfil.html",
         controller: "ModalEditarPerfilController",
+        scope: $scope
       });
 
-      modalInstance.result.then(function (usuarioAtualizado) {
-        if (usuarioAtualizado && usuarioAtualizado.name) {
-          $scope.usuario.name = usuarioAtualizado.name;
-        }
+      modalInstance.result.then(function () {
+        $scope.carregarUsuario();
       }).finally(function () {
         $scope.modalAberta = false;
       });
@@ -87,12 +96,29 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       PerfilService.postUser($scope.usuario)
         .then(function (response) {
           console.log("usuário criado:", response.data);
-          $scope.usuario = {};
         })
         .catch(function (error) {
           console.log("erro ao criar usuário:", error);
         });
     };
 
+    $scope.putAvatar = function () {
+      var fileInput = document.getElementById("input-avatar");
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) return;
+
+      var fd = new FormData();
+      fd.append("avatar", fileInput.files[0]);
+
+      PerfilService.putAvatar(fd)
+        .then(function (response) {
+          console.log("avatar atualizado:", response.data);
+          $scope.usuario.avatar_url = response.data.avatar_url;
+        })
+        .catch(function (error) {
+          console.log("erro ao atualizar avatar:", error);
+        });
+    };
+
     $scope.listaPosts();
+    $scope.carregarUsuario();
   });

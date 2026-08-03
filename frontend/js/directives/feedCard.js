@@ -12,6 +12,7 @@ angular.module("amigoApp").directive("amigoFeedCard", function () {
       '<div class="feed-card">',
       '  <div class="feed-card__header">',
       '    <div class="feed-card__meta">',
+      '      <img ng-src="{{ post.user.avatar_url ? \'http://localhost:3333/uploads/\' + post.user.avatar_url : \'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png\' }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />',
       '      <span class="feed-card__author">{{ post.user.name }}</span>',
       '      <span class="feed-card__date">· {{ post.data_publicacao | date:"dd MMM, yyyy" }}</span>',
       "    </div>",

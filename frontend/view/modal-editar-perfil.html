@@ -9,6 +9,16 @@
       <span class="doca-alert__text">{{ erro }}</span>
     </div>
 
+    <div class="doca-form__field doca-mb-3" style="text-align: center;">
+      <div style="margin-bottom: 15px;">
+        <img ng-src="{{ usuario.avatar_url ? 'http://localhost:3333/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}" 
+             alt="Foto do usuário" 
+             style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" />
+      </div>
+      <label class="doca-form__label" style="text-align: left; display: block;">Alterar Foto de Perfil</label>
+      <input class="doca-form-control" type="file" id="input-avatar" accept="image/*" onchange="angular.element(this).scope().putAvatar()" />
+    </div>
+
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label">Nome Completo</label>
       <input class="doca-form-control" type="text" ng-model="usuario.name" placeholder="Digite o novo nome" id="input-nome-perfil" />
