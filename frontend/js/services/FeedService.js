@@ -67,9 +67,19 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
 
   var _aplicarCurtidas = function(posts) {
     var likedPosts = _getLikedPosts();
+    var isAuthenticated = !!LoginService.obterToken();
     for (var i = 0; i < posts.length; i++) {
-      posts[i].jaCurtiu = !!likedPosts[posts[i].id];
+      if (isAuthenticated) {
+        if (posts[i].jaCurtiu) {
+          likedPosts[posts[i].id] = true;
+        } else {
+          delete likedPosts[posts[i].id];
+        }
+      } else {
+        posts[i].jaCurtiu = !!likedPosts[posts[i].id];
+      }
     }
+    _saveLikedPosts(likedPosts);
     return posts;
   };
 
