@@ -9,12 +9,15 @@ angular.module("amigoApp").directive("amigoFeedCard", function () {
       onClick: "&",
     },
     template: [
-      '<div class="feed-card">',
+      '<div class="feed-card" ng-class="{\'feed-card--menu-open\': post.mostrarOpcoes}">',
       '  <div class="feed-card__header">',
       '    <div class="feed-card__meta">',
-      '      <img ng-src="{{ post.user.avatar_url ? \'http://localhost:3333/uploads/\' + post.user.avatar_url : \'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png\' }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />',
-      '      <span class="feed-card__author">{{ post.user.name }}</span>',
-      '      <span class="feed-card__date">· {{ post.data_publicacao | date:"dd MMM, yyyy" }}</span>',
+      '      <img ng-if="post.user.avatar_url" ng-src="http://localhost:3333/uploads/{{ post.user.avatar_url }}" class="feed-card__avatar" style="object-fit: cover;" />',
+      '      <div ng-if="!post.user.avatar_url" class="feed-card__avatar">{{ post.user.name ? post.user.name.charAt(0).toUpperCase() : "?" }}</div>',
+      '      <div class="feed-card__author-block">',
+      '        <span class="feed-card__author">{{ post.user.name }}</span>',
+      '        <span class="feed-card__date">{{ post.data_publicacao | date:"dd MMM, yyyy" }}</span>',
+      "      </div>",
       "    </div>",
       '    <div class="feed-card__menu" ng-if="post.allowEdit || post.allowRemove">',
       '      <button class="feed-card__menu-btn" ng-click="toggleOpcoes()">⋮</button>',
@@ -35,8 +38,14 @@ angular.module("amigoApp").directive("amigoFeedCard", function () {
     ].join(""),
     link: function (scope) {
       scope.toggleOpcoes = function () {
-        scope.post.mostrarOpcoes = !scope.post.mostrarOpcoes;
+        var estadoAtual = scope.post.mostrarOpcoes;
+        scope.$root.$broadcast('fecharOpcoes');
+        scope.post.mostrarOpcoes = !estadoAtual;
       };
+
+      scope.$on('fecharOpcoes', function() {
+        if (scope.post) scope.post.mostrarOpcoes = false;
+      });
 
       scope.curtir = function () {
         scope.onLike({ post: scope.post });

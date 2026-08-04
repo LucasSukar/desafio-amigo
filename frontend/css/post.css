@@ -1,52 +1,80 @@
-/* ── Post Page ────────────────────────────────────────────── */
+/* ── Post Page — Redesign Meta DESIGN.md ─────────────────── */
 .post-page {
   max-width: 680px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: var(--space-xxl) var(--space-lg) var(--space-section);
+  font-family: var(--font-family);
 }
 
 .post-page__header {
-  margin-bottom: 36px;
+  margin-bottom: var(--space-xxl);
 }
 
+/* Botão voltar — pill ghost */
 .post-page__back {
-  background: none;
-  border: none;
-  color: #9e9e9e;
+  background: var(--color-surface-soft);
+  border: 1.5px solid var(--color-hairline);
+  color: var(--color-steel);
   cursor: pointer;
   font-size: 14px;
-  padding: 0;
-  font-family: inherit;
+  font-weight: 700;
+  font-family: var(--font-family);
+  padding: 8px 18px;
+  border-radius: var(--rounded-full);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: color 0.15s ease;
+  gap: 6px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  letter-spacing: -0.14px;
 }
 
 .post-page__back:hover {
-  color: #1a1a1a;
+  background: var(--color-canvas);
+  color: var(--color-ink-deep);
+  border-color: var(--color-hairline);
 }
 
+/* ── Título do Post ────────────────────────────────────────── */
 .post-page__title {
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 800;
   line-height: 1.15;
-  color: #1a1a1a;
-  margin: 0 0 24px 0;
+  color: var(--color-ink-deep);
+  margin: 0 0 var(--space-xl) 0;
   letter-spacing: -0.8px;
 }
 
+/* ── Meta (autor + data + like) ────────────────────────────── */
 .post-page__meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: var(--space-xxxl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-hairline-soft);
 }
 
 .post-page__author-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.post-page__author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-circle);
+  background: var(--color-ink-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-canvas);
+  flex-shrink: 0;
+}
+
+.post-page__author-details {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -54,61 +82,70 @@
 
 .post-page__author {
   font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 700;
+  color: var(--color-ink-deep);
+  letter-spacing: -0.14px;
 }
 
 .post-page__date {
   font-size: 13px;
-  color: #9e9e9e;
+  color: var(--color-stone);
 }
 
-.post-page__body {
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 19px;
-  line-height: 1.7;
-  color: #292929;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-/* ── Like Button ──────────────────────────────────────────── */
+/* ── Like Button — pill ────────────────────────────────────── */
 .post-page__like-button {
-  background: none;
-  border: none;
+  background: var(--color-surface-soft);
+  border: 1.5px solid var(--color-hairline);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #9e9e9e;
-  font-size: 15px;
-  padding: 6px 10px;
-  border-radius: 20px;
-  transition: all 0.2s ease;
-  font-family: inherit;
+  color: var(--color-steel);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--rounded-full);
+  transition: all 0.18s ease;
+  font-family: var(--font-family);
+  letter-spacing: -0.14px;
 }
 
 .post-page__like-button:hover {
-  color: #e53935;
-  background: #fff5f5;
+  background: rgba(228, 30, 63, 0.06);
+  border-color: rgba(228, 30, 63, 0.3);
+  color: var(--color-critical);
+  transform: scale(1.03);
 }
 
 .post-page__like-button.liked {
-  color: #e53935;
+  background: rgba(228, 30, 63, 0.08);
+  border-color: rgba(228, 30, 63, 0.35);
+  color: var(--color-critical);
 }
 
 .post-page__like-button .like-icon {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
 }
 
-/* ── Status States ────────────────────────────────────────── */
+/* ── Corpo do Post ─────────────────────────────────────────── */
+.post-page__body {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 19px;
+  line-height: 1.75;
+  color: var(--color-ink);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  letter-spacing: 0.01em;
+}
+
+/* ── Status States ─────────────────────────────────────────── */
 .post-page__status {
-  padding: 40px 0;
+  padding: var(--space-xxxl) 0;
   text-align: center;
 }
 
 .post-page__status-text {
-  color: #9e9e9e;
+  color: var(--color-stone);
   font-size: 15px;
 }

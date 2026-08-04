@@ -7,6 +7,20 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     };
   };
 
+  var _getLikedKey = function() {
+    var token = LoginService.obterToken();
+    if (!token) return "liked_posts_anonymous";
+    return "liked_posts_" + token.substring(0, 16);
+  };
+
+  var _getLikedPosts = function() {
+    return JSON.parse(localStorage.getItem(_getLikedKey()) || "{}");
+  };
+
+  var _saveLikedPosts = function(likedPosts) {
+    localStorage.setItem(_getLikedKey(), JSON.stringify(likedPosts));
+  };
+
   var _getPosts = function (page) {
     return $http.get(config.baseUrl + "/post?page=" + (page || 1), _getHeaders());
   };
@@ -32,12 +46,12 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
   };
 
   var _postLike = function (idDoPost) {
-    return $http.post(config.baseUrl + "/post/" + idDoPost + "/like", {},  _getHeaders());
+    return $http.post(config.baseUrl + "/post/" + idDoPost + "/like", {}, _getHeaders());
   };
 
   var _toggleLike = function (post) {
     return _postLike(post.id).then(function () {
-      var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
+      var likedPosts = _getLikedPosts();
       if (post.jaCurtiu) {
         if (post.total_likes > 0) post.total_likes = post.total_likes - 1;
         post.jaCurtiu = false;
@@ -47,8 +61,16 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
         post.jaCurtiu = true;
         likedPosts[post.id] = true;
       }
-      localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+      _saveLikedPosts(likedPosts);
     });
+  };
+
+  var _aplicarCurtidas = function(posts) {
+    var likedPosts = _getLikedPosts();
+    for (var i = 0; i < posts.length; i++) {
+      posts[i].jaCurtiu = !!likedPosts[posts[i].id];
+    }
+    return posts;
   };
 
   return {
@@ -60,5 +82,7 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     postPost: _postPost,
     putPost: _putPost,
     deletePost: _deletePost,
+    getLikedPosts: _getLikedPosts,
+    aplicarCurtidas: _aplicarCurtidas,
   };
 });

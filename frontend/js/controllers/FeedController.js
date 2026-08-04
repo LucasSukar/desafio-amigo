@@ -1,4 +1,4 @@
-angular.module("amigoApp").controller("FeedController", function ($scope, FeedService, LoginService, $location, $modal, $timeout) {
+angular.module("amigoApp").controller("FeedController", function ($scope, FeedService, LoginService, $location, $modal, $timeout, $window) {
   $scope.posts = [];
   $scope.pagina = 1;
   $scope.carregando = false;
@@ -20,8 +20,8 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
   $scope.deslogar = function () {
     LoginService.deslogar();
-    localStorage.removeItem("liked_posts");
     $scope.estaLogado = false;
+    $scope.posts.forEach(function(p) { p.jaCurtiu = false; });
     $scope.posts = [];
     $scope.pagina = 1;
     $scope.semMaisPosts = false;
@@ -39,11 +39,8 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
     modalInstance.result.then(function (resultado) {
       if (resultado === "loggedIn") {
-        $scope.estaLogado = true;
-        $scope.posts = [];
-        $scope.pagina = 1;
-        $scope.semMaisPosts = false;
-        $scope.listaPosts(1);
+        $window.location.href = "/";
+        $window.location.reload();
       }
     }).finally(function() {
       $scope.modalAberta = false;
@@ -60,8 +57,9 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     });
 
     modalInstance.result.then(function (resultado) {
-      if (resultado === "created") {
-        $scope.abrirModalLogin();
+      if (resultado === "loggedIn") {
+        $window.location.href = "/";
+        $window.location.reload();
       }
     }).finally(function() {
       $scope.modalAberta = false;
@@ -106,12 +104,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
 
     FeedService.getPosts(pagina || 1)
       .then(function (response) {
-        var likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "{}");
-        var novosPosts = response.data;
-
-        for (var i = 0; i < novosPosts.length; i++) {
-          novosPosts[i].jaCurtiu = !!likedPosts[novosPosts[i].id];
-        }
+        var novosPosts = FeedService.aplicarCurtidas(response.data);
 
         if (novosPosts.length === 0) {
           $scope.semMaisPosts = true;
@@ -153,7 +146,7 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
   };
 
   $scope.curtirPost = function (post) {
-    if (!$scope.estaLogado) {
+    if (!LoginService.obterToken()) {
       $scope.abrirModalLogin();
       return;
     }

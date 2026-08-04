@@ -10,23 +10,23 @@
     </div>
 
     <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Nome Completo</label>
-      <input class="doca-form-control" type="text" ng-model="usuario.name" />
+      <label class="doca-form__label" for="cadastro-nome">Nome Completo</label>
+      <input id="cadastro-nome" class="doca-form-control" type="text" ng-model="usuario.name" placeholder="Seu nome completo" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">E-mail</label>
-      <input class="doca-form-control" type="email" ng-model="usuario.email" />
+      <label class="doca-form__label" for="cadastro-email">E-mail</label>
+      <input id="cadastro-email" class="doca-form-control" type="email" ng-model="usuario.email" placeholder="seu@email.com" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Senha</label>
-      <input class="doca-form-control" type="password" ng-model="usuario.password" />
+      <label class="doca-form__label" for="cadastro-senha">Senha</label>
+      <input id="cadastro-senha" class="doca-form-control" type="password" ng-model="usuario.password" placeholder="Mínimo 6 caracteres" />
     </div>
   </div>
 
   <div class="doca-modal__footer modal-cadastro__footer">
-    <button class="doca-button doca-button--secondary" ng-click="cancelar()">Cancelar</button>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()">Cancelar</button>
     <button class="doca-button doca-button--primary" ng-click="criaUser()">Criar Conta</button>
   </div>
 </div>

@@ -1,60 +1,145 @@
-/* ── Perfil Page ──────────────────────────────────────────── */
 .perfil-page {
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: var(--space-xxxl) var(--space-lg) var(--space-section);
+  font-family: var(--font-family);
 }
 
 .perfil-page__top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: var(--space-xxl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-hairline-soft);
+  flex-wrap: wrap;
+  gap: var(--space-xs);
 }
 
 .perfil-page__main-title {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
-  color: #1a1a1a;
-  letter-spacing: -0.4px;
+  color: var(--color-ink-deep);
+  letter-spacing: -0.5px;
 }
 
+.perfil-page__top-bar-actions {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── Botão Sair override ───────────────────────────────────── */
 .perfil-page__logout-btn {
-  color: #e53935 !important;
-  border-color: #e53935 !important;
+  color: var(--color-critical) !important;
+  border-color: var(--color-critical) !important;
+}
+.perfil-page__logout-btn:active {
+  background: rgba(228, 30, 63, 0.06) !important;
 }
 
+/* ── Hero do Perfil ────────────────────────────────────────── */
+.perfil-page__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xxl) 0 var(--space-xl);
+  text-align: center;
+}
+
+.perfil-page__avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--rounded-circle);
+  object-fit: cover;
+  border: 3px solid var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(0, 100, 224, 0.12), var(--shadow-card);
+  margin-bottom: var(--space-md);
+}
+
+.perfil-page__hero-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ink-deep);
+  letter-spacing: -0.3px;
+  margin: 0 0 var(--space-xxs);
+}
+
+.perfil-page__hero-email {
+  font-size: 14px;
+  color: var(--color-steel);
+  margin: 0 0 var(--space-base);
+}
+
+.perfil-page__post-count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xxs);
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--rounded-full);
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-charcoal);
+}
+
+/* ── Seção de Publicações ──────────────────────────────────── */
+.perfil-page__section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-stone);
+  margin: 0 0 var(--space-base) 0;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+/* ── Card de Publicação ────────────────────────────────────── */
 .perfil-page__item {
   position: relative;
-  background: #fff;
-  border: 1px solid #ebebeb;
-  border-radius: 10px;
-  padding: 20px 20px 16px;
-  margin-bottom: 16px;
-  transition: box-shadow 0.2s ease;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--rounded-xl);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-md);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: var(--shadow-card);
 }
 
 .perfil-page__item:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  box-shadow: 0 6px 24px rgba(10, 19, 23, 0.10);
+  transform: translateY(-1px);
 }
 
 .perfil-page__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-xs);
 }
 
 .perfil-page__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--color-ink-deep);
   line-height: 1.3;
+  letter-spacing: -0.2px;
+}
+
+.perfil-page__resume {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-steel);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ── Context Menu ─────────────────────────────────────────── */
@@ -71,14 +156,14 @@
 .perfil-page__menu-panel {
   position: absolute;
   right: 0;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   z-index: 20;
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  padding: 6px;
-  min-width: 130px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--rounded-xl);
+  padding: var(--space-xs);
+  min-width: 140px;
+  box-shadow: var(--shadow-menu);
   animation: popInPerfil 0.15s ease;
 }
 
@@ -93,30 +178,33 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 10px;
+  padding: 9px 12px;
   text-align: left;
   font-size: 14px;
-  color: #333;
-  border-radius: 6px;
-  font-family: inherit;
+  font-weight: 500;
+  color: var(--color-ink);
+  border-radius: var(--rounded-lg);
+  font-family: var(--font-family);
   transition: background 0.12s ease;
 }
 
 .perfil-page__menu-action:hover {
-  background: #f5f5f5;
+  background: var(--color-surface-soft);
 }
 
 .perfil-page__menu-action--danger {
-  color: #e53935;
+  color: var(--color-critical);
 }
 
 .perfil-page__menu-action--danger:hover {
-  background: #fff5f5;
+  background: rgba(228, 30, 63, 0.06);
 }
 
+/* ── Estado vazio ─────────────────────────────────────────── */
 .perfil-page__empty {
   text-align: center;
-  color: #9e9e9e;
-  padding: 40px 0;
+  color: var(--color-stone);
+  padding: var(--space-xxxl) 0;
   font-size: 15px;
+  line-height: 1.6;
 }

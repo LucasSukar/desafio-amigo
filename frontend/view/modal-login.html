@@ -10,18 +10,18 @@
     </div>
 
     <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">E-mail</label>
-      <input class="doca-form-control" type="email" ng-model="credenciais.email" />
+      <label class="doca-form__label" for="login-email">E-mail</label>
+      <input id="login-email" class="doca-form-control" type="email" ng-model="credenciais.email" placeholder="seu@email.com" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Senha</label>
-      <input class="doca-form-control" type="password" ng-model="credenciais.password" />
+      <label class="doca-form__label" for="login-senha">Senha</label>
+      <input id="login-senha" class="doca-form-control" type="password" ng-model="credenciais.password" placeholder="••••••••" />
     </div>
   </div>
 
   <div class="doca-modal__footer modal-login__footer">
-    <button class="doca-button doca-button--secondary" ng-click="cancelar()">Cancelar</button>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()">Cancelar</button>
     <button class="doca-button doca-button--primary" ng-click="fazerLogin()">Entrar</button>
   </div>
 </div>
