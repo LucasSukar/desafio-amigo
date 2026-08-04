@@ -43,6 +43,7 @@ class PostController {
         total_likes: postJSON.likes.length,
         allowEdit: true,
         allowRemove: true,
+        jaCurtiu: postJSON.likes.some((l) => l.user_id == req.userId),
         likes: undefined,
       };
     });
@@ -91,6 +92,7 @@ class PostController {
         total_likes: postJSON.likes.length,
         allowEdit: postJSON.user_id == req.userId,
         allowRemove: postJSON.user_id == req.userId,
+        jaCurtiu: postJSON.likes.some((l) => l.user_id == req.userId),
         likes: undefined,
       };
     });
