@@ -69,6 +69,10 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       }
     };
 
+    $scope.voltarParaFeed = function () {
+      $location.path("/");
+    };
+
     $scope.deslogar = function () {
       LoginService.deslogar();
       $location.path("/");
@@ -81,6 +85,7 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       var modalInstance = $modal.open({
         templateUrl: "view/modal-editar-perfil.html",
         controller: "ModalEditarPerfilController",
+        windowClass: "modal-large",
         scope: $scope
       });
 

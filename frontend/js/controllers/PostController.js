@@ -1,4 +1,4 @@
-angular.module("amigoApp").controller("PostController", function($scope, $routeParams, $location, FeedService, LoginService, $modal) {
+angular.module("amigoApp").controller("PostController", function($scope, $routeParams, $location, FeedService, LoginService, $modal, $window) {
   var postId = $routeParams.id;
   $scope.carregando = true;
   $scope.post = null;
@@ -10,7 +10,12 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   var carregarPost = function() {
     $scope.carregando = true;
     FeedService.getPost(postId).then(function(response) {
-      $scope.post = response.data;
+      var post = response.data;
+      if (post.jaCurtiu === undefined) {
+        var likedPosts = FeedService.getLikedPosts();
+        post.jaCurtiu = !!likedPosts[post.id];
+      }
+      $scope.post = post;
       $scope.carregando = false;
     }).catch(function(error) {
       console.error(error);
@@ -30,7 +35,7 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
 
     modalInstance.result.then(function(resultado) {
       if (resultado === "loggedIn") {
-        $scope.estaLogado = true;
+        $window.location.reload();
       }
     }).finally(function() {
       $scope.modalAberta = false;
@@ -38,7 +43,7 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   };
 
   $scope.curtirPost = function() {
-    if (!$scope.estaLogado) {
+    if (!LoginService.obterToken()) {
       $scope.abrirModalLogin();
       return;
     }

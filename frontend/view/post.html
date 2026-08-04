@@ -1,7 +1,5 @@
 <div class="doca-page post-page">
-  <div class="post-page__header">
-    <button class="post-page__back" ng-click="voltarFeed()" id="btn-voltar-post">← Voltar ao feed</button>
-  </div>
+  <button class="page-top-back-button" ng-click="voltarFeed()" id="btn-voltar-post">← Voltar</button>
 
   <div class="post-page__status" ng-if="carregando">
     <small class="post-page__status-text">Carregando...</small>
@@ -16,8 +14,14 @@
 
     <div class="post-page__meta">
       <div class="post-page__author-info">
-        <span class="post-page__author">{{ post.user.name }}</span>
-        <span class="post-page__date">{{ post.data_publicacao | date:'dd MMM, yyyy' }}</span>
+        <img ng-if="post.user.avatar_url" ng-src="http://localhost:3333/uploads/{{ post.user.avatar_url }}" class="post-page__author-avatar" style="object-fit: cover;" />
+        <div ng-if="!post.user.avatar_url" class="post-page__author-avatar">
+          {{ post.user.name ? post.user.name.charAt(0).toUpperCase() : '?' }}
+        </div>
+        <div class="post-page__author-details">
+          <span class="post-page__author">{{ post.user.name }}</span>
+          <span class="post-page__date">{{ post.data_publicacao | date:'dd MMM, yyyy' }}</span>
+        </div>
       </div>
 
       <div class="post-page__actions">

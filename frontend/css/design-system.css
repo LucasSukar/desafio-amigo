@@ -1,0 +1,435 @@
+/* ============================================================
+   DESIGN SYSTEM — Tokens extraídos do DESIGN.md da Meta
+   Referência: /home/lucassukar/vs/desafio-amigo/DESIGN.md
+   ============================================================ */
+
+/* ── Variáveis CSS Globais ─────────────────────────────────── */
+:root {
+  /* Brand & Accent */
+  --color-primary:        #0064e0;
+  --color-primary-deep:   #0457cb;
+  --color-primary-soft:   #0091ff;
+  --color-on-primary:     #ffffff;
+  --color-ink-button:     #000000;
+  --color-on-ink-button:  #ffffff;
+  --color-fb-blue:        #1876f2;
+  --color-meta-link:      #385898;
+
+  /* Semantic */
+  --color-success:        #31a24c;
+  --color-attention:      #f2a918;
+  --color-warning:        #f7b928;
+  --color-critical:       #e41e3f;
+  --color-critical-strong:#f0284a;
+
+  /* Surface */
+  --color-canvas:         #ffffff;
+  --color-surface-soft:   #f1f4f7;
+  --color-hairline:       #ced0d4;
+  --color-hairline-soft:  #dee3e9;
+  --color-disabled-text:  #bcc0c4;
+
+  /* Text */
+  --color-ink-deep:       #0a1317;
+  --color-ink:            #1c1e21;
+  --color-charcoal:       #444950;
+  --color-slate:          #4b4c4f;
+  --color-steel:          #5d6c7b;
+  --color-stone:          #8595a4;
+
+  /* Border Radius */
+  --rounded-xs:     2px;
+  --rounded-sm:     4px;
+  --rounded-md:     6px;
+  --rounded-lg:     8px;
+  --rounded-xl:     16px;
+  --rounded-xxl:    24px;
+  --rounded-xxxl:   32px;
+  --rounded-feature:40px;
+  --rounded-full:   100px;
+  --rounded-circle: 9999px;
+
+  /* Spacing */
+  --space-xxs:        4px;
+  --space-xs:         8px;
+  --space-sm:         10px;
+  --space-md:         12px;
+  --space-base:       16px;
+  --space-lg:         20px;
+  --space-xl:         24px;
+  --space-xxl:        32px;
+  --space-xxxl:       40px;
+  --space-section-sm: 48px;
+  --space-section:    64px;
+  --space-section-lg: 80px;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-size-hero:       64px;
+  --font-size-display:    48px;
+  --font-size-heading-lg: 36px;
+  --font-size-heading-md: 28px;
+  --font-size-heading-sm: 24px;
+  --font-size-subtitle:   18px;
+  --font-size-body-md:    16px;
+  --font-size-body-sm:    14px;
+  --font-size-caption:    12px;
+
+  /* Elevation */
+  --shadow-subtle: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px;
+  --shadow-card:   0 2px 12px rgba(10, 19, 23, 0.08);
+  --shadow-modal:  0 24px 80px rgba(10, 19, 23, 0.18);
+  --shadow-menu:   0 8px 32px rgba(10, 19, 23, 0.14);
+}
+
+/* ── Base Reset ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-ink);
+  background: var(--color-surface-soft);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Layout Global com Sidebar ──────────────────────────────── */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-sidebar {
+  width: 280px;
+  background: var(--color-canvas);
+  border-right: 1px solid var(--color-hairline-soft);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xxl) var(--space-base);
+  z-index: 50;
+}
+
+.app-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xxxl);
+  padding: 0 var(--space-xs);
+}
+
+.app-sidebar__logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--color-ink-button);
+  border-radius: var(--rounded-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-sidebar__logo-mark svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--color-canvas);
+}
+
+.app-sidebar__name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-ink-deep);
+  letter-spacing: -0.4px;
+}
+
+.app-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex-grow: 1;
+}
+
+.app-sidebar__nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-base);
+  background: transparent;
+  border: none;
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.app-sidebar__nav-item:hover {
+  background: var(--color-surface-soft);
+}
+
+.app-sidebar__nav-item .icon {
+  font-size: 20px;
+}
+
+.app-sidebar__footer {
+  margin-top: auto;
+  border-top: 1px solid var(--color-hairline-soft);
+  padding-top: var(--space-base);
+}
+
+.app-sidebar__user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-sidebar__user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--rounded-lg);
+  transition: background 0.15s ease;
+}
+
+.app-sidebar__user-info:hover {
+  background: var(--color-surface-soft);
+}
+
+.app-sidebar__avatar,
+.app-sidebar__avatar-placeholder {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-circle);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.app-sidebar__avatar-placeholder {
+  background: var(--color-ink-deep);
+  color: var(--color-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.app-sidebar__user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink-deep);
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-sidebar__logout {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  color: var(--color-critical) !important;
+  border-color: var(--color-critical) !important;
+}
+.app-sidebar__logout:hover {
+  background: rgba(228, 30, 63, 0.06) !important;
+}
+
+.app-sidebar__auth-text {
+  font-size: 13px;
+  color: var(--color-steel);
+  margin-bottom: var(--space-base);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.app-layout__main {
+  flex-grow: 1;
+  max-width: calc(100% - 280px);
+  position: relative;
+}
+
+/* Responsividade Sidebar */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .app-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--color-hairline-soft);
+    padding: var(--space-md);
+  }
+  .app-sidebar__nav {
+    flex-direction: row;
+    overflow-x: auto;
+    margin-bottom: var(--space-base);
+  }
+  .app-sidebar__brand {
+    margin-bottom: var(--space-base);
+  }
+  .app-layout__main {
+    max-width: 100%;
+  }
+}
+
+/* ── Padrão de Design: Botão de Voltar no Topo Esquerdo ────── */
+.page-top-back-button {
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  color: var(--color-steel);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-family);
+  padding: 8px 18px;
+  border-radius: var(--rounded-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  letter-spacing: -0.14px;
+  margin-bottom: var(--space-xxl);
+  box-shadow: 0 1px 2px rgba(10, 19, 23, 0.04);
+}
+.page-top-back-button:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-ink-deep);
+  border-color: var(--color-steel);
+  transform: translateX(-2px);
+}
+
+/* ── Override Global de Botões — Pill Shape ─────────────────── */
+/* A assinatura visual da Meta: TODOS os botões são pill-shaped */
+.doca-button,
+button.doca-button {
+  border-radius: var(--rounded-full) !important;
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.14px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+/* Botão Primário — Marketing (preto) */
+.doca-button--primary {
+  background: var(--color-ink-button) !important;
+  color: var(--color-on-ink-button) !important;
+  border: 2px solid var(--color-ink-button) !important;
+  padding: 10px 24px !important;
+}
+.doca-button--primary:active {
+  background: var(--color-charcoal) !important;
+  border-color: var(--color-charcoal) !important;
+}
+
+/* Botão Secundário — Ghost outline */
+.doca-button--secondary {
+  background: transparent !important;
+  color: var(--color-ink-deep) !important;
+  border: 2px solid var(--color-ink-deep) !important;
+  padding: 10px 22px !important;
+}
+.doca-button--secondary:active {
+  background: rgba(10, 19, 23, 0.05) !important;
+}
+
+/* Botão Terciário — Ghost quieto */
+.doca-button--tertiary {
+  background: transparent !important;
+  color: var(--color-steel) !important;
+  border: 2px solid rgba(10, 19, 23, 0.12) !important;
+  padding: 8px 16px !important;
+}
+.doca-button--tertiary:active {
+  background: rgba(10, 19, 23, 0.05) !important;
+}
+
+/* Botão CTA — Cobalt Buy-Now (usar onde é ação principal de conversão) */
+.btn-cta {
+  border-radius: var(--rounded-full) !important;
+  background: var(--color-primary) !important;
+  color: var(--color-on-primary) !important;
+  border: 2px solid var(--color-primary) !important;
+  padding: 10px 24px !important;
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-cta:active {
+  background: var(--color-primary-deep) !important;
+  border-color: var(--color-primary-deep) !important;
+}
+
+/* Botão Danger Ghost — vermelho outline */
+.btn-danger-ghost {
+  border-radius: var(--rounded-full) !important;
+  background: transparent !important;
+  color: var(--color-critical) !important;
+  border: 2px solid var(--color-critical) !important;
+  padding: 10px 20px !important;
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-danger-ghost:active {
+  background: rgba(228, 30, 63, 0.06) !important;
+}
+
+/* ── Inputs Globais ─────────────────────────────────────────── */
+.doca-form-control {
+  background: var(--color-canvas) !important;
+  color: var(--color-ink) !important;
+  border: 1.5px solid var(--color-hairline) !important;
+  border-radius: var(--rounded-lg) !important;
+  padding: var(--space-md) var(--space-base) !important;
+  height: 44px;
+  font-family: var(--font-family) !important;
+  font-size: 16px !important;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.doca-form-control:focus {
+  border-color: var(--color-fb-blue) !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 0 3px rgba(24, 118, 242, 0.12);
+}
+
+/* ── Labels ─────────────────────────────────────────────────── */
+.doca-form__label {
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--color-ink) !important;
+  margin-bottom: var(--space-xs) !important;
+  display: block;
+  letter-spacing: -0.14px;
+}
+
+/* ── Alert de Erro ──────────────────────────────────────────── */
+.doca-alert--danger {
+  background: rgba(240, 40, 74, 0.08) !important;
+  border: 1px solid rgba(240, 40, 74, 0.25) !important;
+  border-radius: var(--rounded-lg) !important;
+  color: var(--color-critical-strong) !important;
+  padding: var(--space-md) var(--space-base) !important;
+  font-size: 14px;
+  font-weight: 500;
+}

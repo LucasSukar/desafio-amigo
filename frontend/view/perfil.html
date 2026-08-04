@@ -1,21 +1,34 @@
 <div class="doca-page perfil-page">
+
+  <button class="page-top-back-button" ng-click="voltarParaFeed()" id="btn-voltar-feed">
+    ← Feed
+  </button>
+
+  <!-- Top Bar -->
   <div class="perfil-page__top-bar">
     <h1 class="perfil-page__main-title">Meu Perfil</h1>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()" id="btn-editar-dados-perfil">✏️ Editar Perfil</button>
+    <div class="perfil-page__top-bar-actions">
+      <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()" id="btn-editar-dados-perfil">✏️ Editar</button>
       <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()" id="btn-sair-perfil">Sair</button>
     </div>
   </div>
 
-  <div style="display: flex; flex-direction: column; align-items: center; padding: 24px 0 16px;">
-    <img ng-src="{{ usuario.avatar_url ? 'http://localhost:3333/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
-         alt="Foto de perfil"
-         style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 3px solid #e0e0e0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 10px;" />
-    <span style="font-size: 1.1rem; font-weight: 600; color: #333;">{{ usuario.name }}</span>
-    <span style="font-size: 0.85rem; color: #888;">{{ usuario.email }}</span>
+  <!-- Hero do usuário -->
+  <div class="perfil-page__hero">
+    <img
+      ng-src="{{ usuario.avatar_url ? 'http://localhost:3333/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
+      alt="Foto de perfil de {{ usuario.name }}"
+      class="perfil-page__avatar"
+    />
+    <p class="perfil-page__hero-name">{{ usuario.name }}</p>
+    <p class="perfil-page__hero-email">{{ usuario.email }}</p>
+    <span class="perfil-page__post-count">
+      📝 {{ publicacoes.length }} {{ publicacoes.length === 1 ? 'publicação' : 'publicações' }}
+    </span>
   </div>
 
-  <h2 class="doca-page__subtitle">Minhas Publicações</h2>
+  <!-- Lista de publicações -->
+  <h2 class="perfil-page__section-title">Minhas Publicações</h2>
 
   <div
     class="perfil-page__item"
@@ -52,7 +65,7 @@
       </div>
     </div>
 
-    <p class="doca-text--normal doca-text--base doca-mt-2">{{ pub.resume || pub.content }}</p>
+    <p class="perfil-page__resume">{{ pub.resume || pub.content }}</p>
   </div>
 
   <div

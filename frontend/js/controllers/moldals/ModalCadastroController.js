@@ -1,10 +1,22 @@
-angular.module("amigoApp").controller("ModalCadastroController", function ($scope, $modalInstance, PerfilService) {
+angular.module("amigoApp").controller("ModalCadastroController", function ($scope, $modalInstance, PerfilService, LoginService) {
   $scope.usuario = {};
 
   $scope.criaUser = function () {
     PerfilService.postUser($scope.usuario)
       .then(function () {
-        $modalInstance.close("created");
+        
+        var credenciais = {
+          email: $scope.usuario.email,
+          password: $scope.usuario.password
+        };
+        return LoginService.logar(credenciais);
+      })
+      .then(function (response) {
+        var token = response.data.token;
+        if (token) {
+          LoginService.salvarToken(token);
+          $modalInstance.close("loggedIn");
+        }
       })
       .catch(function (error) {
         console.log("Erro ao criar usuário:", error);
