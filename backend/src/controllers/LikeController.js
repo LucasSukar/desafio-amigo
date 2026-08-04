@@ -1,5 +1,7 @@
 import PostLike from "../models/PostLike";
 import Post from "../models/Post";
+import { POST_MESSAGES, LIKE_MESSAGES } from "../constants/messages";
+
 class LikeController {
   async toggle(req, res) {
     const post_id = req.params.id;
@@ -7,7 +9,7 @@ class LikeController {
 
     const postExiste = await Post.findByPk(post_id);
     if (!postExiste) {
-      return res.status(404).json({ error: "Post não encontrado" });
+      return res.status(404).json({ error: POST_MESSAGES.POST_NOT_FOUND });
     }
     
     const like = await PostLike.findOne({ where: { post_id, user_id } });
@@ -24,7 +26,7 @@ class LikeController {
       like.liked_at = new Date();
       await like.save();
     }
-    return res.json({ message: "Like atualizado" });
+    return res.json({ message: LIKE_MESSAGES.LIKE_UPDATED });
   }
 }
 

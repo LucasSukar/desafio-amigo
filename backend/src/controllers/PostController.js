@@ -2,7 +2,8 @@ import Post from "../models/Post";
 import PostLike from "../models/PostLike";
 import User from "../models/User";
 import { Op } from "sequelize";
-import * as Yup from "yup";
+import { postStoreSchema, postUpdateSchema } from "../schemas/postSchemas";
+import { POST_MESSAGES } from "../constants/messages";
 
 class PostController {
   async me(req, res) {
@@ -121,7 +122,7 @@ class PostController {
     });
 
     if (!post) {
-      return res.status(404).json({ error: "Post não encontrado" });
+      return res.status(404).json({ error: POST_MESSAGES.POST_NOT_FOUND });
     }
 
     const postJSON = post.toJSON();
@@ -136,15 +137,8 @@ class PostController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      title: Yup.string().required(),
-      content: Yup.string().required(),
-      resume: Yup.string().required(),
-      data_publicacao: Yup.date().required(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: "falha na validacao" });
+    if (!(await postStoreSchema.isValid(req.body))) {
+      return res.status(400).json({ error: POST_MESSAGES.VALIDATION_FAIL });
     }
     const { title, content, resume, data_publicacao } = req.body;
 
@@ -160,14 +154,8 @@ class PostController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      title: Yup.string(),
-      content: Yup.string(),
-      resume: Yup.string(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: "falha na validacao" });
+    if (!(await postUpdateSchema.isValid(req.body))) {
+      return res.status(400).json({ error: POST_MESSAGES.VALIDATION_FAIL });
     }
 
     const { id } = req.params;
@@ -176,12 +164,12 @@ class PostController {
     const post = await Post.findByPk(id);
 
     if (!post) {
-      return res.status(404).json({ error: "Post não encontrado" });
+      return res.status(404).json({ error: POST_MESSAGES.POST_NOT_FOUND });
     }
     if (req.userId != post.user_id) {
       return res
         .status(401)
-        .json({ error: "voce nao tem permissao para editar esse post" });
+        .json({ error: POST_MESSAGES.NO_PERMISSION_EDIT });
     }
 
     await post.update({ content, title, resume });
@@ -193,13 +181,13 @@ class PostController {
     const post = await Post.findByPk(id);
 
     if (!post) {
-      return res.status(404).json({ error: "Post não encontrado" });
+      return res.status(404).json({ error: POST_MESSAGES.POST_NOT_FOUND });
     }
 
     if (req.userId != post.user_id) {
       return res
         .status(401)
-        .json({ error: "voce nao tem permissao para deletar esse post" });
+        .json({ error: POST_MESSAGES.NO_PERMISSION_DELETE });
     }
 
     await post.destroy();

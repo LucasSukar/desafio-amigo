@@ -1,21 +1,18 @@
 import User from "../models/User";
-import * as Yup from "yup";
+import { userStoreSchema, userUpdateSchema } from "../schemas/userSchemas";
+import { AUTH_MESSAGES, USER_MESSAGES } from "../constants/messages";
+
 class UserController {
   async store(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string().email().required(),
-      password: Yup.string().required().min(6),
-    });
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: "falha na validacao" });
+    if (!(await userStoreSchema.isValid(req.body))) {
+      return res.status(400).json({ error: USER_MESSAGES.VALIDATION_FAIL });
     }
 
     const { name, email, password } = req.body;
 
     const emailExist = await User.findOne({ where: { email: email } });
     if (emailExist) {
-      return res.status(400).json({ error: "email ja existe " });
+      return res.status(400).json({ error: USER_MESSAGES.EMAIL_ALREADY_EXISTS });
     }
 
     const { id } = await User.create({
@@ -27,22 +24,8 @@ class UserController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      email: Yup.string().email(),
-      oldPassword: Yup.string().min(6),
-      password: Yup.string()
-        .min(6)
-        .when("oldPassword", ([oldPassword], field) =>
-          oldPassword ? field.required() : field
-        ),
-      confirmPassword: Yup.string().when("password", ([password], field) =>
-        password ? field.required().oneOf([Yup.ref("password")]) : field
-      ),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: "falha na validacao" });
+    if (!(await userUpdateSchema.isValid(req.body))) {
+      return res.status(400).json({ error: USER_MESSAGES.VALIDATION_FAIL });
     }
 
     const { email, oldPassword } = req.body;
@@ -52,12 +35,12 @@ class UserController {
     if (email && email !== user.email) {
       const emailExist = await User.findOne({ where: { email } });
       if (emailExist) {
-        return res.status(400).json({ error: "email ja existe " });
+        return res.status(400).json({ error: USER_MESSAGES.EMAIL_ALREADY_EXISTS });
       }
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: "senha antiga nao confere" });
+      return res.status(401).json({ error: AUTH_MESSAGES.WRONG_OLD_PASSWORD });
     }
 
     const { id, name, email: userEmail } = await user.update(req.body);
@@ -69,7 +52,7 @@ class UserController {
     const user = await User.findByPk(req.userId, {
       attributes: ["id", "name", "email", "avatar_url"]
     });
-    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+    if (!user) return res.status(404).json({ error: USER_MESSAGES.USER_NOT_FOUND });
     return res.json(user);
   }
 
@@ -82,4 +65,3 @@ class UserController {
 }
 
 export default new UserController();
-
