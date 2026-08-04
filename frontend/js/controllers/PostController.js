@@ -10,12 +10,8 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   var carregarPost = function() {
     $scope.carregando = true;
     FeedService.getPost(postId).then(function(response) {
-      var post = response.data;
-      if (post.jaCurtiu === undefined) {
-        var likedPosts = FeedService.getLikedPosts();
-        post.jaCurtiu = !!likedPosts[post.id];
-      }
-      $scope.post = post;
+      var posts = FeedService.aplicarCurtidas([response.data]);
+      $scope.post = posts[0];
       $scope.carregando = false;
     }).catch(function(error) {
       console.error(error);
