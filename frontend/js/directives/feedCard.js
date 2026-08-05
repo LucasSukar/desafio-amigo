@@ -7,11 +7,12 @@ angular.module("amigoApp").directive("amigoFeedCard", function () {
       onEdit: "&",
       onDelete: "&",
       onClick: "&",
+      onClickProfile: "&",
     },
     template: [
       '<div class="feed-card" ng-class="{\'feed-card--menu-open\': post.mostrarOpcoes}">',
       '  <div class="feed-card__header">',
-      '    <div class="feed-card__meta">',
+      '    <div class="feed-card__meta" ng-click="clicarPerfil($event)" style="cursor: pointer;">',
       '      <img ng-if="post.user.avatar_url" ng-src="http://localhost:3333/uploads/{{ post.user.avatar_url }}" class="feed-card__avatar" style="object-fit: cover;" />',
       '      <div ng-if="!post.user.avatar_url" class="feed-card__avatar">{{ post.user.name ? post.user.name.charAt(0).toUpperCase() : "?" }}</div>',
       '      <div class="feed-card__author-block">',
@@ -63,6 +64,11 @@ angular.module("amigoApp").directive("amigoFeedCard", function () {
 
       scope.clicar = function () {
         scope.onClick({ id: scope.post.id });
+      };
+
+      scope.clicarPerfil = function ($event) {
+        $event.stopPropagation();
+        scope.onClickProfile({ id: scope.post.user_id || scope.post.user.id });
       };
     },
   };

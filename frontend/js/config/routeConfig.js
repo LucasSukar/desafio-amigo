@@ -26,4 +26,14 @@ angular.module("amigoApp").config(function($routeProvider){
       templateUrl: "view/post.html",
       controller: "PostController"
     });
+
+    $routeProvider.when("/perfil/:id", {
+      templateUrl: "view/perfil-usuario.html",
+      controller: "PerfilUsuarioController"
+    });
+
+    $routeProvider.when("/seguindo", {
+      templateUrl: "view/seguindo.html",
+      controller: "SeguindoController"
+    });
 })

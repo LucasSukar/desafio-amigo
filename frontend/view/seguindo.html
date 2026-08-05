@@ -1,0 +1,45 @@
+<div class="seguindo-page">
+
+  <button class="page-top-back-button" ng-click="voltar()" id="btn-voltar-seguindo">
+    ← Voltar ao Feed
+  </button>
+
+  <div class="perfil-page__top-bar">
+    <h1 class="perfil-page__main-title">Pessoas que sigo</h1>
+  </div>
+
+  <div class="seguindo-page__list" ng-if="!carregando && seguindo.length > 0">
+    <div class="seguindo-page__card" ng-repeat="pessoa in seguindo">
+      <div class="seguindo-page__info" ng-click="irParaPerfil(pessoa.id)" id="btn-ver-perfil-{{ pessoa.id }}">
+        <img
+          ng-if="pessoa.avatar_url"
+          ng-src="http://localhost:3333/uploads/{{ pessoa.avatar_url }}"
+          class="seguindo-page__avatar"
+          alt="Avatar de {{ pessoa.name }}"
+          style="object-fit: cover;"
+        />
+        <div ng-if="!pessoa.avatar_url" class="seguindo-page__avatar" style="display: flex; align-items: center; justify-content: center; background: var(--color-ink-deep); color: var(--color-canvas); font-size: 18px; font-weight: 700;">
+          {{ pessoa.name ? pessoa.name.charAt(0).toUpperCase() : '?' }}
+        </div>
+        <span class="seguindo-page__name">{{ pessoa.name }}</span>
+      </div>
+      <button
+        class="seguindo-page__unfollow-btn"
+        ng-click="deixarDeSeguir(pessoa)"
+        id="btn-deixar-seguir-{{ pessoa.id }}"
+      >
+        Deixar de seguir
+      </button>
+    </div>
+  </div>
+
+  <div class="perfil-page__empty" ng-if="!carregando && seguindo.length === 0">
+    👥 Você ainda não segue ninguém. <br>
+    <span style="font-size: 0.9rem; color: var(--color-ink-light);">Use a busca na barra lateral para encontrar pessoas!</span>
+  </div>
+
+  <div class="perfil-page__empty" ng-if="carregando">
+    Carregando...
+  </div>
+
+</div>

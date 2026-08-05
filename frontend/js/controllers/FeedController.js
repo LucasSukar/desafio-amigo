@@ -18,6 +18,10 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
     $location.path("/post/" + id);
   };
 
+  $scope.irParaPerfilUsuario = function (userId) {
+    $location.path("/perfil/" + userId);
+  };
+
   $scope.deslogar = function () {
     LoginService.deslogar();
     $scope.estaLogado = false;

@@ -5,7 +5,7 @@
     <h1 class="feed-content__title">Publicações</h1>
 
     <amigo-feed-card ng-repeat="post in posts" post="post" on-like="curtirPost(post)" on-edit="prepararEdicao(post)"
-      on-delete="deletePost(id)" on-click="irParaPost(id)"></amigo-feed-card>
+      on-delete="deletePost(id)" on-click="irParaPost(id)" on-click-profile="irParaPerfilUsuario(id)"></amigo-feed-card>
 
     <amigo-loader ng-if="carregando" mensagem="Carregando publicações..."></amigo-loader>
 

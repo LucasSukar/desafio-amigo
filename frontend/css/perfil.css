@@ -200,11 +200,37 @@
   background: rgba(228, 30, 63, 0.06);
 }
 
-/* ── Estado vazio ─────────────────────────────────────────── */
 .perfil-page__empty {
   text-align: center;
   color: var(--color-stone);
   padding: var(--space-xxxl) 0;
   font-size: 15px;
   line-height: 1.6;
+}
+
+.perfil-usuario__follow-btn {
+  margin-top: var(--space-md);
+  padding: 8px 24px;
+  border-radius: var(--rounded-full);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-canvas);
+  transition: all 0.2s ease;
+}
+
+.perfil-usuario__follow-btn:hover {
+  background: var(--color-primary-dark, #0056b3);
+}
+
+.perfil-usuario__follow-btn--following {
+  background: var(--color-surface-soft);
+  color: var(--color-ink-deep);
+  border: 1px solid var(--color-hairline-soft);
+}
+
+.perfil-usuario__follow-btn--following:hover {
+  background: var(--color-hairline-soft);
 }
