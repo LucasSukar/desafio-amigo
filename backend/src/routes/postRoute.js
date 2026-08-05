@@ -10,6 +10,7 @@ const postRoute = new Router();
 
 postRoute.get("/post", authOptional, PostController.index);
 postRoute.get("/post/me", auth, PostController.me);
+postRoute.get("/post/user/:userId", authOptional, PostController.byUser);
 postRoute.get("/post/:id", authOptional, PostController.show);
 
 postRoute.use(auth);

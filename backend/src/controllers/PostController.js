@@ -52,6 +52,53 @@ class PostController {
     return res.json(meusPosts);
   }
 
+  async byUser(req, res) {
+    const userId = req.params.userId;
+    const posts = await Post.findAll({
+      attributes: [
+        "id",
+        "title",
+        "resume",
+        "content",
+        "created_at",
+        "user_id",
+        "data_publicacao",
+      ],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "name", "avatar_url"],
+        },
+        {
+          model: PostLike,
+          as: "likes",
+          where: { is_deleted: false },
+          required: false,
+        },
+      ],
+      order: [["data_publicacao", "DESC"]],
+      where: {
+        user_id: userId,
+        data_publicacao: { [Op.lte]: new Date() },
+      },
+    });
+
+    const userPosts = posts.map((post) => {
+      const postJSON = post.toJSON();
+      return {
+        ...postJSON,
+        total_likes: postJSON.likes.length,
+        allowEdit: req.userId == userId,
+        allowRemove: req.userId == userId,
+        jaCurtiu: req.userId ? postJSON.likes.some((l) => l.user_id == req.userId) : false,
+        likes: undefined,
+      };
+    });
+
+    return res.json(userPosts);
+  }
+
   async index(req, res) {
     const page = req.query.page || 1;
     const limit = 10;

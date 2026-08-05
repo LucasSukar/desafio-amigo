@@ -13,6 +13,10 @@ userRoute.post("/users", UserController.store);
 userRoute.post("/sessions", SessionController.store);
 
 userRoute.get("/users/me", auth, UserController.me);
+userRoute.get("/users", auth, UserController.index);
+userRoute.get("/users/following", auth, UserController.following);
+userRoute.get("/users/:id", auth, UserController.getById);
+userRoute.post("/users/:id/follow", auth, UserController.follow);
 userRoute.put("/users", auth, UserController.update);
 userRoute.put("/users/avatar", auth, upload.single("avatar"), UserController.avatar);
 
