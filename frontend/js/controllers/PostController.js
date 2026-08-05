@@ -52,5 +52,9 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
     $location.path("/");
   };
 
+  $scope.irParaPerfilUsuario = function(userId) {
+    $location.path("/perfil/" + userId);
+  };
+
   carregarPost();
 });

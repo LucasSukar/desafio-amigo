@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Amigo — uma plataforma de publicações para compartilhar ideias com seus amigos." />
     <title>Amigo — Feed de Publicações</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,6 +19,7 @@
     <link rel="stylesheet" href="./css/criar-publicacao.css" />
     <link rel="stylesheet" href="./css/post.css" />
     <link rel="stylesheet" href="./css/modal.css" />
+    <link rel="stylesheet" href="./css/seguindo.css" />
     <style>
       *, *::before, *::after { box-sizing: border-box; }
       body {
@@ -38,21 +38,80 @@
   </head>
   <body ng-controller="MainController">
     <div class="app-layout">
-            <aside class="app-sidebar">
+      <aside class="app-sidebar">
         <div class="app-sidebar__brand" ng-click="irParaFeed()" style="cursor: pointer;">
           <div class="app-sidebar__logo-mark">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
             </svg>
           </div>
-          <span class="app-sidebar__name">Amigo</span>
+          <span class="app-sidebar__name">Amigo X</span>
+        </div>
+
+        <div class="sidebar-search" ng-if="estaLogado">
+          <div class="sidebar-search__wrapper">
+            <span class="sidebar-search__icon">🔍</span>
+            <input
+              type="text"
+              class="sidebar-search__input"
+              placeholder="Buscar pessoas..."
+              ng-model="searchText"
+              ng-focus="onSearchFocus()"
+              ng-blur="onSearchBlur()"
+              id="input-buscar-pessoas"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Lista de resultados da pesquisa -->
+          <div
+            class="sidebar-search__results"
+            ng-show="mostrarListaUsuarios && searchText.length > 0"
+          >
+            <div
+              class="sidebar-search__result-item"
+              ng-repeat="u in todosUsuarios | filter:{name: searchText} | limitTo:5"
+            >
+              <div class="sidebar-search__result-info" ng-click="irParaPerfilUsuario(u.id)" id="btn-ir-perfil-{{ u.id }}">
+                <img
+                  ng-if="u.avatar_url"
+                  ng-src="http://localhost:3333/uploads/{{ u.avatar_url }}"
+                  class="sidebar-search__avatar"
+                  alt="{{ u.name }}"
+                  style="object-fit: cover;"
+                />
+                <div ng-if="!u.avatar_url" class="sidebar-search__avatar" style="display: flex; align-items: center; justify-content: center; background: var(--color-ink-deep); color: var(--color-canvas); font-size: 14px; font-weight: 700;">
+                  {{ u.name ? u.name.charAt(0).toUpperCase() : '?' }}
+                </div>
+                <span class="sidebar-search__name">{{ u.name }}</span>
+              </div>
+              <button
+                class="sidebar-search__follow-btn"
+                ng-class="{ 'sidebar-search__follow-btn--following': u.jaSigo }"
+                ng-click="seguirUsuario(u, $event)"
+                id="btn-seguir-search-{{ u.id }}"
+              >
+                <span ng-if="!u.jaSigo">+</span>
+                <span ng-if="u.jaSigo">✔</span>
+              </button>
+            </div>
+            <div
+              class="sidebar-search__empty"
+              ng-if="(todosUsuarios | filter:{name: searchText}).length === 0"
+            >
+              Nenhum usuário encontrado.
+            </div>
+          </div>
         </div>
 
         <nav class="app-sidebar__nav">
-          <button class="app-sidebar__nav-item" ng-click="irParaFeed()">
+          <button class="app-sidebar__nav-item" ng-click="irParaFeed()" id="btn-nav-feed">
             <span class="icon">🏠</span> Feed
           </button>
-          <button class="app-sidebar__nav-item" ng-click="irParaCriarPublicacao()" ng-if="estaLogado">
+          <button class="app-sidebar__nav-item" ng-click="irParaSeguindo()" ng-if="estaLogado" id="btn-nav-seguindo">
+            <span class="icon">👥</span> Pessoas que sigo
+          </button>
+          <button class="app-sidebar__nav-item" ng-click="irParaCriarPublicacao()" ng-if="estaLogado" id="btn-nav-publicar">
             <span class="icon">✍️</span> Publicar
           </button>
         </nav>
@@ -91,6 +150,9 @@
     <script src="./js/controllers/PerfilController.js"></script>
     <script src="./js/services/PerfilService.js"></script>
     <script src="./js/services/LoginService.js"></script>
+    <script src="./js/services/UsuarioService.js"></script>
+    <script src="./js/controllers/PerfilUsuarioController.js"></script>
+    <script src="./js/controllers/SeguindoController.js"></script>
     <script src="./js/controllers/CriarPublicacaoController.js"></script>
     <script src="./js/controllers/moldals/ModalLoginController.js"></script>
     <script src="./js/controllers/moldals/ModalCadastroController.js"></script>
