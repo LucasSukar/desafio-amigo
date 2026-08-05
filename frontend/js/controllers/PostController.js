@@ -49,7 +49,7 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   };
 
   $scope.voltarFeed = function() {
-    $location.path("/");
+    $window.history.back();
   };
 
   $scope.irParaPerfilUsuario = function(userId) {

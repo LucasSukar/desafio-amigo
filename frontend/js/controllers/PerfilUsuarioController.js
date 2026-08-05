@@ -2,6 +2,7 @@ angular.module("amigoApp").controller("PerfilUsuarioController", function (
   $scope,
   $routeParams,
   $location,
+  $window,
   LoginService,
   UsuarioService
 ) {
@@ -49,7 +50,7 @@ angular.module("amigoApp").controller("PerfilUsuarioController", function (
   };
 
   $scope.voltar = function () {
-    $location.path("/");
+    $window.history.back();
   };
 
   $scope.irParaPost = function (id) {
