@@ -1,129 +1,133 @@
 angular.module("amigoApp").controller("PerfilController", function ($scope, PerfilService, LoginService, $location, $modal) {
-    if (!LoginService.obterToken()) {
-      $location.path("/");
-      return;
-    }
+  if (!LoginService.obterToken()) {
+    $location.path("/");
+    return;
+  }
 
-    $scope.publicacoes = [];
-    $scope.usuario = {};
-    $scope.modalAberta = false;
+  $scope.publicacoes = [];
+  $scope.usuario = {};
+  $scope.modalAberta = false;
 
-    $scope.carregarUsuario = function () {
-      PerfilService.getMe()
-        .then(function (response) {
-          $scope.usuario = response.data;
-        })
-        .catch(function (error) {
-          console.log("erro ao carregar usuário:", error);
-        });
-    };
+  $scope.carregarUsuario = function () {
+    PerfilService.getMe()
+      .then(function (response) {
+        $scope.usuario = response.data;
+      })
+      .catch(function (error) {
+        console.log("erro ao carregar usuário:", error);
+      });
+  };
 
-    $scope.listaPosts = function () {
-      PerfilService.getUserPosts()
-        .then(function (response) {
-          $scope.publicacoes = response.data;
-        })
-        .catch(function (error) {
-          console.log("erro ao carregar publicações:", error);
-        });
-    };
+  $scope.listaPosts = function () {
+    PerfilService.getUserPosts()
+      .then(function (response) {
+        $scope.publicacoes = response.data;
+      })
+      .catch(function (error) {
+        console.log("erro ao carregar publicações:", error);
+      });
+  };
 
-    $scope.toggleOpcoes = function (pub) {
-      pub.mostrarOpcoes = !pub.mostrarOpcoes;
-    };
+  $scope.toggleOpcoes = function (pub) {
+    pub.mostrarOpcoes = !pub.mostrarOpcoes;
+  };
 
-    $scope.prepararEdicao = function (pub) {
-      if ($scope.modalAberta) return;
-      $scope.modalAberta = true;
-      pub.mostrarOpcoes = false;
+  $scope.irParaPost = function (id) {
+    $location.path("/post/" + id);
+  };
 
-      var modalInstance = $modal.open({
-        templateUrl: "view/modal-edicao.html",
-        controller: "ModalEdicaoController",
-        resolve: {
-          post: function () { return pub; },
-          salvar: function () {
-            return function (id, data) {
-              return PerfilService.putPost(id, data);
-            };
-          },
+  $scope.prepararEdicao = function (pub) {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
+    pub.mostrarOpcoes = false;
+
+    var modalInstance = $modal.open({
+      templateUrl: "view/modal-edicao.html",
+      controller: "ModalEdicaoController",
+      resolve: {
+        post: function () { return pub; },
+        salvar: function () {
+          return function (id, data) {
+            return PerfilService.putPost(id, data);
+          };
         },
-      });
+      },
+    });
 
-      modalInstance.result.then(function () {
-        $scope.listaPosts();
-      }).finally(function() {
-        $scope.modalAberta = false;
-      });
-    };
+    modalInstance.result.then(function () {
+      $scope.listaPosts();
+    }).finally(function () {
+      $scope.modalAberta = false;
+    });
+  };
 
-    $scope.deletar = function (id) {
-      if (confirm("Deseja apagar?")) {
-        PerfilService.deletePost(id)
-          .then(function () {
-            $scope.listaPosts();
-          })
-          .catch(function (error) {
-            console.log("erro ao apagar publicação:", error);
-          });
-      }
-    };
-
-    $scope.voltarParaFeed = function () {
-      $location.path("/");
-    };
-
-    $scope.deslogar = function () {
-      LoginService.deslogar();
-      $location.path("/");
-    };
-
-    $scope.abrirModalEditarPerfil = function () {
-      if ($scope.modalAberta) return;
-      $scope.modalAberta = true;
-
-      var modalInstance = $modal.open({
-        templateUrl: "view/modal-editar-perfil.html",
-        controller: "ModalEditarPerfilController",
-        windowClass: "modal-large",
-        scope: $scope
-      });
-
-      modalInstance.result.then(function () {
-        $scope.carregarUsuario();
-      }).finally(function () {
-        $scope.modalAberta = false;
-      });
-    };
-
-
-    $scope.criaUser = function () {
-      PerfilService.postUser($scope.usuario)
-        .then(function (response) {
-          console.log("usuário criado:", response.data);
+  $scope.deletar = function (id) {
+    if (confirm("Deseja apagar?")) {
+      PerfilService.deletePost(id)
+        .then(function () {
+          $scope.listaPosts();
         })
         .catch(function (error) {
-          console.log("erro ao criar usuário:", error);
+          console.log("erro ao apagar publicação:", error);
         });
-    };
+    }
+  };
 
-    $scope.putAvatar = function () {
-      var fileInput = document.getElementById("input-avatar");
-      if (!fileInput || !fileInput.files || fileInput.files.length === 0) return;
+  $scope.voltarParaFeed = function () {
+    $location.path("/");
+  };
 
-      var fd = new FormData();
-      fd.append("avatar", fileInput.files[0]);
+  $scope.deslogar = function () {
+    LoginService.deslogar();
+    $location.path("/");
+  };
 
-      PerfilService.putAvatar(fd)
-        .then(function (response) {
-          console.log("avatar atualizado:", response.data);
-          $scope.usuario.avatar_url = response.data.avatar_url;
-        })
-        .catch(function (error) {
-          console.log("erro ao atualizar avatar:", error);
-        });
-    };
+  $scope.abrirModalEditarPerfil = function () {
+    if ($scope.modalAberta) return;
+    $scope.modalAberta = true;
 
-    $scope.listaPosts();
-    $scope.carregarUsuario();
-  });
+    var modalInstance = $modal.open({
+      templateUrl: "view/modal-editar-perfil.html",
+      controller: "ModalEditarPerfilController",
+      windowClass: "modal-large",
+      scope: $scope
+    });
+
+    modalInstance.result.then(function () {
+      $scope.carregarUsuario();
+    }).finally(function () {
+      $scope.modalAberta = false;
+    });
+  };
+
+
+  $scope.criaUser = function () {
+    PerfilService.postUser($scope.usuario)
+      .then(function (response) {
+        console.log("usuário criado:", response.data);
+      })
+      .catch(function (error) {
+        console.log("erro ao criar usuário:", error);
+      });
+  };
+
+  $scope.putAvatar = function () {
+    var fileInput = document.getElementById("input-avatar");
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) return;
+
+    var fd = new FormData();
+    fd.append("avatar", fileInput.files[0]);
+
+    PerfilService.putAvatar(fd)
+      .then(function (response) {
+        console.log("avatar atualizado:", response.data);
+        $scope.usuario.avatar_url = response.data.avatar_url;
+      })
+      .catch(function (error) {
+        console.log("erro ao atualizar avatar:", error);
+      });
+  };
+
+  $scope.listaPosts();
+  $scope.carregarUsuario();
+});
