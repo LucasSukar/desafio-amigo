@@ -4,8 +4,7 @@
     <i class="fa-solid fa-arrow-left"></i> Feed
   </button>
 
-  <!-- Top Bar -->
-  <div class="perfil-page__top-bar">
+    <div class="perfil-page__top-bar">
     <h1 class="perfil-page__main-title">Meu Perfil</h1>
     <div class="perfil-page__top-bar-actions">
       <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()"
@@ -15,8 +14,7 @@
     </div>
   </div>
 
-  <!-- Hero do usuário -->
-  <div class="perfil-page__hero">
+    <div class="perfil-page__hero">
     <img
       ng-src="{{ usuario.avatar_url ? 'http://localhost:3333/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
       alt="Foto de perfil de {{ usuario.name }}" class="perfil-page__avatar" />
@@ -27,8 +25,7 @@
     </span>
   </div>
 
-  <!-- Lista de publicações -->
-  <h2 class="perfil-page__section-title">Minhas Publicações</h2>
+    <h2 class="perfil-page__section-title">Minhas Publicações</h2>
 
   <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" style="cursor: pointer;">
     <div class="perfil-page__header">
