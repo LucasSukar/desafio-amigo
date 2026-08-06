@@ -14,7 +14,7 @@
 
     <div class="post-page__meta">
       <div class="post-page__author-info" ng-click="irParaPerfilUsuario(post.user.id)" style="cursor: pointer;">
-        <img ng-if="post.user.avatar_url" ng-src="http://localhost:3333/uploads/{{ post.user.avatar_url }}" class="post-page__author-avatar" style="object-fit: cover;" />
+        <img ng-if="post.user.avatar_url" ng-src="http://localhost:3334/uploads/{{ post.user.avatar_url }}" class="post-page__author-avatar" style="object-fit: cover;" />
         <div ng-if="!post.user.avatar_url" class="post-page__author-avatar">
           {{ post.user.name ? post.user.name.charAt(0).toUpperCase() : '?' }}
         </div>
@@ -40,4 +40,66 @@
 
     <div class="post-page__body">{{ post.content }}</div>
   </article>
+
+  <section class="comments-section" ng-if="post && !carregando">
+    <h2 class="comments-section__title">
+      Comentários
+      <span class="comments-section__count">{{ comentarios.length }}</span>
+    </h2>
+
+    <div class="comments-section__form" ng-if="estaLogado()">
+      <textarea
+        class="comments-section__textarea"
+        ng-model="form.novoComentario"
+        placeholder="Escreva um comentário..."
+        rows="3"
+        id="input-novo-comentario"
+        ng-keydown="$event.ctrlKey && $event.keyCode === 13 && enviarComentario()"
+      ></textarea>
+      <div class="comments-section__form-actions">
+        <button
+          class="doca-button doca-button--primary"
+          ng-click="enviarComentario()"
+          id="btn-enviar-comentario"
+        >
+          {{ enviandoComentario ? 'Enviando...' : 'Comentar' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="comments-section__login-prompt" ng-if="!estaLogado()">
+      <p>
+        <a ng-click="abrirModalLogin()" style="cursor:pointer; color: var(--color-fb-blue); font-weight: 600;">Faça login</a>
+        para deixar um comentário.
+      </p>
+    </div>
+
+    <div class="comments-section__empty" ng-if="comentarios.length === 0">
+      <p>Seja o primeiro a comentar!</p>
+    </div>
+
+    <ul class="comments-list" ng-if="comentarios.length > 0">
+      <li class="comment-item" ng-repeat="c in comentarios">
+        <div class="comment-item__avatar-wrap" ng-click="irParaPerfilUsuario(c.user_id)" style="cursor:pointer;">
+          <img ng-if="c.user_avatar" ng-src="http://localhost:3334/uploads/{{ c.user_avatar }}" class="comment-item__avatar" style="object-fit:cover;" />
+          <div ng-if="!c.user_avatar" class="comment-item__avatar comment-item__avatar--placeholder">
+            {{ c.user_name ? c.user_name.charAt(0).toUpperCase() : '?' }}
+          </div>
+        </div>
+        <div class="comment-item__body">
+          <div class="comment-item__header">
+            <span class="comment-item__name" ng-click="irParaPerfilUsuario(c.user_id)" style="cursor:pointer;">{{ c.user_name }}</span>
+            <span class="comment-item__date">{{ c.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <p class="comment-item__text">{{ c.content }}</p>
+        </div>
+        <button
+          class="comment-item__delete"
+          ng-if="currentUserId() && (currentUserId() == c.user_id || currentUserId() == post.user_id)"
+          ng-click="apagarComentario(c)"
+          title="Apagar comentário"
+        >✕</button>
+      </li>
+    </ul>
+  </section>
 </div>

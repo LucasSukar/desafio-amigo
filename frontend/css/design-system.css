@@ -423,7 +423,6 @@ button.doca-button {
   letter-spacing: -0.14px;
 }
 
-/* ── Alert de Erro ──────────────────────────────────────────── */
 .doca-alert--danger {
   background: rgba(240, 40, 74, 0.08) !important;
   border: 1px solid rgba(240, 40, 74, 0.25) !important;
@@ -432,4 +431,180 @@ button.doca-button {
   padding: var(--space-md) var(--space-base) !important;
   font-size: 14px;
   font-weight: 500;
+}
+
+.comments-section {
+  max-width: 680px;
+  margin: var(--space-xxl) auto 0;
+  padding: 0 var(--space-xl) var(--space-section);
+}
+
+.comments-section__title {
+  font-size: var(--font-size-subtitle);
+  font-weight: 700;
+  color: var(--color-ink-deep);
+  margin: 0 0 var(--space-lg) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.comments-section__count {
+  font-size: var(--font-size-body-sm);
+  font-weight: 700;
+  background: var(--color-surface-soft);
+  color: var(--color-steel);
+  border-radius: var(--rounded-full);
+  padding: 2px 10px;
+}
+
+.comments-section__form {
+  background: var(--color-canvas);
+  border: 1.5px solid var(--color-hairline-soft);
+  border-radius: var(--rounded-xl);
+  padding: var(--space-base);
+  margin-bottom: var(--space-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.comments-section__textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-sm);
+  color: var(--color-ink);
+  background: transparent;
+  line-height: 1.6;
+}
+
+.comments-section__textarea::placeholder {
+  color: var(--color-stone);
+}
+
+.comments-section__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-xs);
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--color-hairline-soft);
+}
+
+.comments-section__login-prompt {
+  background: var(--color-surface-soft);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-base) var(--space-lg);
+  font-size: var(--font-size-body-sm);
+  color: var(--color-steel);
+  margin-bottom: var(--space-xl);
+  text-align: center;
+}
+
+.comments-section__empty {
+  text-align: center;
+  color: var(--color-stone);
+  font-size: var(--font-size-body-sm);
+  padding: var(--space-xxl) 0;
+}
+
+.comments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-base);
+}
+
+.comment-item {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline-soft);
+  border-radius: var(--rounded-xl);
+  padding: var(--space-base);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.15s ease;
+}
+
+.comment-item:hover {
+  border-color: var(--color-hairline);
+}
+
+.comment-item__avatar-wrap {
+  flex-shrink: 0;
+}
+
+.comment-item__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-circle);
+  flex-shrink: 0;
+  display: block;
+}
+
+.comment-item__avatar--placeholder {
+  background: var(--color-ink-deep);
+  color: var(--color-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.comment-item__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-item__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: 4px;
+}
+
+.comment-item__name {
+  font-size: var(--font-size-body-sm);
+  font-weight: 700;
+  color: var(--color-ink-deep);
+}
+
+.comment-item__name:hover {
+  text-decoration: underline;
+}
+
+.comment-item__date {
+  font-size: var(--font-size-caption);
+  color: var(--color-stone);
+}
+
+.comment-item__text {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-charcoal);
+  line-height: 1.6;
+  margin: 0;
+  word-break: break-word;
+}
+
+.comment-item__delete {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--color-stone);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--rounded-sm);
+  transition: color 0.15s ease, background 0.15s ease;
+  line-height: 1;
+  align-self: flex-start;
+}
+
+.comment-item__delete:hover {
+  color: var(--color-critical);
+  background: rgba(228, 30, 63, 0.06);
 }

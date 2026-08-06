@@ -13,8 +13,9 @@ angular.module("amigoApp").controller("ModalCadastroController", function ($scop
       })
       .then(function (response) {
         var token = response.data.token;
+        var user = response.data.user;
         if (token) {
-          LoginService.salvarToken(token);
+          LoginService.salvarToken(token, user ? user.id : null);
           $modalInstance.close("loggedIn");
         }
       })

@@ -23,6 +23,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      comments: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        defaultValue: "[]",
+      },
       user_id: {
         type: Sequelize.INTEGER,
         references: { model: "users", key: "id" },

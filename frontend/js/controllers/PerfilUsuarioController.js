@@ -13,6 +13,12 @@ angular.module("amigoApp").controller("PerfilUsuarioController", function (
   $scope.carregando = true;
   $scope.estaLogado = !!LoginService.obterToken();
 
+  var currentUserId = LoginService.obterUserId();
+  if (currentUserId && currentUserId == userId) {
+    $location.path("/perfil");
+    return;
+  }
+
   $scope.carregarPerfil = function () {
     UsuarioService.getById(userId).then(function (response) {
       $scope.perfilUsuario = response.data;

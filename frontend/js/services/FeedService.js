@@ -49,6 +49,18 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     return $http.post(config.baseUrl + "/post/" + idDoPost + "/like", {}, _getHeaders());
   };
 
+  var _getComments = function (postId) {
+    return $http.get(config.baseUrl + "/post/" + postId + "/comments", _getHeaders());
+  };
+
+  var _postComment = function (postId, content) {
+    return $http.post(config.baseUrl + "/post/" + postId + "/comments", { content: content }, _getHeaders());
+  };
+
+  var _deleteComment = function (postId, commentId) {
+    return $http.delete(config.baseUrl + "/post/" + postId + "/comments/" + commentId, _getHeaders());
+  };
+
   var _toggleLike = function (post) {
     return _postLike(post.id).then(function () {
       var likedPosts = _getLikedPosts();
@@ -94,5 +106,8 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     deletePost: _deletePost,
     getLikedPosts: _getLikedPosts,
     aplicarCurtidas: _aplicarCurtidas,
+    getComments: _getComments,
+    postComment: _postComment,
+    deleteComment: _deleteComment,
   };
 });

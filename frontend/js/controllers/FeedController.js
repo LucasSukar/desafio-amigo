@@ -19,7 +19,12 @@ angular.module("amigoApp").controller("FeedController", function ($scope, FeedSe
   };
 
   $scope.irParaPerfilUsuario = function (userId) {
-    $location.path("/perfil/" + userId);
+    var currentUserId = LoginService.obterUserId();
+    if (currentUserId && currentUserId == userId) {
+      $location.path("/perfil");
+    } else {
+      $location.path("/perfil/" + userId);
+    }
   };
 
   $scope.deslogar = function () {
