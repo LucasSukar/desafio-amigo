@@ -1,7 +1,7 @@
 <div class="seguindo-page">
 
   <button class="page-top-back-button" ng-click="voltar()" id="btn-voltar-seguindo">
-    ← Voltar ao Feed
+    <i class="fa-solid fa-arrow-left"></i> Voltar ao Feed
   </button>
 
   <div class="perfil-page__top-bar">
@@ -34,7 +34,7 @@
   </div>
 
   <div class="perfil-page__empty" ng-if="!carregando && seguindo.length === 0">
-    👥 Você ainda não segue ninguém. <br>
+    <i class="fa-solid fa-user-group"></i> Você ainda não segue ninguém. <br>
     <span style="font-size: 0.9rem; color: var(--color-ink-light);">Use a busca na barra lateral para encontrar pessoas!</span>
   </div>
 

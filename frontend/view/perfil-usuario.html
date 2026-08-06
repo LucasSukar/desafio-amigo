@@ -1,7 +1,7 @@
 <div class="doca-page perfil-usuario-page" ng-if="perfilUsuario">
 
   <button class="page-top-back-button" ng-click="voltar()" id="btn-voltar-perfil-usuario">
-    ← Voltar
+    <i class="fa-solid fa-arrow-left"></i> Voltar
   </button>
 
   <!-- Hero do usuário -->
@@ -40,8 +40,8 @@
       ng-click="toggleFollow()"
       id="btn-seguir-usuario"
     >
-      <span ng-if="!perfilUsuario.jaSigo">➕ Seguir</span>
-      <span ng-if="perfilUsuario.jaSigo">✔ Seguindo</span>
+      <span ng-if="!perfilUsuario.jaSigo"><i class="fa-solid fa-user-plus"></i> Seguir</span>
+      <span ng-if="perfilUsuario.jaSigo"><i class="fa-solid fa-user-check"></i> Seguindo</span>
     </button>
   </div>
 
@@ -53,11 +53,11 @@
       <h3 class="perfil-page__title">{{ pub.title }}</h3>
     </div>
     <p class="perfil-page__resume">{{ pub.resume || pub.content }}</p>
-    <span class="perfil-usuario__likes">❤️ {{ pub.total_likes }}</span>
+    <span class="perfil-usuario__likes"><i class="fa-solid fa-heart"></i> {{ pub.total_likes }}</span>
   </div>
 
   <div ng-if="!carregando && publicacoes.length === 0" class="perfil-page__empty">
-    📭 {{ perfilUsuario.name }} ainda não tem publicações.
+    <i class="fa-solid fa-inbox"></i> {{ perfilUsuario.name }} ainda não tem publicações.
   </div>
 
   <div ng-if="carregando" class="perfil-page__empty">
