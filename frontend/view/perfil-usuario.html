@@ -4,8 +4,7 @@
     <i class="fa-solid fa-arrow-left"></i> Voltar
   </button>
 
-  <!-- Hero do usuário -->
-  <div class="perfil-page__hero">
+    <div class="perfil-page__hero">
     <div class="perfil-page__avatar-wrapper" style="position: relative;">
       <img
         ng-if="perfilUsuario.avatar_url"
@@ -45,8 +44,7 @@
     </button>
   </div>
 
-  <!-- Publicações -->
-  <h2 class="perfil-page__section-title">Publicações de {{ perfilUsuario.name }}</h2>
+    <h2 class="perfil-page__section-title">Publicações de {{ perfilUsuario.name }}</h2>
 
   <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" style="cursor: pointer;">
     <div class="perfil-page__header">

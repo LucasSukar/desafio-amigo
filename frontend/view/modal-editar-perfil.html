@@ -1,57 +1,68 @@
 <div class="doca-modal modal-editar-perfil">
-  <div class="doca-modal__header modal-editar-perfil__header modal-login__header">
-    <h2 class="modal-login__title">Editar Perfil</h2>
-    <button class="doca-button doca-button--tertiary" ng-click="cancelar()" id="btn-fechar-modal-editar-perfil">✕</button>
+  <div class="modal-editar-perfil__header">
+    <h2 class="modal-editar-perfil__title">Editar Perfil</h2>
+    <button class="doca-button doca-button--tertiary" ng-click="cancelar()" id="btn-fechar-modal-editar-perfil"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="doca-modal__content modal-editar-perfil__content">
+  <div class="modal-editar-perfil__content">
     <div class="doca-alert doca-alert--danger doca-mb-3" ng-if="erro">
       <span class="doca-alert__text">{{ erro }}</span>
     </div>
 
-    <div class="doca-form__field doca-mb-3" style="display: flex; flex-direction: column; align-items: center; gap: var(--space-md);">
+        <div class="modal-editar-perfil__avatar-section">
       <div style="position: relative;">
-        <img ng-if="usuario.avatar_url" ng-src="http://localhost:3333/uploads/{{ usuario.avatar_url }}" alt="Foto do usuário" style="width: 100px; height: 100px; border-radius: var(--rounded-circle); object-fit: cover;" />
-        <div ng-if="!usuario.avatar_url" style="width: 100px; height: 100px; border-radius: var(--rounded-circle); background: var(--color-ink-deep); color: var(--color-canvas); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700;">
+        <img ng-if="usuario.avatar_url" ng-src="http://localhost:3333/uploads/{{ usuario.avatar_url }}" alt="Foto do usuário" class="modal-editar-perfil__avatar-img" />
+        <div ng-if="!usuario.avatar_url" class="modal-editar-perfil__avatar-placeholder">
           {{ usuario.name ? usuario.name.charAt(0).toUpperCase() : '?' }}
         </div>
       </div>
-      
-      <div class="upload-btn-wrapper">
-        <label for="input-avatar" class="doca-button doca-button--secondary" style="cursor: pointer; padding: 6px 16px !important; font-size: 13px !important; margin: 0;">
-          📷 Alterar Foto
-        </label>
-        <input type="file" id="input-avatar" accept="image/*" onchange="angular.element(this).scope().putAvatar()" style="display: none;" />
-      </div>
+
+      <label for="input-avatar" class="doca-button doca-button--secondary modal-editar-perfil__avatar-btn">
+        <i class="fa-solid fa-camera"></i> Alterar Foto
+      </label>
+      <input type="file" id="input-avatar" accept="image/*" onchange="angular.element(this).scope().putAvatar()" style="display: none;" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label">Nome Completo</label>
-      <input class="doca-form-control" type="text" ng-model="usuario.name" placeholder="Digite o novo nome" id="input-nome-perfil" />
+      <input class="doca-form-control" type="text" ng-model="editando.name" placeholder="Digite o novo nome" id="input-nome-perfil" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label">E-mail</label>
-      <input class="doca-form-control" type="email" ng-model="usuario.email" placeholder="Digite o novo e-mail" id="input-email-perfil" />
+      <input class="doca-form-control" type="email" ng-model="editando.email" placeholder="Digite o novo e-mail" id="input-email-perfil" />
     </div>
 
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Senha Antiga</label>
-      <input class="doca-form-control" type="password" ng-model="usuario.oldPassword" placeholder="Sua senha atual" id="input-senha-antiga-perfil" />
-    </div>
+    <button
+      class="modal-editar-perfil__toggle-senha"
+      ng-click="trocarSenha = !trocarSenha"
+      id="btn-toggle-trocar-senha"
+      type="button"
+    >
+      <i class="fa-solid" ng-class="trocarSenha ? 'fa-chevron-up' : 'fa-lock'"></i>
+      <span ng-if="!trocarSenha">Trocar senha</span>
+      <span ng-if="trocarSenha">Cancelar troca de senha</span>
+    </button>
 
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Nova Senha</label>
-      <input class="doca-form-control" type="password" ng-model="usuario.password" placeholder="Sua nova senha (mín. 6 caracteres)" id="input-nova-senha-perfil" />
-    </div>
+    <div ng-if="trocarSenha" class="modal-editar-perfil__senha-section">
+      <div class="doca-form__field doca-mb-3">
+        <label class="doca-form__label">Senha Atual</label>
+        <input class="doca-form-control" type="password" ng-model="editando.oldPassword" placeholder="Sua senha atual" id="input-senha-antiga-perfil" />
+      </div>
 
-    <div class="doca-form__field doca-mb-3">
-      <label class="doca-form__label">Confirmar Nova Senha</label>
-      <input class="doca-form-control" type="password" ng-model="usuario.confirmPassword" placeholder="Confirme a nova senha" id="input-confirmar-senha-perfil" />
+      <div class="doca-form__field doca-mb-3">
+        <label class="doca-form__label">Nova Senha</label>
+        <input class="doca-form-control" type="password" ng-model="editando.password" placeholder="Mínimo 6 caracteres" id="input-nova-senha-perfil" />
+      </div>
+
+      <div class="doca-form__field">
+        <label class="doca-form__label">Confirmar Nova Senha</label>
+        <input class="doca-form-control" type="password" ng-model="editando.confirmPassword" placeholder="Confirme a nova senha" id="input-confirmar-senha-perfil" />
+      </div>
     </div>
   </div>
 
-  <div class="doca-modal__footer modal-editar-perfil__footer">
+  <div class="modal-editar-perfil__footer">
     <button class="doca-button doca-button--tertiary" ng-click="cancelar()" id="btn-cancelar-editar-perfil">Cancelar</button>
     <button class="doca-button doca-button--primary" ng-click="salvarPerfil()" ng-disabled="salvando" id="btn-salvar-editar-perfil">
       <span ng-if="!salvando">Salvar Alterações</span>
@@ -59,3 +70,4 @@
     </button>
   </div>
 </div>
+

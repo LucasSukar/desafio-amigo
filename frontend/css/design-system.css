@@ -1,12 +1,6 @@
-/* ============================================================
-   DESIGN SYSTEM — Tokens extraídos do DESIGN.md da Meta
-   Referência: /home/lucassukar/vs/desafio-amigo/DESIGN.md
-   ============================================================ */
 
-/* ── Variáveis CSS Globais ─────────────────────────────────── */
 :root {
-  /* Brand & Accent */
-  --color-primary:        #0064e0;
+    --color-primary:        #0064e0;
   --color-primary-deep:   #0457cb;
   --color-primary-soft:   #0091ff;
   --color-on-primary:     #ffffff;
@@ -15,30 +9,26 @@
   --color-fb-blue:        #1876f2;
   --color-meta-link:      #385898;
 
-  /* Semantic */
-  --color-success:        #31a24c;
+    --color-success:        #31a24c;
   --color-attention:      #f2a918;
   --color-warning:        #f7b928;
   --color-critical:       #e41e3f;
   --color-critical-strong:#f0284a;
 
-  /* Surface */
-  --color-canvas:         #ffffff;
+    --color-canvas:         #ffffff;
   --color-surface-soft:   #f1f4f7;
   --color-hairline:       #ced0d4;
   --color-hairline-soft:  #dee3e9;
   --color-disabled-text:  #bcc0c4;
 
-  /* Text */
-  --color-ink-deep:       #0a1317;
+    --color-ink-deep:       #0a1317;
   --color-ink:            #1c1e21;
   --color-charcoal:       #444950;
   --color-slate:          #4b4c4f;
   --color-steel:          #5d6c7b;
   --color-stone:          #8595a4;
 
-  /* Border Radius */
-  --rounded-xs:     2px;
+    --rounded-xs:     2px;
   --rounded-sm:     4px;
   --rounded-md:     6px;
   --rounded-lg:     8px;
@@ -49,8 +39,7 @@
   --rounded-full:   100px;
   --rounded-circle: 9999px;
 
-  /* Spacing */
-  --space-xxs:        4px;
+    --space-xxs:        4px;
   --space-xs:         8px;
   --space-sm:         10px;
   --space-md:         12px;
@@ -63,8 +52,7 @@
   --space-section:    64px;
   --space-section-lg: 80px;
 
-  /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   --font-size-hero:       64px;
   --font-size-display:    48px;
   --font-size-heading-lg: 36px;
@@ -75,14 +63,12 @@
   --font-size-body-sm:    14px;
   --font-size-caption:    12px;
 
-  /* Elevation */
-  --shadow-subtle: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px;
+    --shadow-subtle: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px;
   --shadow-card:   0 2px 12px rgba(10, 19, 23, 0.08);
   --shadow-modal:  0 24px 80px rgba(10, 19, 23, 0.18);
   --shadow-menu:   0 8px 32px rgba(10, 19, 23, 0.14);
 }
 
-/* ── Base Reset ────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -95,7 +81,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Layout Global com Sidebar ──────────────────────────────── */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -257,7 +242,6 @@ body {
   position: relative;
 }
 
-/* Responsividade Sidebar */
 @media (max-width: 768px) {
   .app-layout {
     flex-direction: column;
@@ -283,7 +267,6 @@ body {
   }
 }
 
-/* ── Padrão de Design: Botão de Voltar no Topo Esquerdo ────── */
 .page-top-back-button {
   background: var(--color-canvas);
   border: 1px solid var(--color-hairline);
@@ -309,8 +292,6 @@ body {
   transform: translateX(-2px);
 }
 
-/* ── Override Global de Botões — Pill Shape ─────────────────── */
-/* A assinatura visual da Meta: TODOS os botões são pill-shaped */
 .doca-button,
 button.doca-button {
   border-radius: var(--rounded-full) !important;
@@ -323,7 +304,6 @@ button.doca-button {
   white-space: nowrap;
 }
 
-/* Botão Primário — Marketing (preto) */
 .doca-button--primary {
   background: var(--color-ink-button) !important;
   color: var(--color-on-ink-button) !important;
@@ -335,7 +315,6 @@ button.doca-button {
   border-color: var(--color-charcoal) !important;
 }
 
-/* Botão Secundário — Ghost outline */
 .doca-button--secondary {
   background: transparent !important;
   color: var(--color-ink-deep) !important;
@@ -346,7 +325,6 @@ button.doca-button {
   background: rgba(10, 19, 23, 0.05) !important;
 }
 
-/* Botão Terciário — Ghost quieto */
 .doca-button--tertiary {
   background: transparent !important;
   color: var(--color-steel) !important;
@@ -357,7 +335,6 @@ button.doca-button {
   background: rgba(10, 19, 23, 0.05) !important;
 }
 
-/* Botão CTA — Cobalt Buy-Now (usar onde é ação principal de conversão) */
 .btn-cta {
   border-radius: var(--rounded-full) !important;
   background: var(--color-primary) !important;
@@ -375,7 +352,6 @@ button.doca-button {
   border-color: var(--color-primary-deep) !important;
 }
 
-/* Botão Danger Ghost — vermelho outline */
 .btn-danger-ghost {
   border-radius: var(--rounded-full) !important;
   background: transparent !important;
@@ -392,7 +368,6 @@ button.doca-button {
   background: rgba(228, 30, 63, 0.06) !important;
 }
 
-/* ── Inputs Globais ─────────────────────────────────────────── */
 .doca-form-control {
   background: var(--color-canvas) !important;
   color: var(--color-ink) !important;
@@ -412,7 +387,6 @@ button.doca-button {
   box-shadow: 0 0 0 3px rgba(24, 118, 242, 0.12);
 }
 
-/* ── Labels ─────────────────────────────────────────────────── */
 .doca-form__label {
   font-family: var(--font-family) !important;
   font-size: 14px !important;
