@@ -4,8 +4,12 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   $scope.post = null;
   $scope.erro = null;
   $scope.modalAberta = false;
+  $scope.comentarios = [];
+  $scope.form = { novoComentario: "" };
+  $scope.enviandoComentario = false;
 
-  $scope.estaLogado = !!LoginService.obterToken();
+  $scope.estaLogado = function() { return !!LoginService.obterToken(); };
+  $scope.currentUserId = function() { return LoginService.obterUserId(); };
 
   var carregarPost = function() {
     $scope.carregando = true;
@@ -17,6 +21,41 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
       console.error(error);
       $scope.erro = "Não foi possível carregar a publicação.";
       $scope.carregando = false;
+    });
+  };
+
+  $scope.carregarComentarios = function() {
+    FeedService.getComments(postId).then(function(response) {
+      $scope.comentarios = response.data;
+    }).catch(function(error) {
+      console.error("Erro ao carregar comentários:", error);
+    });
+  };
+
+  $scope.enviarComentario = function() {
+    var texto = $scope.form.novoComentario;
+    if (!texto || texto.trim() === "") return;
+    if ($scope.enviandoComentario) return;
+
+    $scope.enviandoComentario = true;
+    FeedService.postComment(postId, texto).then(function(response) {
+      $scope.comentarios.push(response.data);
+      $scope.form.novoComentario = "";
+    }).catch(function(error) {
+      console.error("Erro ao enviar comentário:", error);
+    }).finally(function() {
+      $scope.enviandoComentario = false;
+    });
+  };
+
+  $scope.apagarComentario = function(comentario) {
+    if (!confirm("Deseja apagar este comentário?")) return;
+    FeedService.deleteComment(postId, comentario.id).then(function() {
+      $scope.comentarios = $scope.comentarios.filter(function(c) {
+        return c.id !== comentario.id;
+      });
+    }).catch(function(error) {
+      console.error("Erro ao apagar comentário:", error);
     });
   };
 
@@ -53,8 +92,14 @@ angular.module("amigoApp").controller("PostController", function($scope, $routeP
   };
 
   $scope.irParaPerfilUsuario = function(userId) {
-    $location.path("/perfil/" + userId);
+    var currentUserId = LoginService.obterUserId();
+    if (currentUserId && currentUserId == userId) {
+      $location.path("/perfil");
+    } else {
+      $location.path("/perfil/" + userId);
+    }
   };
 
   carregarPost();
+  $scope.carregarComentarios();
 });

@@ -8,6 +8,7 @@ class Post extends Model {
         title: Sequelize.STRING,
         resume: Sequelize.STRING,
         data_publicacao: Sequelize.DATE,
+        comments: Sequelize.TEXT,
       },
       {
         sequelize,
