@@ -8,8 +8,8 @@ angular.module("amigoApp").directive("amigoLikeBtn", function () {
     },
     template: [
       '<button class="feed-card__like-btn" ng-class="{\'feed-card__like-btn--liked\': liked}" ng-click="clicar()">',
-      '  <span ng-show="!liked">♡</span>',
-      '  <span ng-show="liked">♥</span>',
+      '  <span ng-show="!liked"><i class="fa-regular fa-heart"></i></span>',
+      '  <span ng-show="liked"><i class="fa-solid fa-heart"></i></span>',
       '  <span>{{ count }}</span>',
       "</button>",
     ].join(""),

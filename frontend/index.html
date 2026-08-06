@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link
       rel="stylesheet"
       href="https://cdn.amigotech.com.br/amigo-apps/doca-ui/min.css"
@@ -50,7 +51,7 @@
 
         <div class="sidebar-search" ng-if="estaLogado">
           <div class="sidebar-search__wrapper">
-            <span class="sidebar-search__icon">🔍</span>
+            <i class="fa-solid fa-magnifying-glass sidebar-search__icon"></i>
             <input
               type="text"
               class="sidebar-search__input"
@@ -91,8 +92,8 @@
                 ng-click="seguirUsuario(u, $event)"
                 id="btn-seguir-search-{{ u.id }}"
               >
-                <span ng-if="!u.jaSigo">+</span>
-                <span ng-if="u.jaSigo">✔</span>
+                <span ng-if="!u.jaSigo"><i class="fa-solid fa-plus"></i></span>
+                <span ng-if="u.jaSigo"><i class="fa-solid fa-check"></i></span>
               </button>
             </div>
             <div
@@ -106,13 +107,13 @@
 
         <nav class="app-sidebar__nav">
           <button class="app-sidebar__nav-item" ng-click="irParaFeed()" id="btn-nav-feed">
-            <span class="icon">🏠</span> Feed
+            <i class="fa-solid fa-house icon"></i> Feed
           </button>
           <button class="app-sidebar__nav-item" ng-click="irParaSeguindo()" ng-if="estaLogado" id="btn-nav-seguindo">
-            <span class="icon">👥</span> Pessoas que sigo
+            <i class="fa-solid fa-user-group icon"></i> Pessoas que sigo
           </button>
           <button class="app-sidebar__nav-item" ng-click="irParaCriarPublicacao()" ng-if="estaLogado" id="btn-nav-publicar">
-            <span class="icon">✍️</span> Publicar
+            <i class="fa-solid fa-pen-to-square icon"></i> Publicar
           </button>
         </nav>
 
