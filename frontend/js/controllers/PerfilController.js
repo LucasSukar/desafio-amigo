@@ -28,8 +28,13 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
       });
   };
 
-  $scope.toggleOpcoes = function (pub) {
-    pub.mostrarOpcoes = !pub.mostrarOpcoes;
+  $scope.toggleOpcoes = function (pub, $event) {
+    if ($event) $event.stopPropagation();
+    var estavaAberto = pub.mostrarOpcoes;
+    $scope.publicacoes.forEach(function (p) {
+      p.mostrarOpcoes = false;
+    });
+    pub.mostrarOpcoes = !estavaAberto;
   };
 
   $scope.irParaPost = function (id) {

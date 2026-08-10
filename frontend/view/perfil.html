@@ -27,7 +27,7 @@
 
     <h2 class="perfil-page__section-title">Minhas Publicações</h2>
 
-  <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" style="cursor: pointer;">
+  <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" ng-style="pub.mostrarOpcoes ? {'z-index': 100, 'position': 'relative'} : {}" style="cursor: pointer;">
     <div class="perfil-page__header">
       <h3 class="perfil-page__title">{{ pub.title }}</h3>
 
