@@ -99,6 +99,53 @@ class PostController {
     return res.json(userPosts);
   }
 
+  async postDosSeguidores(req, res) {
+    const db = Post.sequelize;
+    const page = req.query.page || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    const seguidos = await db.query(
+      "SELECT followed_id FROM user_follows WHERE follower_id = :me",
+      { replacements: { me: req.userId }, type: db.QueryTypes.SELECT }
+    );
+
+    const seguidosIds = seguidos.map((s) => s.followed_id);
+
+    if (seguidosIds.length === 0) {
+      return res.json([]);
+    }
+
+    const posts = await Post.findAll({
+      attributes: ["id", "title", "resume", "content", "created_at", "user_id", "data_publicacao"],
+      include: [
+        { model: User, as: "user", attributes: ["id", "name", "avatar_url"] },
+        { model: PostLike, as: "likes", where: { is_deleted: false }, required: false },
+      ],
+      limit,
+      offset,
+      order: [["data_publicacao", "DESC"]],
+      where: {
+        user_id: { [Op.in]: seguidosIds },
+        data_publicacao: { [Op.lte]: new Date() },
+      },
+    });
+
+    const resultado = posts.map((post) => {
+      const postJSON = post.toJSON();
+      return {
+        ...postJSON,
+        total_likes: postJSON.likes.length,
+        allowEdit: postJSON.user_id == req.userId,
+        allowRemove: postJSON.user_id == req.userId,
+        jaCurtiu: postJSON.likes.some((l) => l.user_id == req.userId),
+        likes: undefined,
+      };
+    });
+
+    return res.json(resultado);
+  }
+
   async index(req, res) {
     const page = req.query.page || 1;
     const limit = 10;
