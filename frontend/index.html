@@ -108,6 +108,9 @@
           <button class="app-sidebar__nav-item" ng-click="irParaFeed()" id="btn-nav-feed">
             <i class="fa-solid fa-house icon"></i> Feed
           </button>
+          <button class="app-sidebar__nav-item" ng-click="irParaFeedSeguindo()" ng-if="estaLogado" id="btn-nav-feed-seguindo">
+            <i class="fa-solid fa-heart icon"></i> Feed de Seguidos
+          </button>
           <button class="app-sidebar__nav-item" ng-click="irParaSeguindo()" ng-if="estaLogado" id="btn-nav-seguindo">
             <i class="fa-solid fa-user-group icon"></i> Pessoas que sigo
           </button>
@@ -146,6 +149,7 @@
     <script src="./js/value/configValue.js"></script>
     <script src="./js/controllers/MainController.js"></script>
     <script src="./js/controllers/FeedController.js"></script>
+    <script src="./js/controllers/FeedSeguindoController.js"></script>
     <script src="./js/services/FeedService.js"></script>
     <script src="./js/controllers/PerfilController.js"></script>
     <script src="./js/services/PerfilService.js"></script>

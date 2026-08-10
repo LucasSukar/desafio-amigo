@@ -73,6 +73,10 @@ angular.module("amigoApp").controller("MainController", function (
     $location.path("/");
   };
 
+  $scope.irParaFeedSeguindo = function () {
+    $location.path("/feed-seguindo");
+  };
+
   $scope.irParaPerfil = function () {
     $location.path("/perfil");
   };

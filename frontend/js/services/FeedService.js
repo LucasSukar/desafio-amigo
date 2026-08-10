@@ -25,6 +25,10 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     return $http.get(config.baseUrl + "/post?page=" + (page || 1), _getHeaders());
   };
 
+  var _getPostsDosSeguidores = function (page) {
+    return $http.get(config.baseUrl + "/post/postDosSeguidores?page=" + (page || 1), _getHeaders());
+  };
+
   var _getPost = function (id) {
     return $http.get(config.baseUrl + "/post/" + id, _getHeaders());
   };
@@ -99,6 +103,7 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     toggleLike: _toggleLike,
     postLike: _postLike,
     getPosts: _getPosts,
+    getPostsDosSeguidores: _getPostsDosSeguidores,
     getPost: _getPost,
     getUserPost: _getUserPost,
     postPost: _postPost,

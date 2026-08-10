@@ -36,4 +36,9 @@ angular.module("amigoApp").config(function($routeProvider){
       templateUrl: "view/seguindo.html",
       controller: "SeguindoController"
     });
+
+    $routeProvider.when("/feed-seguindo", {
+      templateUrl: "view/feed.html",
+      controller: "FeedSeguindoController"
+    });
 })
