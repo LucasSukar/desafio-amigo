@@ -1,5 +1,6 @@
 import Post from "../models/Post";
 import User from "../models/User";
+import { COMMENT_MESSAGES } from "../constants/messages";
 
 class CommentController {
   async index(req, res) {
@@ -10,7 +11,7 @@ class CommentController {
     });
 
     if (!post) {
-      return res.status(404).json({ error: "Publicação não encontrada." });
+      return res.status(404).json({ error: COMMENT_MESSAGES.POST_NOT_FOUND });
     }
 
     const comentarios = JSON.parse(post.comments || "[]");
@@ -22,12 +23,12 @@ class CommentController {
     const { content } = req.body;
 
     if (!content || content.trim() === "") {
-      return res.status(400).json({ error: "O comentário não pode ser vazio." });
+      return res.status(400).json({ error: COMMENT_MESSAGES.COMMENT_EMPTY });
     }
 
     const post = await Post.findByPk(id);
     if (!post) {
-      return res.status(404).json({ error: "Publicação não encontrada." });
+      return res.status(404).json({ error: COMMENT_MESSAGES.POST_NOT_FOUND });
     }
 
     const autor = await User.findByPk(req.userId, {
@@ -56,18 +57,18 @@ class CommentController {
 
     const post = await Post.findByPk(postId);
     if (!post) {
-      return res.status(404).json({ error: "Publicação não encontrada." });
+      return res.status(404).json({ error: COMMENT_MESSAGES.POST_NOT_FOUND });
     }
 
     const comentarios = JSON.parse(post.comments || "[]");
     const comentario = comentarios.find((c) => c.id == commentId);
 
     if (!comentario) {
-      return res.status(404).json({ error: "Comentário não encontrado." });
+      return res.status(404).json({ error: COMMENT_MESSAGES.COMMENT_NOT_FOUND });
     }
 
     if (comentario.user_id != req.userId && post.user_id != req.userId) {
-      return res.status(401).json({ error: "Sem permissão para apagar este comentário." });
+      return res.status(401).json({ error: COMMENT_MESSAGES.NO_PERMISSION_DELETE });
     }
 
     const comentariosAtualizados = comentarios.filter((c) => c.id != commentId);

@@ -88,7 +88,7 @@ class UserController {
     const db = User.sequelize;
 
     if (parseInt(id) === req.userId) {
-      return res.status(400).json({ error: "Você não pode se seguir." });
+      return res.status(400).json({ error: USER_MESSAGES.CANNOT_FOLLOW_SELF });
     }
 
     const [existing] = await db.query(
