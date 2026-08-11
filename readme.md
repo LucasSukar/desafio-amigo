@@ -1,80 +1,49 @@
-#  Amigo — Como Executar o Projeto
+# Amigo — Como Executar o Projeto
 
 Guia simples e direto para configurar e rodar a aplicação.
 
 ---
 
-##  Pré-requisitos
+## Pré-requisitos
 
 * **Node.js** (v16+) e **npm** (ou yarn)
-* **PostgreSQL** em execução na máquina (porta `5432`)
-
----
-## 1. Rodar o Backend com Docker
-
-Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os passos abaixo na raiz do projeto:
-
-1. **Configure as variaveis de ambiente:**
-   ```bash
-   cp backend/.env.example backend/.env
-   ```
-   *Nao e necessario alterar a senha no arquivo .env se estiver usando apenas o Docker, pois o docker-compose ja configura o banco.*
-
-2. **Inicie os servicos (Banco de Dados e API):**
-   ```bash
-   docker-compose up -d
-   ```
-
-3. **Rode as migrations do banco de dados:**
-   ```bash
-   docker-compose exec api npx sequelize-cli db:migrate
-   ```
-
-*(A API estara rodando em `http://localhost:3333` e com hot-reload ativo para desenvolvimento)*
+* **Docker** e **Docker Compose** (recomendado)
+* **PostgreSQL** em execução na máquina (apenas se for rodar sem Docker)
 
 ---
 
-##  2. Rodar o Frontend
+## 1. Rodar o Backend com Docker (Recomendado)
 
-1. **Sirva os arquivos da pasta `frontend`:**
+Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os passos abaixo:
+
+1. **Acesse a pasta do backend:**
    ```bash
-   # Opção 1: Usando npx
-   npx http-server ./frontend -p 8080
-
-   # Opção 2: Usando Python (dentro da pasta frontend)
-   cd frontend && python3 -m http.server 8080
+   cd backend
    ```
-   *(Ou abra com a extensão **Live Server** do VS Code clicando em `frontend/index.html`)*
 
-2. **Acesse no navegador:**
-   [http://localhost:8080](http://localhost:8080)
+2. **Configure as variáveis de ambiente:**
+   ```bash
+   cp .env.example .env
+   ```
+   *Não é necessário alterar a senha no arquivo `.env` se estiver usando apenas o Docker, pois o docker-compose já configura o banco de dados automaticamente.*
+
+3. **Inicie os serviços (Banco de Dados e API):**
+   ```bash
+   docker compose up -d
+   ```
+
+4. **Rode as migrations do banco de dados:**
+   ```bash
+   docker compose exec api npx sequelize-cli db:migrate
+   ```
+
+*(A API estará rodando em `http://localhost:3334` e com hot-reload ativo para desenvolvimento)*
 
 ---
 
-## 3. Rodar o Backend com Docker
+## 2. Rodar o Backend sem Docker
 
-Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os passos abaixo na raiz do projeto:
-
-1. **Configure as variaveis de ambiente:**
-   ```bash
-   cp backend/.env.example backend/.env
-   ```
-   *Nao e necessario alterar a senha no arquivo .env se estiver usando apenas o Docker, pois o docker-compose ja configura o banco.*
-
-2. **Inicie os servicos (Banco de Dados e API):**
-   ```bash
-   docker-compose up -d
-   ```
-
-3. **Rode as migrations do banco de dados:**
-   ```bash
-   docker-compose exec api npx sequelize-cli db:migrate
-   ```
-
-*(A API estara rodando em `http://localhost:3333` e com hot-reload ativo para desenvolvimento)*
-
----
-##  3. Rodar o Backend sem Docker
+Caso prefira rodar localmente no seu computador, siga os passos:
 
 1. **Acesse a pasta do backend:**
    ```bash
@@ -84,13 +53,14 @@ Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os pass
 2. **Instale as dependências:**
    ```bash
    npm install
+   # ou yarn install
    ```
 
-3. **Crie o arquivo `.env`:**
+3. **Configure as variáveis de ambiente:**
    ```bash
    cp .env.example .env
    ```
-   *Abra o arquivo `.env` e coloque a sua senha do PostgreSQL em `DB_PASS`.*
+   *Abra o arquivo `.env` e coloque a sua senha do PostgreSQL na variável `DB_PASS`.*
 
 4. **Crie o banco de dados e rode as migrations:**
    ```bash
@@ -101,6 +71,29 @@ Caso prefira utilizar o Docker para rodar o banco de dados e a API, siga os pass
 5. **Inicie o servidor backend:**
    ```bash
    npm run dev
+   # ou yarn dev
    ```
    *(O servidor rodará em `http://localhost:3333`)*
 
+---
+
+## 3. Rodar o Frontend
+
+O frontend é composto por arquivos estáticos simples e precisa de um servidor local para funcionar corretamente.
+
+1. **Sirva os arquivos da pasta `frontend`:**
+   Abra um novo terminal e rode:
+   ```bash
+   # Opção 1: Usando live-server (recomendado)
+   npx live-server ./frontend --port=8080
+
+   # Opção 2: Usando http-server
+   npx http-server ./frontend -p 8080
+
+   # Opção 3: Usando Python (dentro da pasta frontend)
+   cd frontend && python3 -m http.server 8080
+   ```
+   *(Ou abra com a extensão **Live Server** do VS Code clicando em `frontend/index.html` e escolhendo "Open with Live Server")*
+
+2. **Acesse no navegador:**
+   [http://localhost:8080](http://localhost:8080)
