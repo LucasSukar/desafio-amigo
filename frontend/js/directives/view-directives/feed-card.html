@@ -1,0 +1,26 @@
+<div class="feed-card" ng-class="{'feed-card--menu-open': post.mostrarOpcoes}">
+  <div class="feed-card__header">
+    <div class="feed-card__meta" ng-click="clicarPerfil($event)" style="cursor: pointer;">
+      <img ng-if="post.user.avatar_url" ng-src="http://localhost:3333/uploads/{{ post.user.avatar_url }}" class="feed-card__avatar" style="object-fit: cover;" />
+      <div ng-if="!post.user.avatar_url" class="feed-card__avatar">{{ post.user.name ? post.user.name.charAt(0).toUpperCase() : "?" }}</div>
+      <div class="feed-card__author-block">
+        <span class="feed-card__author">{{ post.user.name }}</span>
+        <span class="feed-card__date">{{ post.data_publicacao | date:"dd MMM, yyyy" }}</span>
+      </div>
+    </div>
+    <div class="feed-card__menu" ng-if="post.allowEdit || post.allowRemove">
+      <button class="feed-card__menu-btn" ng-click="toggleOpcoes()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+      <div class="feed-card__menu-panel" ng-show="post.mostrarOpcoes">
+        <button class="feed-card__menu-action" ng-if="post.allowEdit" ng-click="editar()"><i class="fa-solid fa-pen"></i> Editar</button>
+        <button class="feed-card__menu-action feed-card__menu-action--danger" ng-if="post.allowRemove" ng-click="deletar()"><i class="fa-solid fa-trash"></i> Apagar</button>
+      </div>
+    </div>
+  </div>
+  <div class="feed-card__body" ng-click="clicar()">
+    <h2 class="feed-card__title">{{ post.title }}</h2>
+    <p class="feed-card__resume">{{ post.resume }}</p>
+  </div>
+  <div class="feed-card__footer">
+    <amigo-like-btn liked="post.jaCurtiu" count="post.total_likes" on-click="curtir()"></amigo-like-btn>
+  </div>
+</div>

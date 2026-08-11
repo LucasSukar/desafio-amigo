@@ -6,13 +6,7 @@ angular.module("amigoApp").directive("amigoLikeBtn", function () {
       count: "=",
       onClick: "&",
     },
-    template: [
-      '<button class="feed-card__like-btn" ng-class="{\'feed-card__like-btn--liked\': liked}" ng-click="clicar()">',
-      '  <span ng-show="!liked"><i class="fa-regular fa-heart"></i></span>',
-      '  <span ng-show="liked"><i class="fa-solid fa-heart"></i></span>',
-      '  <span>{{ count }}</span>',
-      "</button>",
-    ].join(""),
+    templateUrl: "js/directives/view-directives/like-btn.html",
     link: function (scope) {
       scope.clicar = function () {
         scope.onClick();
