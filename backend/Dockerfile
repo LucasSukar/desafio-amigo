@@ -8,6 +8,8 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
+RUN mkdir -p /app/uploads && chmod 777 /app/uploads
+
 EXPOSE 3333
 
 CMD ["yarn", "dev"]

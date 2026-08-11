@@ -9,18 +9,19 @@
       <span class="doca-alert__text">{{ erro }}</span>
     </div>
 
-        <div class="modal-editar-perfil__avatar-section">
+    <div class="modal-editar-perfil__avatar-section">
       <div style="position: relative;">
-        <img ng-if="usuario.avatar_url" ng-src="http://localhost:3333/uploads/{{ usuario.avatar_url }}" alt="Foto do usuário" class="modal-editar-perfil__avatar-img" />
-        <div ng-if="!usuario.avatar_url" class="modal-editar-perfil__avatar-placeholder">
+        <img ng-if="avatarPreview" ng-src="{{ avatarPreview }}" alt="Preview" class="modal-editar-perfil__avatar-img" />
+        <img ng-if="!avatarPreview && usuario.avatar_url" ng-src="http://localhost:3334/uploads/{{ usuario.avatar_url }}" alt="Foto do usuário" class="modal-editar-perfil__avatar-img" />
+        <div ng-if="!avatarPreview && !usuario.avatar_url" class="modal-editar-perfil__avatar-placeholder">
           {{ usuario.name ? usuario.name.charAt(0).toUpperCase() : '?' }}
         </div>
       </div>
 
       <label for="input-avatar" class="doca-button doca-button--secondary modal-editar-perfil__avatar-btn">
-        <i class="fa-solid fa-camera"></i> Alterar Foto
+        <i class="fa-solid fa-camera"></i> {{ avatarPreview ? 'Trocar foto' : 'Alterar Foto' }}
       </label>
-      <input type="file" id="input-avatar" accept="image/*" onchange="angular.element(this).scope().putAvatar()" style="display: none;" />
+      <input type="file" id="input-avatar" accept="image/*" onchange="angular.element(this).scope().selecionarAvatar()" style="display: none;" />
     </div>
 
     <div class="doca-form__field doca-mb-3">

@@ -75,7 +75,7 @@
               <div class="sidebar-search__result-info" ng-click="irParaPerfilUsuario(u.id)" id="btn-ir-perfil-{{ u.id }}">
                 <img
                   ng-if="u.avatar_url"
-                  ng-src="http://localhost:3333/uploads/{{ u.avatar_url }}"
+                  ng-src="http://localhost:3334/uploads/{{ u.avatar_url }}"
                   class="sidebar-search__avatar"
                   alt="{{ u.name }}"
                   style="object-fit: cover;"
@@ -122,7 +122,7 @@
         <div class="app-sidebar__footer">
           <div class="app-sidebar__user" ng-if="estaLogado">
             <div class="app-sidebar__user-info" ng-click="irParaPerfil()">
-              <img ng-if="usuario.avatar_url" ng-src="http://localhost:3333/uploads/{{ usuario.avatar_url }}" class="app-sidebar__avatar" />
+              <img ng-if="usuario.avatar_url" ng-src="http://localhost:3334/uploads/{{ usuario.avatar_url }}" class="app-sidebar__avatar" />
               <div ng-if="!usuario.avatar_url" class="app-sidebar__avatar-placeholder">{{ usuario.name.charAt(0).toUpperCase() }}</div>
               <span class="app-sidebar__user-name">{{ usuario.name }}</span>
             </div>

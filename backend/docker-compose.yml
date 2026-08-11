@@ -23,6 +23,7 @@ services:
       dockerfile: Dockerfile
       target: development          
     restart: unless-stopped
+    user: root
     env_file:
       - ./.env            
     environment:
@@ -30,12 +31,12 @@ services:
     ports:
       - "3334:3333"
     volumes:
-      - .:/app            
-      - /app/node_modules          
+      - .:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy 
-    command: yarn dev
+    command: sh -c "yarn dev"
 
 volumes:
   postgres_data:

@@ -1,7 +1,7 @@
 .criar-pub-page {
-  max-width: 680px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: var(--space-xxxl) var(--space-lg) var(--space-section);
+  padding: var(--space-xxxl) var(--space-xxl) var(--space-section);
   font-family: var(--font-family);
 }
 

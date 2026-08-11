@@ -51,10 +51,14 @@ class UserController {
   }
 
   async avatar(req, res) {
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhum arquivo enviado." });
+    }
     const avatar_url = req.file.filename;
     const user = await User.findByPk(req.userId);
     await user.update({ avatar_url });
-    return res.json({ id: user.id, name: user.name, email: user.email, avatar_url: user.avatar_url });
+    const updated = await User.findByPk(req.userId, { attributes: ["id", "name", "email", "avatar_url"] });
+    return res.json({ id: updated.id, name: updated.name, email: updated.email, avatar_url: updated.avatar_url });
   }
 
   async index(req, res) {

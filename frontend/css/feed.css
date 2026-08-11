@@ -7,9 +7,9 @@
 
 
 .feed-content {
-  max-width: 820px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: var(--space-xxl) var(--space-xl) var(--space-section);
+  padding: var(--space-xxl) var(--space-xxl) var(--space-section);
 }
 
 .feed-content__title {

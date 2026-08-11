@@ -7,6 +7,23 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
   $scope.trocarSenha = false;
   $scope.erro = null;
   $scope.salvando = false;
+  $scope.avatarPreview = null; 
+  $scope.avatarFile = null;     
+
+  $scope.selecionarAvatar = function () {
+    var fileInput = document.getElementById("input-avatar");
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) return;
+
+    $scope.avatarFile = fileInput.files[0];
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $scope.$apply(function () {
+        $scope.avatarPreview = e.target.result;
+      });
+    };
+    reader.readAsDataURL($scope.avatarFile);
+  };
 
   $scope.salvarPerfil = function () {
     $scope.erro = null;
@@ -37,28 +54,50 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
       dadosParaEnviar.confirmPassword = $scope.editando.confirmPassword;
     }
 
-    if (Object.keys(dadosParaEnviar).length === 0) {
+    var temAlteracoes = Object.keys(dadosParaEnviar).length > 0;
+    var temAvatar = !!$scope.avatarFile;
+
+    if (!temAlteracoes && !temAvatar) {
       $modalInstance.close();
       return;
     }
 
     $scope.salvando = true;
 
-    PerfilService.putUser(dadosParaEnviar)
-      .then(function (response) {
-        $scope.salvando = false;
-        if (response.data) {
-          if (response.data.name)  $scope.usuario.name  = response.data.name;
-          if (response.data.email) $scope.usuario.email = response.data.email;
+    // Se tem foto, faz upload primeiro; depois salva os outros dados
+    var uploadPromise = temAvatar
+      ? (function () {
+          var fd = new FormData();
+          fd.append("avatar", $scope.avatarFile);
+          return PerfilService.putAvatar(fd).then(function (response) {
+            if (response.data && response.data.avatar_url) {
+              $scope.usuario.avatar_url = response.data.avatar_url;
+            }
+          });
+        })()
+      : Promise.resolve();
+
+    uploadPromise
+      .then(function () {
+        if (temAlteracoes) {
+          return PerfilService.putUser(dadosParaEnviar).then(function (response) {
+            if (response.data) {
+              if (response.data.name)  $scope.usuario.name  = response.data.name;
+              if (response.data.email) $scope.usuario.email = response.data.email;
+            }
+          });
         }
-        $modalInstance.close(response.data);
+      })
+      .then(function () {
+        $scope.salvando = false;
+        $modalInstance.close();
       })
       .catch(function (error) {
         $scope.salvando = false;
         if (error.data && error.data.error) {
           $scope.erro = error.data.error;
         } else {
-          $scope.erro = "Erro ao atualizar perfil. Verifique os dados e tente novamente.";
+          $scope.erro = "Erro ao salvar. Verifique os dados e tente novamente.";
         }
       });
   };
