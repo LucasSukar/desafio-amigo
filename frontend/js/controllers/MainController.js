@@ -89,6 +89,10 @@ angular.module("amigoApp").controller("MainController", function (
     $location.path("/criar-publicacao");
   };
 
+  $scope.irParaChat = function () {
+    $location.path("/chat");
+  };
+
   $scope.deslogar = function () {
     LoginService.deslogar();
     localStorage.removeItem("liked_posts");

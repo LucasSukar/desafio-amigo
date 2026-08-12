@@ -4,7 +4,7 @@
     <i class="fa-solid fa-arrow-left"></i> Voltar
   </button>
 
-    <div class="perfil-page__hero">
+  <div class="perfil-page__hero">
     <div class="perfil-page__avatar-wrapper" style="position: relative;">
       <img
         ng-if="perfilUsuario.avatar_url"
@@ -13,54 +13,57 @@
         class="perfil-page__avatar"
         style="object-fit: cover;"
       />
-      <div ng-if="!perfilUsuario.avatar_url" class="perfil-page__avatar" style="display: flex; align-items: center; justify-content: center; background: var(--color-ink-deep); color: var(--color-canvas); font-size: 36px; font-weight: 700; border: 3px solid var(--color-primary); box-shadow: 0 0 0 4px rgba(0, 100, 224, 0.12), var(--shadow-card);">
+      <div ng-if="!perfilUsuario.avatar_url" class="perfil-page__avatar" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: #fff; font-size: 36px; font-weight: 700;">
         {{ perfilUsuario.name ? perfilUsuario.name.charAt(0).toUpperCase() : '?' }}
       </div>
     </div>
     <p class="perfil-page__hero-name">{{ perfilUsuario.name }}</p>
 
     <div class="perfil-usuario__stats">
-      <span class="perfil-usuario__stat">
-        <strong>{{ perfilUsuario.total_seguidores }}</strong> seguidores
-      </span>
+      <span class="perfil-usuario__stat"><strong>{{ perfilUsuario.total_seguidores }}</strong> seguidores</span>
       <span class="perfil-usuario__stat-sep">·</span>
-      <span class="perfil-usuario__stat">
-        <strong>{{ perfilUsuario.total_seguindo }}</strong> seguindo
-      </span>
+      <span class="perfil-usuario__stat"><strong>{{ perfilUsuario.total_seguindo }}</strong> seguindo</span>
       <span class="perfil-usuario__stat-sep">·</span>
-      <span class="perfil-usuario__stat">
-        <strong>{{ publicacoes.length }}</strong> publicações
-      </span>
+      <span class="perfil-usuario__stat"><strong>{{ publicacoes.length }}</strong> publicações</span>
     </div>
 
-    <button
-      class="perfil-usuario__follow-btn"
-      ng-class="{ 'perfil-usuario__follow-btn--following': perfilUsuario.jaSigo }"
-      ng-click="toggleFollow()"
-      id="btn-seguir-usuario"
-    >
-      <span ng-if="!perfilUsuario.jaSigo"><i class="fa-solid fa-user-plus"></i> Seguir</span>
-      <span ng-if="perfilUsuario.jaSigo"><i class="fa-solid fa-user-check"></i> Seguindo</span>
-    </button>
+    <div style="display: flex; gap: 8px; margin-top: 12px;">
+      <button
+        class="perfil-usuario__follow-btn"
+        ng-class="{ 'perfil-usuario__follow-btn--following': perfilUsuario.jaSigo }"
+        ng-click="toggleFollow()"
+        id="btn-seguir-usuario"
+      >
+        <span ng-if="!perfilUsuario.jaSigo"><i class="fa-solid fa-user-plus"></i> Seguir</span>
+        <span ng-if="perfilUsuario.jaSigo"><i class="fa-solid fa-user-check"></i> Seguindo</span>
+      </button>
+
+      <button
+        class="perfil-usuario__follow-btn"
+        ng-click="irParaChat()"
+        id="btn-mensagem-usuario"
+        style="background: var(--color-accent); box-shadow: 0 4px 12px rgba(249,115,22,0.3);"
+      >
+        <i class="fa-solid fa-comment"></i> Mensagem
+      </button>
+    </div>
   </div>
 
-    <h2 class="perfil-page__section-title">Publicações de {{ perfilUsuario.name }}</h2>
+  <h2 class="perfil-page__section-title">Publicações de {{ perfilUsuario.name }}</h2>
 
   <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" style="cursor: pointer;">
     <div class="perfil-page__header">
       <h3 class="perfil-page__title">{{ pub.title }}</h3>
     </div>
     <p class="perfil-page__resume">{{ pub.resume || pub.content }}</p>
-    <span class="perfil-usuario__likes"><i class="fa-solid fa-heart"></i> {{ pub.total_likes }}</span>
+    <span class="perfil-usuario__likes"><i class="fa-solid fa-heart" style="color: var(--color-critical);"></i> {{ pub.total_likes }}</span>
   </div>
 
   <div ng-if="!carregando && publicacoes.length === 0" class="perfil-page__empty">
     <i class="fa-solid fa-inbox"></i> {{ perfilUsuario.name }} ainda não tem publicações.
   </div>
 
-  <div ng-if="carregando" class="perfil-page__empty">
-    Carregando publicações...
-  </div>
+  <div ng-if="carregando" class="perfil-page__empty">Carregando publicações...</div>
 
 </div>
 

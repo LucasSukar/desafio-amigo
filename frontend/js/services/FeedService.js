@@ -41,6 +41,16 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     return $http.post(config.baseUrl + "/post", post, _getHeaders());
   };
 
+  var _postPostMultipart = function (fd) {
+    return $http.post(config.baseUrl + "/post", fd, {
+      transformRequest: angular.identity,
+      headers: {
+        "Content-Type": undefined,
+        Authorization: "Bearer " + LoginService.obterToken()
+      }
+    });
+  };
+
   var _putPost = function (id, post) {
     return $http.put(config.baseUrl + "/post/" + id, post, _getHeaders());
   };
@@ -107,6 +117,7 @@ angular.module("amigoApp").factory("FeedService", function ($http, config, Login
     getPost: _getPost,
     getUserPost: _getUserPost,
     postPost: _postPost,
+    postPostMultipart: _postPostMultipart,
     putPost: _putPost,
     deletePost: _deletePost,
     getLikedPosts: _getLikedPosts,

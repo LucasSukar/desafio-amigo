@@ -19,8 +19,15 @@ angular.module("amigoApp").factory("UsuarioService", function ($http, config, Lo
     return $http.get(config.baseUrl + "/users/" + userId, _getHeaders());
   };
 
+  // Alias para ChatController (mesmo endpoint)
+  var _buscarPorId = _getById;
+
   var _getPostsByUser = function (userId) {
     return $http.get(config.baseUrl + "/post/user/" + userId, _getHeaders());
+  };
+
+  var _deleteAccount = function () {
+    return $http.delete(config.baseUrl + "/users/me", _getHeaders());
   };
 
   return {
@@ -28,6 +35,8 @@ angular.module("amigoApp").factory("UsuarioService", function ($http, config, Lo
     toggleFollow: _toggleFollow,
     listarSeguindo: _listarSeguindo,
     getById: _getById,
+    buscarPorId: _buscarPorId,
     getPostsByUser: _getPostsByUser,
+    deleteAccount: _deleteAccount,
   };
 });

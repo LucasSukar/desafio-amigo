@@ -59,6 +59,10 @@ angular.module("amigoApp").controller("PerfilUsuarioController", function (
     $window.history.back();
   };
 
+  $scope.irParaChat = function () {
+    $location.path("/chat/" + userId);
+  };
+
   $scope.irParaPost = function (id) {
     $location.path("/post/" + id);
   };

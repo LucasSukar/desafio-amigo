@@ -24,9 +24,7 @@ class UserController {
 
   async avatar(req, res, next) {
     try {
-      if (!req.file) {
-        return res.status(400).json({ error: "Nenhum arquivo enviado." });
-      }
+      if (!req.file) return res.status(400).json({ error: "Nenhum arquivo enviado." });
       const data = await UserService.updateAvatar(req.userId, req.file.filename);
       return res.json(data);
     } catch (err) { next(err); }
@@ -57,6 +55,13 @@ class UserController {
     try {
       const user = await UserService.findById(req.params.id, req.userId);
       return res.json(user);
+    } catch (err) { next(err); }
+  }
+
+  async destroy(req, res, next) {
+    try {
+      await UserService.deleteAccount(req.userId);
+      return res.status(204).send();
     } catch (err) { next(err); }
   }
 }

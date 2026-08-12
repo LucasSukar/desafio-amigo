@@ -5,7 +5,7 @@ angular.module("amigoApp").config(function($routeProvider){
     })
     .otherwise({
         redirectTo: "/"
-    })
+    });
 
     $routeProvider.when("/perfil", {
       templateUrl: "view/perfil.html",
@@ -41,4 +41,14 @@ angular.module("amigoApp").config(function($routeProvider){
       templateUrl: "view/feed.html",
       controller: "FeedSeguindoController"
     });
-})
+
+    $routeProvider.when("/chat", {
+      templateUrl: "view/chat.html",
+      controller: "ChatController"
+    });
+
+    $routeProvider.when("/chat/:userId", {
+      templateUrl: "view/chat.html",
+      controller: "ChatController"
+    });
+});

@@ -15,41 +15,45 @@
 
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label" for="input-titulo">Título</label>
-      <input
-        id="input-titulo"
-        class="doca-form-control"
-        type="text"
-        ng-model="novaPublicacao.title"
-        placeholder="Digite o título da publicação"
-      />
+      <input id="input-titulo" class="doca-form-control" type="text" ng-model="novaPublicacao.title" placeholder="Digite o título da publicação" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label" for="input-resumo">Resumo</label>
-      <input
-        id="input-resumo"
-        class="doca-form-control"
-        type="text"
-        ng-model="novaPublicacao.resume"
-        placeholder="Um breve resumo do conteúdo"
-      />
+      <input id="input-resumo" class="doca-form-control" type="text" ng-model="novaPublicacao.resume" placeholder="Um breve resumo do conteúdo" />
     </div>
 
     <div class="doca-form__field doca-mb-3">
       <label class="doca-form__label" for="input-conteudo">Conteúdo</label>
-      <textarea
-        id="input-conteudo"
-        class="doca-form-control criar-pub-page__textarea"
-        ng-model="novaPublicacao.content"
-        placeholder="Escreva o conteúdo completo aqui..."
-        rows="8"
-      ></textarea>
+      <textarea id="input-conteudo" class="doca-form-control criar-pub-page__textarea" ng-model="novaPublicacao.content" placeholder="Escreva o conteúdo completo aqui..." rows="8"></textarea>
+    </div>
+
+    <!-- Upload de imagem opcional -->
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Imagem <span style="font-weight: 400; color: var(--color-stone);">(opcional)</span></label>
+      <div class="criar-pub-page__upload-area" ng-class="{ 'criar-pub-page__upload-area--has-image': imagemPreview }">
+        <img ng-if="imagemPreview" ng-src="{{ imagemPreview }}" class="criar-pub-page__img-preview" alt="Preview" />
+        <div ng-if="!imagemPreview" class="criar-pub-page__upload-placeholder">
+          <i class="fa-solid fa-image"></i>
+          <span>Clique ou arraste uma imagem</span>
+        </div>
+        <input
+          type="file"
+          id="input-imagem-post"
+          accept="image/*"
+          class="criar-pub-page__file-input"
+          onchange="angular.element(this).scope().selecionarImagem()"
+        />
+      </div>
+      <button ng-if="imagemPreview" type="button" class="criar-pub-page__remove-img" ng-click="removerImagem()" id="btn-remover-imagem">
+        <i class="fa-solid fa-xmark"></i> Remover imagem
+      </button>
     </div>
 
     <div class="criar-pub-page__actions">
       <button class="doca-button doca-button--secondary" ng-click="voltarParaFeed()" id="btn-cancelar-pub">Cancelar</button>
       <button class="doca-button doca-button--primary" ng-click="publicar()" ng-disabled="publicando" id="btn-publicar">
-        <span ng-if="!publicando">Publicar</span>
+        <span ng-if="!publicando"><i class="fa-solid fa-paper-plane"></i> Publicar</span>
         <span ng-if="publicando">Publicando...</span>
       </button>
     </div>

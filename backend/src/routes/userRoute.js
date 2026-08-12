@@ -21,5 +21,6 @@ userRoute.get("/users/:id", auth, UserController.getById);
 userRoute.post("/users/:id/follow", auth, UserController.follow);
 userRoute.put("/users", auth, validate(userUpdateSchema), UserController.update);
 userRoute.put("/users/avatar", auth, upload.single("avatar"), UserController.avatar);
+userRoute.delete("/users/me", auth, UserController.destroy);
 
 export default userRoute;

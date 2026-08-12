@@ -63,6 +63,15 @@
     </div>
   </div>
 
+  <!-- Zona de perigo -->
+  <div class="perfil-page__danger-zone" style="margin: 0 1.5rem 1.5rem 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+    <h3 class="perfil-page__danger-title"><i class="fa-solid fa-triangle-exclamation"></i> Zona de Perigo</h3>
+    <p class="perfil-page__danger-desc">Ao excluir sua conta, todos os seus dados, posts e seguidores serão removidos permanentemente.</p>
+    <button class="btn-danger-ghost" ng-click="excluirConta()" id="btn-excluir-conta">
+      <i class="fa-solid fa-trash-can"></i> Excluir minha conta
+    </button>
+  </div>
+
   <div class="modal-editar-perfil__footer">
     <button class="doca-button doca-button--tertiary" ng-click="cancelar()" id="btn-cancelar-editar-perfil">Cancelar</button>
     <button class="doca-button doca-button--primary" ng-click="salvarPerfil()" ng-disabled="salvando" id="btn-salvar-editar-perfil">

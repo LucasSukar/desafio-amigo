@@ -1,0 +1,103 @@
+<div class="chat-page">
+
+  <!-- Sidebar de conversas -->
+  <div class="chat-sidebar">
+    <div class="chat-sidebar__header">
+      <h1 class="chat-sidebar__title"><i class="fa-solid fa-comments"></i> Mensagens</h1>
+      <button class="chat-sidebar__back" ng-click="voltarParaFeed()" id="btn-voltar-feed-chat">
+        <i class="fa-solid fa-arrow-left"></i> Feed
+      </button>
+    </div>
+
+    <div class="chat-conversations">
+      <div
+        class="chat-conversation-item"
+        ng-class="{ 'chat-conversation-item--active': conversaAtiva && conversaAtiva.user.id === conv.user.id }"
+        ng-repeat="conv in conversas"
+        ng-click="abrirConversa(conv)"
+        id="btn-conversa-{{ conv.user.id }}"
+      >
+        <img
+          ng-if="conv.user.avatar_url"
+          ng-src="http://localhost:3334/uploads/{{ conv.user.avatar_url }}"
+          class="chat-conversation-item__avatar"
+          alt="{{ conv.user.name }}"
+        />
+        <div ng-if="!conv.user.avatar_url" class="chat-conversation-item__avatar-placeholder">
+          {{ conv.user.name.charAt(0).toUpperCase() }}
+        </div>
+        <div class="chat-conversation-item__info">
+          <div class="chat-conversation-item__name">{{ conv.user.name }}</div>
+          <div class="chat-conversation-item__last">{{ conv.last_message || 'Iniciar conversa' }}</div>
+        </div>
+      </div>
+
+      <div class="chat-conversations__empty" ng-if="conversas.length === 0 && !carregando">
+        <i class="fa-solid fa-message" style="font-size: 32px; color: var(--color-primary-soft); display:block; margin-bottom: 8px;"></i>
+        Nenhuma conversa ainda.<br>
+        <span style="font-size:12px;">Vá ao perfil de um usuário e clique em <strong>Mensagem</strong>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área principal de mensagens -->
+  <div class="chat-main">
+
+    <!-- Header do chat ativo -->
+    <div class="chat-main__header" ng-if="conversaAtiva">
+      <img
+        ng-if="conversaAtiva.user.avatar_url"
+        ng-src="http://localhost:3334/uploads/{{ conversaAtiva.user.avatar_url }}"
+        class="chat-main__avatar"
+        alt="{{ conversaAtiva.user.name }}"
+      />
+      <div ng-if="!conversaAtiva.user.avatar_url" class="chat-main__avatar-placeholder">
+        {{ conversaAtiva.user.name.charAt(0).toUpperCase() }}
+      </div>
+      <span class="chat-main__name">{{ conversaAtiva.user.name }}</span>
+    </div>
+
+    <!-- Estado vazio -->
+    <div class="chat-main__empty-state" ng-if="!conversaAtiva">
+      <i class="fa-solid fa-comments"></i>
+      <span>Selecione uma conversa ou<br>acesse o perfil de um usuário.</span>
+    </div>
+
+    <!-- Mensagens -->
+    <div class="chat-messages" id="chat-messages-container" ng-if="conversaAtiva">
+      <div
+        class="chat-message"
+        ng-class="{ 'chat-message--mine': msg.from_me, 'chat-message--theirs': !msg.from_me }"
+        ng-repeat="msg in mensagens track by msg.id"
+      >
+        <div class="chat-message__bubble">{{ msg.content }}</div>
+        <div class="chat-message__time">{{ msg.created_at | date:'HH:mm' }}</div>
+      </div>
+
+      <div ng-if="mensagens.length === 0" style="text-align: center; color: var(--color-stone); font-size: 13px; padding: 24px 0;">
+        Nenhuma mensagem ainda. Diga olá! 👋
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-area" ng-if="conversaAtiva">
+      <textarea
+        class="chat-input"
+        ng-model="chatData.novaMensagem"
+        placeholder="Escreva uma mensagem..."
+        rows="1"
+        id="input-mensagem"
+        ng-keydown="enviarComEnter($event)"
+      ></textarea>
+      <button
+        class="chat-send-btn"
+        ng-click="enviarMensagem()"
+        ng-disabled="!chatData.novaMensagem || enviando"
+        id="btn-enviar-mensagem"
+      >
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -4,17 +4,20 @@
     <i class="fa-solid fa-arrow-left"></i> Feed
   </button>
 
-    <div class="perfil-page__top-bar">
+  <div class="perfil-page__top-bar">
     <h1 class="perfil-page__main-title">Meu Perfil</h1>
     <div class="perfil-page__top-bar-actions">
-      <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()"
-        id="btn-editar-dados-perfil"><i class="fa-solid fa-pen"></i> Editar</button>
-      <button class="doca-button doca-button--secondary perfil-page__logout-btn" ng-click="deslogar()"
-        id="btn-sair-perfil">Sair</button>
+      <button class="doca-button doca-button--primary" ng-click="abrirModalEditarPerfil()" id="btn-editar-dados-perfil">
+        <i class="fa-solid fa-pen"></i> Editar
+      </button>
+      <button class="doca-button doca-button--secondary" ng-click="irParaChat()" id="btn-chat-perfil" style="border-color: var(--color-primary); color: var(--color-primary);">
+        <i class="fa-solid fa-comment"></i> Mensagens
+      </button>
+      <button class="doca-button doca-button--tertiary perfil-page__logout-btn" ng-click="deslogar()" id="btn-sair-perfil">Sair</button>
     </div>
   </div>
 
-    <div class="perfil-page__hero">
+  <div class="perfil-page__hero">
     <img
       ng-src="{{ usuario.avatar_url ? 'http://localhost:3334/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
       alt="Foto de perfil de {{ usuario.name }}" class="perfil-page__avatar" />
@@ -25,35 +28,32 @@
     </span>
   </div>
 
-    <h2 class="perfil-page__section-title">Minhas Publicações</h2>
+  <h2 class="perfil-page__section-title">Minhas Publicações</h2>
 
   <div class="perfil-page__item" ng-repeat="pub in publicacoes" ng-click="irParaPost(pub.id)" ng-style="pub.mostrarOpcoes ? {'z-index': 100, 'position': 'relative'} : {}" style="cursor: pointer;">
     <div class="perfil-page__header">
       <h3 class="perfil-page__title">{{ pub.title }}</h3>
-
       <div class="perfil-page__menu">
-        <button class="doca-button doca-button--tertiary" ng-click="toggleOpcoes(pub); $event.stopPropagation()"
-          id="btn-opcoes-perfil-{{ pub.id }}">
+        <button class="doca-button doca-button--tertiary" ng-click="toggleOpcoes(pub); $event.stopPropagation()" id="btn-opcoes-perfil-{{ pub.id }}">
           <span class="perfil-page__menu-trigger"><i class="fa-solid fa-ellipsis-vertical"></i></span>
         </button>
-
         <div ng-show="pub.mostrarOpcoes" class="perfil-page__menu-panel">
           <button class="perfil-page__menu-action" ng-click="prepararEdicao(pub); $event.stopPropagation()" id="btn-editar-perfil-{{ pub.id }}">
             <i class="fa-solid fa-pen"></i> Editar
           </button>
-          <button class="perfil-page__menu-action perfil-page__menu-action--danger" ng-click="deletar(pub.id); $event.stopPropagation()"
-            id="btn-apagar-perfil-{{ pub.id }}">
+          <button class="perfil-page__menu-action perfil-page__menu-action--danger" ng-click="deletar(pub.id); $event.stopPropagation()" id="btn-apagar-perfil-{{ pub.id }}">
             <i class="fa-solid fa-trash"></i> Apagar
           </button>
         </div>
       </div>
     </div>
-
     <p class="perfil-page__resume">{{ pub.resume || pub.content }}</p>
   </div>
 
   <div ng-if="publicacoes.length === 0" class="perfil-page__empty">
     <i class="fa-solid fa-inbox"></i> Você ainda não tem publicações.
   </div>
+
+
 
 </div>

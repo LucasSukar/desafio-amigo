@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="./css/post.css" />
     <link rel="stylesheet" href="./css/modal.css" />
     <link rel="stylesheet" href="./css/seguindo.css" />
+    <link rel="stylesheet" href="./css/chat.css" />
     <style>
       *, *::before, *::after { box-sizing: border-box; }
       body {
@@ -117,6 +118,9 @@
           <button class="app-sidebar__nav-item" ng-click="irParaCriarPublicacao()" ng-if="estaLogado" id="btn-nav-publicar">
             <i class="fa-solid fa-pen-to-square icon"></i> Publicar
           </button>
+          <button class="app-sidebar__nav-item" ng-click="irParaChat()" ng-if="estaLogado" id="btn-nav-chat">
+            <i class="fa-solid fa-comment icon"></i> Mensagens
+          </button>
         </nav>
 
         <div class="app-sidebar__footer">
@@ -166,5 +170,7 @@
     <script src="./js/directives/feedCard.js"></script>
     <script src="./js/directives/likeBtn.js"></script>
     <script src="./js/directives/loader.js"></script>
+    <script src="./js/services/ChatService.js"></script>
+    <script src="./js/controllers/ChatController.js"></script>
   </body>
 </html>

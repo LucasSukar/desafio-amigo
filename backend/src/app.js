@@ -4,6 +4,7 @@ import path from "path";
 
 import publiRoute from "./routes/postRoute";
 import userRoute from "./routes/userRoute";
+import messageRoute from "./routes/messageRoute";
 
 import "./database";
 
@@ -24,9 +25,9 @@ class App {
   routes() {
     this.server.use(userRoute);
     this.server.use(publiRoute);
+    this.server.use(messageRoute);
   }
 
-  // Captura erros lançados pelos services com { status, message }
   errorHandler() {
     this.server.use((err, req, res, next) => {
       const status = err.status || 500;

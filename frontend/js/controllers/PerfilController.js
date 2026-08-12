@@ -1,4 +1,4 @@
-angular.module("amigoApp").controller("PerfilController", function ($scope, PerfilService, LoginService, $location, $modal) {
+angular.module("amigoApp").controller("PerfilController", function ($scope, PerfilService, LoginService, UsuarioService, $location, $modal, $window) {
   if (!LoginService.obterToken()) {
     $location.path("/");
     return;
@@ -82,9 +82,25 @@ angular.module("amigoApp").controller("PerfilController", function ($scope, Perf
     $location.path("/");
   };
 
+  $scope.irParaChat = function () {
+    $location.path("/chat");
+  };
+
   $scope.deslogar = function () {
     LoginService.deslogar();
     $location.path("/");
+  };
+
+  $scope.excluirConta = function () {
+    if (!confirm("Tem certeza? Essa ação é IRREVERSÍVEL.\nTodos os seus posts, comentários e dados serão apagados.")) return;
+    UsuarioService.deleteAccount().then(function () {
+      LoginService.deslogar();
+      localStorage.clear();
+      $window.location.href = "/";
+      $window.location.reload();
+    }).catch(function (err) {
+      alert("Erro ao excluir conta: " + (err.data && err.data.error ? err.data.error : "Tente novamente."));
+    });
   };
 
   $scope.abrirModalEditarPerfil = function () {

@@ -38,7 +38,8 @@ class PostController {
 
   async store(req, res, next) {
     try {
-      const post = await PostService.create(req.body, req.userId);
+      const image_url = req.file ? req.file.filename : null;
+      const post = await PostService.create({ ...req.body, image_url }, req.userId);
       return res.json(post);
     } catch (err) { next(err); }
   }
