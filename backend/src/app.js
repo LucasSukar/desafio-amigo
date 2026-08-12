@@ -12,6 +12,7 @@ class App {
     this.server = express();
     this.middlewares();
     this.routes();
+    this.errorHandler();
   }
 
   middlewares() {
@@ -23,6 +24,15 @@ class App {
   routes() {
     this.server.use(userRoute);
     this.server.use(publiRoute);
+  }
+
+  // Captura erros lançados pelos services com { status, message }
+  errorHandler() {
+    this.server.use((err, req, res, next) => {
+      const status = err.status || 500;
+      const message = err.message || "Erro interno do servidor.";
+      return res.status(status).json({ error: message });
+    });
   }
 }
 

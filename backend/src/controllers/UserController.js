@@ -1,170 +1,63 @@
-import User from "../models/User";
-import { userStoreSchema, userUpdateSchema } from "../schemas/userSchemas";
-import { AUTH_MESSAGES, USER_MESSAGES } from "../constants/messages";
+import UserService from "../services/UserService";
 
 class UserController {
-  async store(req, res) {
-    if (!(await userStoreSchema.isValid(req.body))) {
-      return res.status(400).json({ error: USER_MESSAGES.VALIDATION_FAIL });
-    }
-
-    const { name, email, password } = req.body;
-
-    const emailExist = await User.findOne({ where: { email: email } });
-    if (emailExist) {
-      return res.status(400).json({ error: USER_MESSAGES.EMAIL_ALREADY_EXISTS });
-    }
-
-    const { id } = await User.create({ name, email, password });
-    return res.json({ id, name, email });
+  async store(req, res, next) {
+    try {
+      const data = await UserService.create(req.body);
+      return res.json(data);
+    } catch (err) { next(err); }
   }
 
-  async update(req, res) {
-    if (!(await userUpdateSchema.isValid(req.body))) {
-      return res.status(400).json({ error: USER_MESSAGES.VALIDATION_FAIL });
-    }
+  async update(req, res, next) {
+    try {
+      const data = await UserService.update(req.userId, req.body);
+      return res.json(data);
+    } catch (err) { next(err); }
+  }
 
-    const { email, oldPassword } = req.body;
-    const user = await User.findByPk(req.userId);
+  async me(req, res, next) {
+    try {
+      const user = await UserService.findMe(req.userId);
+      return res.json(user);
+    } catch (err) { next(err); }
+  }
 
-    if (email && email !== user.email) {
-      const emailExist = await User.findOne({ where: { email } });
-      if (emailExist) {
-        return res.status(400).json({ error: USER_MESSAGES.EMAIL_ALREADY_EXISTS });
+  async avatar(req, res, next) {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "Nenhum arquivo enviado." });
       }
-    }
-
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: AUTH_MESSAGES.WRONG_OLD_PASSWORD });
-    }
-
-    const { id, name, email: userEmail } = await user.update(req.body);
-    return res.json({ id, name, email: userEmail });
+      const data = await UserService.updateAvatar(req.userId, req.file.filename);
+      return res.json(data);
+    } catch (err) { next(err); }
   }
 
-  async me(req, res) {
-    const user = await User.findByPk(req.userId, {
-      attributes: ["id", "name", "email", "avatar_url"],
-    });
-    if (!user) return res.status(404).json({ error: USER_MESSAGES.USER_NOT_FOUND });
-    return res.json(user);
+  async index(req, res, next) {
+    try {
+      const users = await UserService.findAll(req.userId);
+      return res.json(users);
+    } catch (err) { next(err); }
   }
 
-  async avatar(req, res) {
-    if (!req.file) {
-      return res.status(400).json({ error: "Nenhum arquivo enviado." });
-    }
-    const avatar_url = req.file.filename;
-    const user = await User.findByPk(req.userId);
-    await user.update({ avatar_url });
-    const updated = await User.findByPk(req.userId, { attributes: ["id", "name", "email", "avatar_url"] });
-    return res.json({ id: updated.id, name: updated.name, email: updated.email, avatar_url: updated.avatar_url });
+  async follow(req, res, next) {
+    try {
+      const result = await UserService.toggleFollow(req.params.id, req.userId);
+      return res.json(result);
+    } catch (err) { next(err); }
   }
 
-  async index(req, res) {
-    const db = User.sequelize;
-
-    const users = await User.findAll({
-      attributes: ["id", "name", "avatar_url"],
-    });
-
-    const following = await db.query(
-      "SELECT followed_id FROM user_follows WHERE follower_id = :me",
-      { replacements: { me: req.userId }, type: db.QueryTypes.SELECT }
-    );
-
-    const followingIds = following.map((r) => r.followed_id);
-
-    const result = users
-      .filter((u) => u.id !== req.userId)
-      .map((u) => ({
-        id: u.id,
-        name: u.name,
-        avatar_url: u.avatar_url,
-        jaSigo: followingIds.includes(u.id),
-      }));
-
-    return res.json(result);
+  async following(req, res, next) {
+    try {
+      const result = await UserService.findFollowing(req.userId);
+      return res.json(result);
+    } catch (err) { next(err); }
   }
 
-  async follow(req, res) {
-    const { id } = req.params;
-    const db = User.sequelize;
-
-    if (parseInt(id) === req.userId) {
-      return res.status(400).json({ error: USER_MESSAGES.CANNOT_FOLLOW_SELF });
-    }
-
-    const [existing] = await db.query(
-      "SELECT id FROM user_follows WHERE follower_id = :me AND followed_id = :target",
-      { replacements: { me: req.userId, target: id }, type: db.QueryTypes.SELECT }
-    );
-
-    if (existing) {
-      await db.query(
-        "DELETE FROM user_follows WHERE follower_id = :me AND followed_id = :target",
-        { replacements: { me: req.userId, target: id } }
-      );
-      return res.json({ seguindo: false });
-    } else {
-      await db.query(
-        "INSERT INTO user_follows (follower_id, followed_id, created_at, updated_at) VALUES (:me, :target, NOW(), NOW())",
-        { replacements: { me: req.userId, target: id } }
-      );
-      return res.json({ seguindo: true });
-    }
-  }
-
-  async following(req, res) {
-    const db = User.sequelize;
-
-    const result = await db.query(
-      `SELECT u.id, u.name, u.avatar_url
-       FROM users u
-       INNER JOIN user_follows f ON u.id = f.followed_id
-       WHERE f.follower_id = :me`,
-      { replacements: { me: req.userId }, type: db.QueryTypes.SELECT }
-    );
-
-    return res.json(result);
-  }
-
-  async getById(req, res) {
-    const { id } = req.params;
-    const db = User.sequelize;
-
-    const user = await User.findByPk(id, {
-      attributes: ["id", "name", "avatar_url"],
-    });
-
-    if (!user) return res.status(404).json({ error: USER_MESSAGES.USER_NOT_FOUND });
-
-    const [followCheck] = await db.query(
-      "SELECT id FROM user_follows WHERE follower_id = :me AND followed_id = :target",
-      { replacements: { me: req.userId, target: id }, type: db.QueryTypes.SELECT }
-    );
-
-    const seguidoresResult = await db.query(
-      "SELECT COUNT(*) as total_seguidores FROM user_follows WHERE followed_id = :id",
-      { replacements: { id }, type: db.QueryTypes.SELECT }
-    );
-
-    const seguindoResult = await db.query(
-      "SELECT COUNT(*) as total_seguindo FROM user_follows WHERE follower_id = :id",
-      { replacements: { id }, type: db.QueryTypes.SELECT }
-    );
-
-    const total_seguidores = seguidoresResult[0] ? seguidoresResult[0].total_seguidores : 0;
-    const total_seguindo = seguindoResult[0] ? seguindoResult[0].total_seguindo : 0;
-
-    return res.json({
-      id: user.id,
-      name: user.name,
-      avatar_url: user.avatar_url,
-      jaSigo: !!followCheck,
-      total_seguidores: parseInt(total_seguidores),
-      total_seguindo: parseInt(total_seguindo),
-    });
+  async getById(req, res, next) {
+    try {
+      const user = await UserService.findById(req.params.id, req.userId);
+      return res.json(user);
+    } catch (err) { next(err); }
   }
 }
 
