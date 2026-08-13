@@ -38,6 +38,15 @@
       </div>
     </div>
 
+    <div class="post-page__image-wrap" ng-if="post.image_url">
+      <img
+        ng-src="http://localhost:3334/uploads/{{ post.image_url }}"
+        class="post-page__image"
+        alt="Imagem da publicação"
+        style="max-width:100%; border-radius:12px; margin-bottom:1rem; display:block;"
+      />
+    </div>
+
     <div class="post-page__body">{{ post.content }}</div>
   </article>
 

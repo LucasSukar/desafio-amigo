@@ -19,6 +19,13 @@
   <div class="feed-card__body" ng-click="clicar()">
     <h2 class="feed-card__title">{{ post.title }}</h2>
     <p class="feed-card__resume">{{ post.resume }}</p>
+    <img
+      ng-if="post.image_url"
+      ng-src="http://localhost:3334/uploads/{{ post.image_url }}"
+      class="feed-card__image"
+      alt="Imagem da publicação"
+      style="width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin-top:0.75rem; display:block;"
+    />
   </div>
   <div class="feed-card__footer">
     <amigo-like-btn liked="post.jaCurtiu" count="post.total_likes" on-click="curtir()"></amigo-like-btn>

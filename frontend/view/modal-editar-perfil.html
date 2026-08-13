@@ -34,6 +34,11 @@
       <input class="doca-form-control" type="email" ng-model="editando.email" placeholder="Digite o novo e-mail" id="input-email-perfil" />
     </div>
 
+    <div class="doca-form__field doca-mb-3">
+      <label class="doca-form__label">Descrição / Bio</label>
+      <textarea class="doca-form-control" ng-model="editando.description" placeholder="Fale um pouco sobre você..." id="input-descricao-perfil" rows="3"></textarea>
+    </div>
+
     <button
       class="modal-editar-perfil__toggle-senha"
       ng-click="trocarSenha = !trocarSenha"

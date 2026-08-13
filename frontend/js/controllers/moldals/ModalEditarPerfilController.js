@@ -2,6 +2,7 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
   $scope.editando = {
     name:  $scope.usuario.name  || "",
     email: $scope.usuario.email || "",
+    description: $scope.usuario.description || "",
   };
 
   $scope.trocarSenha = false;
@@ -47,6 +48,7 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
 
     if ($scope.editando.name  && $scope.editando.name.trim())  dadosParaEnviar.name  = $scope.editando.name.trim();
     if ($scope.editando.email && $scope.editando.email.trim()) dadosParaEnviar.email = $scope.editando.email.trim();
+    if ($scope.editando.description !== undefined) dadosParaEnviar.description = $scope.editando.description.trim();
 
     if ($scope.trocarSenha && $scope.editando.oldPassword) {
       dadosParaEnviar.oldPassword     = $scope.editando.oldPassword;
@@ -84,6 +86,7 @@ angular.module("amigoApp").controller("ModalEditarPerfilController", function ($
             if (response.data) {
               if (response.data.name)  $scope.usuario.name  = response.data.name;
               if (response.data.email) $scope.usuario.email = response.data.email;
+              if (response.data.description !== undefined) $scope.usuario.description = response.data.description;
             }
           });
         }

@@ -9,6 +9,7 @@ export const userStoreSchema = Yup.object().shape({
 export const userUpdateSchema = Yup.object().shape({
   name: Yup.string(),
   email: Yup.string().email(),
+  description: Yup.string(),
   oldPassword: Yup.string().min(6),
   password: Yup.string()
     .min(6)
