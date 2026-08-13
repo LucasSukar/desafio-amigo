@@ -2,13 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.js",
+      "src": "backend/index.js",
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "backend/src/**",
-          "backend/node_modules/**",
-          "backend/package.json"
+          "backend/src/**"
         ]
       }
     },
@@ -17,12 +15,11 @@
       "use": "@vercel/static"
     }
   ],
-  "installCommand": "cd backend && npm install",
   "routes": [
-    { "src": "/users(.*)", "dest": "/api/index.js" },
-    { "src": "/sessions(.*)", "dest": "/api/index.js" },
-    { "src": "/post(.*)", "dest": "/api/index.js" },
-    { "src": "/messages(.*)", "dest": "/api/index.js" },
+    { "src": "/users(.*)", "dest": "/backend/index.js" },
+    { "src": "/sessions(.*)", "dest": "/backend/index.js" },
+    { "src": "/post(.*)", "dest": "/backend/index.js" },
+    { "src": "/messages(.*)", "dest": "/backend/index.js" },
     { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
