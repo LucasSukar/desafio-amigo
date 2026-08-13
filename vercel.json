@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["backend/src/**"]
+      }
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/backend/index.js" },
+    { "src": "/users(.*)", "dest": "/backend/index.js" },
+    { "src": "/sessions(.*)", "dest": "/backend/index.js" },
+    { "src": "/post(.*)", "dest": "/backend/index.js" },
+    { "src": "/messages(.*)", "dest": "/backend/index.js" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
+  ]
+}

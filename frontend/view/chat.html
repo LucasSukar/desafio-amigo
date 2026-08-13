@@ -19,7 +19,7 @@
       >
         <img
           ng-if="conv.user.avatar_url"
-          ng-src="http://localhost:3334/uploads/{{ conv.user.avatar_url }}"
+          ng-src="{{ conv.user.avatar_url | avatarUrl }}"
           class="chat-conversation-item__avatar"
           alt="{{ conv.user.name }}"
         />
@@ -47,7 +47,7 @@
     <div class="chat-main__header" ng-if="conversaAtiva">
       <img
         ng-if="conversaAtiva.user.avatar_url"
-        ng-src="http://localhost:3334/uploads/{{ conversaAtiva.user.avatar_url }}"
+        ng-src="{{ conversaAtiva.user.avatar_url | avatarUrl }}"
         class="chat-main__avatar"
         alt="{{ conversaAtiva.user.name }}"
       />

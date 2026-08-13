@@ -1,7 +1,7 @@
 <div class="feed-card" ng-class="{'feed-card--menu-open': post.mostrarOpcoes}">
   <div class="feed-card__header">
     <div class="feed-card__meta" ng-click="clicarPerfil($event)" style="cursor: pointer;">
-      <img ng-if="post.user.avatar_url" ng-src="http://localhost:3334/uploads/{{ post.user.avatar_url }}" class="feed-card__avatar" style="object-fit: cover;" />
+      <img ng-if="post.user.avatar_url" ng-src="{{ post.user.avatar_url | avatarUrl }}" class="feed-card__avatar" style="object-fit: cover;" />
       <div ng-if="!post.user.avatar_url" class="feed-card__avatar">{{ post.user.name ? post.user.name.charAt(0).toUpperCase() : "?" }}</div>
       <div class="feed-card__author-block">
         <span class="feed-card__author">{{ post.user.name }}</span>
@@ -21,7 +21,7 @@
     <p class="feed-card__resume">{{ post.resume }}</p>
     <img
       ng-if="post.image_url"
-      ng-src="http://localhost:3334/uploads/{{ post.image_url }}"
+      ng-src="{{ post.image_url | postImageUrl }}"
       class="feed-card__image"
       alt="Imagem da publicação"
       style="width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin-top:0.75rem; display:block;"

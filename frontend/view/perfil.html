@@ -19,7 +19,7 @@
 
   <div class="perfil-page__hero">
     <img
-      ng-src="{{ usuario.avatar_url ? 'http://localhost:3334/uploads/' + usuario.avatar_url : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
+      ng-src="{{ usuario.avatar_url ? (usuario.avatar_url | avatarUrl) : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}"
       alt="Foto de perfil de {{ usuario.name }}" class="perfil-page__avatar" />
     <p class="perfil-page__hero-name">{{ usuario.name }}</p>
     <p class="perfil-page__hero-email">{{ usuario.email }}</p>

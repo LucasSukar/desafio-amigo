@@ -12,7 +12,7 @@
     <div class="modal-editar-perfil__avatar-section">
       <div style="position: relative;">
         <img ng-if="avatarPreview" ng-src="{{ avatarPreview }}" alt="Preview" class="modal-editar-perfil__avatar-img" />
-        <img ng-if="!avatarPreview && usuario.avatar_url" ng-src="http://localhost:3334/uploads/{{ usuario.avatar_url }}" alt="Foto do usuário" class="modal-editar-perfil__avatar-img" />
+        <img ng-if="!avatarPreview && usuario.avatar_url" ng-src="{{ usuario.avatar_url | avatarUrl }}" alt="Foto do usuário" class="modal-editar-perfil__avatar-img" />
         <div ng-if="!avatarPreview && !usuario.avatar_url" class="modal-editar-perfil__avatar-placeholder">
           {{ usuario.name ? usuario.name.charAt(0).toUpperCase() : '?' }}
         </div>

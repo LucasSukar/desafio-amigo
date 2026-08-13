@@ -14,7 +14,7 @@
 
     <div class="post-page__meta">
       <div class="post-page__author-info" ng-click="irParaPerfilUsuario(post.user.id)" style="cursor: pointer;">
-        <img ng-if="post.user.avatar_url" ng-src="http://localhost:3334/uploads/{{ post.user.avatar_url }}" class="post-page__author-avatar" style="object-fit: cover;" />
+        <img ng-if="post.user.avatar_url" ng-src="{{ post.user.avatar_url | avatarUrl }}" class="post-page__author-avatar" style="object-fit: cover;" />
         <div ng-if="!post.user.avatar_url" class="post-page__author-avatar">
           {{ post.user.name ? post.user.name.charAt(0).toUpperCase() : '?' }}
         </div>
@@ -40,7 +40,7 @@
 
     <div class="post-page__image-wrap" ng-if="post.image_url">
       <img
-        ng-src="http://localhost:3334/uploads/{{ post.image_url }}"
+        ng-src="{{ post.image_url | postImageUrl }}"
         class="post-page__image"
         alt="Imagem da publicação"
         style="max-width:100%; border-radius:12px; margin-bottom:1rem; display:block;"
@@ -90,7 +90,7 @@
     <ul class="comments-list" ng-if="comentarios.length > 0">
       <li class="comment-item" ng-repeat="c in comentarios">
         <div class="comment-item__avatar-wrap" ng-click="irParaPerfilUsuario(c.user_id)" style="cursor:pointer;">
-          <img ng-if="c.user_avatar" ng-src="http://localhost:3334/uploads/{{ c.user_avatar }}" class="comment-item__avatar" style="object-fit:cover;" />
+          <img ng-if="c.user_avatar" ng-src="{{ c.user_avatar | avatarUrl }}" class="comment-item__avatar" style="object-fit:cover;" />
           <div ng-if="!c.user_avatar" class="comment-item__avatar comment-item__avatar--placeholder">
             {{ c.user_name ? c.user_name.charAt(0).toUpperCase() : '?' }}
           </div>

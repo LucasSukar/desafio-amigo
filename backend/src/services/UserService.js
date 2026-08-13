@@ -35,9 +35,9 @@ class UserService {
     return user;
   }
 
-  async updateAvatar(userId, filename) {
+  async updateAvatar(userId, avatarUrl) {
     const user = await User.findByPk(userId);
-    await user.update({ avatar_url: filename });
+    await user.update({ avatar_url: avatarUrl });
     const updated = await User.findByPk(userId, {
       attributes: ["id", "name", "email", "avatar_url"],
     });

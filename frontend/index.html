@@ -76,7 +76,7 @@
               <div class="sidebar-search__result-info" ng-click="irParaPerfilUsuario(u.id)" id="btn-ir-perfil-{{ u.id }}">
                 <img
                   ng-if="u.avatar_url"
-                  ng-src="http://localhost:3334/uploads/{{ u.avatar_url }}"
+                  ng-src="{{ u.avatar_url | avatarUrl }}"
                   class="sidebar-search__avatar"
                   alt="{{ u.name }}"
                   style="object-fit: cover;"
@@ -126,7 +126,7 @@
         <div class="app-sidebar__footer">
           <div class="app-sidebar__user" ng-if="estaLogado">
             <div class="app-sidebar__user-info" ng-click="irParaPerfil()">
-              <img ng-if="usuario.avatar_url" ng-src="http://localhost:3334/uploads/{{ usuario.avatar_url }}" class="app-sidebar__avatar" />
+              <img ng-if="usuario.avatar_url" ng-src="{{ usuario.avatar_url | avatarUrl }}" class="app-sidebar__avatar" />
               <div ng-if="!usuario.avatar_url" class="app-sidebar__avatar-placeholder">{{ usuario.name.charAt(0).toUpperCase() }}</div>
               <span class="app-sidebar__user-name">{{ usuario.name }}</span>
             </div>
@@ -151,6 +151,7 @@
     <script src="./js/app.js"></script>
     <script src="./js/config/routeConfig.js"></script>
     <script src="./js/value/configValue.js"></script>
+    <script src="./js/value/imageFilters.js"></script>
     <script src="./js/controllers/MainController.js"></script>
     <script src="./js/controllers/FeedController.js"></script>
     <script src="./js/controllers/FeedSeguindoController.js"></script>

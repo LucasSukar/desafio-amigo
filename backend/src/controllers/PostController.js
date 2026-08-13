@@ -1,4 +1,19 @@
+import { put } from "@vercel/blob";
 import PostService from "../services/PostService";
+
+
+async function uploadFile(file) {
+  if (!file) return null;
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const blob = await put(file.originalname, file.buffer, {
+      access: "public",
+      contentType: file.mimetype,
+    });
+    return blob.url; 
+  }
+
+  return null;
+}
 
 class PostController {
   async index(req, res, next) {
@@ -38,7 +53,7 @@ class PostController {
 
   async store(req, res, next) {
     try {
-      const image_url = req.file ? req.file.filename : null;
+      const image_url = await uploadFile(req.file);
       const post = await PostService.create({ ...req.body, image_url }, req.userId);
       return res.json(post);
     } catch (err) { next(err); }

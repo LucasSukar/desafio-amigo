@@ -1,4 +1,18 @@
+import { put } from "@vercel/blob";
 import UserService from "../services/UserService";
+
+
+async function uploadFile(file) {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const blob = await put(file.originalname, file.buffer, {
+      access: "public",
+      contentType: file.mimetype,
+    });
+    return blob.url; 
+  }
+
+  return file.originalname + "-" + Date.now();
+}
 
 class UserController {
   async store(req, res, next) {
@@ -25,7 +39,8 @@ class UserController {
   async avatar(req, res, next) {
     try {
       if (!req.file) return res.status(400).json({ error: "Nenhum arquivo enviado." });
-      const data = await UserService.updateAvatar(req.userId, req.file.filename);
+      const avatarUrl = await uploadFile(req.file);
+      const data = await UserService.updateAvatar(req.userId, avatarUrl);
       return res.json(data);
     } catch (err) { next(err); }
   }
