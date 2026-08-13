@@ -1,13 +1,14 @@
 // Ponto de entrada para a Vercel (serverless function).
-// Registra o Sucrase para transpilar import/export em tempo de execução,
-// depois delega para o app Express normal.
+// A Vercel instala as dependências do backend/package.json via "installCommand"
+// configurado no vercel.json. O Sucrase é registrado aqui para transpilar
+// os arquivos que usam import/export (ESModules).
+
 require("dotenv").config();
 
-// Registra o Sucrase para suportar import/export no código do backend
-require("sucrase/register");
+// Registra o Sucrase a partir do node_modules do backend
+require("../backend/node_modules/sucrase/register");
 
 // Importa o app Express (usa import/export — agora transpilado pelo Sucrase)
-// O caminho é relativo à pasta /api, então ../backend/src/app
 const app = require("../backend/src/app").default;
 
 // A Vercel espera que a função exporte um handler (o servidor Express)
