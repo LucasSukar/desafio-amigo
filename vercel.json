@@ -1,25 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "backend/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "backend/src/**"
-        ]
-      }
-    },
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "src": "/users(.*)", "dest": "/backend/index.js" },
-    { "src": "/sessions(.*)", "dest": "/backend/index.js" },
-    { "src": "/post(.*)", "dest": "/backend/index.js" },
-    { "src": "/messages(.*)", "dest": "/backend/index.js" },
-    { "src": "/(.*)", "dest": "/frontend/$1" }
+  "rewrites": [
+    { "source": "/users", "destination": "/api/index.js" },
+    { "source": "/users/:path*", "destination": "/api/index.js" },
+    { "source": "/sessions", "destination": "/api/index.js" },
+    { "source": "/sessions/:path*", "destination": "/api/index.js" },
+    { "source": "/post", "destination": "/api/index.js" },
+    { "source": "/post/:path*", "destination": "/api/index.js" },
+    { "source": "/messages", "destination": "/api/index.js" },
+    { "source": "/messages/:path*", "destination": "/api/index.js" },
+    { "source": "/(.*)", "destination": "/frontend/$1" }
   ]
 }
