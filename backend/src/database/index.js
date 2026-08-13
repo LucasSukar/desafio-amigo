@@ -1,6 +1,4 @@
 import Sequelize from "sequelize";
-import path from "path";
-import { Umzug, SequelizeStorage } from "umzug";
 import databaseConfig from "../config/database";
 import User from "../models/User";
 import Post from "../models/Post";
@@ -10,49 +8,61 @@ import Message from "../models/Message";
 
 const models = [User, Post, PostLike, Comment, Message];
 
+// Suporta connection string direta que o Neon/Vercel injeta via POSTGRES_URL
+const connectionUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
 class Database {
   constructor() {
     this.init();
   }
 
   init() {
-    this.connection = new Sequelize(databaseConfig);
+    // Se existir uma URL de conexão (Neon via Vercel), usa ela diretamente
+    if (connectionUrl) {
+      this.connection = new Sequelize(connectionUrl, {
+        dialect: "postgres",
+        dialectOptions: {
+          ssl: { require: true, rejectUnauthorized: false },
+        },
+        define: {
+          timestamps: true,
+          underscored: true,
+          underscoredAll: true,
+        },
+        logging: false,
+      });
+    } else {
+      // Desenvolvimento local: usa variáveis individuais
+      this.connection = new Sequelize(databaseConfig);
+    }
 
     models
       .map((model) => model.init(this.connection))
       .map((model) => model.associate && model.associate(this.connection.models));
 
-    // Roda as migrações automaticamente ao iniciar.
-    // Isso é seguro pois o Umzug controla quais migrations já foram executadas
-    // e não repete as que já rodaram (usa a tabela SequelizeMeta).
-    this.runMigrations();
+    // Cria as tabelas automaticamente ao iniciar (sem apagar dados existentes)
+    this.syncTables();
   }
 
-  async runMigrations() {
+  async syncTables() {
     try {
-      const umzug = new Umzug({
-        migrations: {
-          glob: path.resolve(__dirname, "..", "migrations", "*.js"),
-          resolve: ({ name, path: migPath, context }) => {
-            // Compatibilidade com migration files que usam CommonJS (module.exports)
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const migration = require(migPath);
-            return {
-              name,
-              up: async () => migration.up(context, Sequelize),
-              down: async () => migration.down(context, Sequelize),
-            };
-          },
-        },
-        context: this.connection.getQueryInterface(),
-        storage: new SequelizeStorage({ sequelize: this.connection }),
-        logger: console,
-      });
+      // sync({ force: false }) = CREATE TABLE IF NOT EXISTS para todos os Models
+      await this.connection.sync({ force: false });
 
-      await umzug.up();
-      console.log("✅ Migrações executadas com sucesso.");
+      // Cria a tabela user_follows manualmente (não tem Model, mas é usada nas queries)
+      await this.connection.query(`
+        CREATE TABLE IF NOT EXISTS user_follows (
+          id SERIAL PRIMARY KEY,
+          follower_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          followed_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+      `);
+
+      console.log("✅ Tabelas sincronizadas com sucesso.");
     } catch (err) {
-      console.error("❌ Erro ao executar migrações:", err);
+      console.error("❌ Erro ao sincronizar tabelas:", err.message);
     }
   }
 }
