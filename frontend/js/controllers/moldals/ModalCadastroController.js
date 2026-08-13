@@ -21,8 +21,8 @@ angular.module("amigoApp").controller("ModalCadastroController", function ($scop
       })
       .catch(function (error) {
         console.log("Erro ao criar usuário:", error);
-        if (error && error.data && error.data.error) {
-          $scope.erro = "Erro: " + error.data.error;
+        if (error && error.data) {
+          $scope.erro = "Erro: " + (typeof error.data === "object" ? JSON.stringify(error.data) : error.data);
         } else {
           $scope.erro = "Erro ao criar conta. Verifique os dados e tente novamente.";
         }
