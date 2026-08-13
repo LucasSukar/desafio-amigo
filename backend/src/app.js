@@ -6,7 +6,7 @@ import publiRoute from "./routes/postRoute";
 import userRoute from "./routes/userRoute";
 import messageRoute from "./routes/messageRoute";
 
-import "./database";
+import database from "./database";
 
 class App {
   constructor() {
@@ -20,6 +20,16 @@ class App {
     this.server.use(express.json());
     this.server.use(cors());
     this.server.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
+
+    // Aguarda a sincronização do banco antes de atender qualquer rota
+    this.server.use(async (req, res, next) => {
+      try {
+        await database.syncPromise;
+        next();
+      } catch (err) {
+        next(err);
+      }
+    });
   }
 
   routes() {

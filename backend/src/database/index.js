@@ -8,8 +8,8 @@ import Message from "../models/Message";
 
 const models = [User, Post, PostLike, Comment, Message];
 
-// Suporta connection string direta que o Neon/Vercel injeta via POSTGRES_URL
-const connectionUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+// Suporta connection string direta que o Neon/Vercel injeta
+const connectionUrl = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
 class Database {
   constructor() {
@@ -29,6 +29,12 @@ class Database {
           underscored: true,
           underscoredAll: true,
         },
+        pool: {
+          max: 2,
+          min: 0,
+          idle: 10000,
+          acquire: 30000,
+        },
         logging: false,
       });
     } else {
@@ -40,8 +46,8 @@ class Database {
       .map((model) => model.init(this.connection))
       .map((model) => model.associate && model.associate(this.connection.models));
 
-    // Cria as tabelas automaticamente ao iniciar (sem apagar dados existentes)
-    this.syncTables();
+    // Cria as tabelas e expõe a Promise para que o app possa aguardar antes de servir rotas
+    this.syncPromise = this.syncTables();
   }
 
   async syncTables() {

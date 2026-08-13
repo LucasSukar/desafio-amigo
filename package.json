@@ -2,6 +2,10 @@
   "name": "desafio-amigo-root",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "cd backend && npm run dev",
+    "start": "cd backend && npm start"
+  },
   "dependencies": {
     "@vercel/blob": "^2.8.0",
     "bcryptjs": "^3.0.3",

@@ -6,7 +6,7 @@ const username = process.env.DB_USER || process.env.POSTGRES_USER || "postgres";
 const password = process.env.DB_PASS || process.env.POSTGRES_PASSWORD;
 const database = process.env.DB_NAME || process.env.POSTGRES_DATABASE || "desafio-amigo";
 
-if (process.env.DB_SSL === "true" || (host && host !== "localhost" && host !== "127.0.0.1")) {
+if (process.env.DB_SSL === "true" || (process.env.DB_SSL !== "false" && host && host !== "localhost" && host !== "127.0.0.1" && host !== "postgres" && host !== "db")) {
   dialectOptions.ssl = {
     require: true,
     rejectUnauthorized: false,
