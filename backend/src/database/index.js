@@ -69,6 +69,7 @@ class Database {
       console.log("✅ Tabelas sincronizadas com sucesso.");
     } catch (err) {
       console.error("❌ Erro ao sincronizar tabelas:", err.message);
+      throw err;
     }
   }
 }
