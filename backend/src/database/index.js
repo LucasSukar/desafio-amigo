@@ -13,6 +13,9 @@ const connectionUrl = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGR
 
 class Database {
   constructor() {
+    this.isSynced = false;
+    this.syncError = null;
+    this.syncPromise = null;
     this.init();
   }
 
@@ -45,9 +48,25 @@ class Database {
     models
       .map((model) => model.init(this.connection))
       .map((model) => model.associate && model.associate(this.connection.models));
+  }
 
-    // Cria as tabelas e expõe a Promise para que o app possa aguardar antes de servir rotas
-    this.syncPromise = this.syncTables();
+  async checkConnectionAndSync() {
+    if (this.isSynced) return;
+    if (this.syncError) throw this.syncError;
+    if (this.syncPromise) return this.syncPromise;
+
+    this.syncPromise = (async () => {
+      try {
+        await this.syncTables();
+        this.isSynced = true;
+      } catch (err) {
+        this.syncError = err;
+        this.syncPromise = null;
+        throw err;
+      }
+    })();
+
+    return this.syncPromise;
   }
 
   async syncTables() {

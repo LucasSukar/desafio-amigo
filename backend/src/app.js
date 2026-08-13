@@ -24,7 +24,7 @@ class App {
     // Aguarda a sincronização do banco antes de atender qualquer rota
     this.server.use(async (req, res, next) => {
       try {
-        await database.syncPromise;
+        await database.checkConnectionAndSync();
         next();
       } catch (err) {
         next(err);
