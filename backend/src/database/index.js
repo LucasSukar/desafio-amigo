@@ -8,8 +8,13 @@ import Message from "../models/Message";
 
 const models = [User, Post, PostLike, Comment, Message];
 
-// Suporta connection string direta que o Neon/Vercel injeta
-const connectionUrl = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL || process.env.DATABASE_URL;
+const connectionUrl =
+  process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.STORAGE_URL_NON_POOLING ||
+  process.env.DATABASE_URL_UNPOOLED ||
+  process.env.POSTGRES_URL ||
+  process.env.STORAGE_URL ||
+  process.env.DATABASE_URL;
 
 class Database {
   constructor() {
@@ -51,6 +56,9 @@ class Database {
   }
 
   async checkConnectionAndSync() {
+    if ((process.env.VERCEL === "1" || process.env.NODE_ENV === "production") && !connectionUrl) {
+      throw new Error("Banco de dados Vercel Postgres não está vinculado ao projeto. Por favor, acesse o painel da Vercel -> aba Storage -> selecione o banco -> clique em Connect.");
+    }
     if (this.isSynced) return;
     if (this.syncError) throw this.syncError;
     if (this.syncPromise) return this.syncPromise;
